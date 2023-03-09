@@ -1,0 +1,1 @@
+chodit na prednasky + delat bonusove ulohy

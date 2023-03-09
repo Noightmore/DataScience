@@ -267,3 +267,5 @@ def drawSVM(data, classes, theta=None, title='Data', x_label='x1', y_label='x2')
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.show()
+
+#%%
