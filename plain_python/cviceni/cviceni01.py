@@ -1,20 +1,24 @@
-def compute_pythagorean_theorem(a, b):
-    """
-    Compute the length of the hypotenuse of a right triangle.
+""" program that checks if the triangle is right-angled """
 
-    Args:
-        a (float): The length of the first side.
-        b (float): The length of the second side.
 
-    Returns:
-        float: The length of the hypotenuse.
+def triangle(side_a, side_b, side_c) -> bool:
     """
-    return (a ** 2 + b ** 2) ** 0.5
+    method that check if the triangle is right-angled
+    :param side_a:
+    :param side_b:
+    :param side_c:
+    :return:
+    """
+
+    return side_a**2 + side_b**2 == side_c**2
 
 
 def main():
-    c = compute_pythagorean_theorem(3, 4)
-    print(c)
+    """
+    main method
+    """
+    is_right_angled = triangle(3, 4, 5)
+    print(is_right_angled)
 
 
 if __name__ == "__main__":
