@@ -33,5 +33,3 @@ r.zincrby('players', 12, 'alfred')
 # Print his position again
 alfreds_position = r.zrevrank('players', 'alfred')
 print(alfreds_position)
-
-#%%
