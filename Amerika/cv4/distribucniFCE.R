@@ -2,7 +2,7 @@
 
 library(R.matlab)
 
-file <- readMat("absolute-path-to-file") # .mat file
+file <- readMat("Amerika/cv4/P0305.mat") # .mat file
 #print(file)
 
 #plot(file$P0305[,1], file$P0305[,2], type="l", xlab="Time", ylab="Price", main="P0305")

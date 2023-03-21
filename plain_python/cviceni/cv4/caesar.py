@@ -21,3 +21,5 @@ def decrypt(word, offset):
     """
     return None
 
+
+#%%
