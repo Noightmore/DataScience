@@ -80,9 +80,9 @@ if __name__ == "__main__":
 """
     poznamky k pylintu:
     
-    cviceni02.py:46:7: W1114: Positional arguments appear to be out of order (arguments-out-of-order)
-    cviceni02.py:48:7: W1114: Positional arguments appear to be out of order (arguments-out-of-order)
-    cviceni02.py:50:7: W1114: Positional arguments appear to be out of order (arguments-out-of-order)
+    quad.py:46:7: W1114: Positional arguments appear to be out of order (arguments-out-of-order)
+    quad.py:48:7: W1114: Positional arguments appear to be out of order (arguments-out-of-order)
+    quad.py:50:7: W1114: Positional arguments appear to be out of order (arguments-out-of-order)
     
     argumenty out of order jsou schvalne, aby se testovaly vsechny kombinace
 

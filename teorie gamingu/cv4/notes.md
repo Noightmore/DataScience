@@ -14,16 +14,16 @@ in, out
 
 ### pseudokod pruchodu do hloubky
 
-projdi(v)
-    color(v) = gray
-    time = time + 1
-    in(v) = time
-    for each w in sousedi(v) do
-        if color(w) == white then
-            projdi(w)
-    color(v) = black
-    time = time + 1
-    out(v) = time
+    projdi(v)
+        color(v) = gray
+        time = time + 1
+        in(v) = time
+        for each w in sousedi(v) do
+            if color(w) == white then
+                projdi(w)
+        color(v) = black
+        time = time + 1
+        out(v) = time
 
 - pokud graf nespojity tak existuje vice stromu algoritmu
 - cas se stale inkrementuje dal
