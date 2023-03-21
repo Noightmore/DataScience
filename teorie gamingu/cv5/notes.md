@@ -19,7 +19,7 @@ aby byla v grafu kruznice musi zde byt dopredna, pricna, a zpetna hrana
 
 treba se podivat na video, ktere se touto problematikou zabyva -> je v grafu kruznice?
 
-halitosis hledani kruznice O(n + m) - pocet hran plus pocet vrcholu
+slozitost hledani kruznice O(n + m) - pocet hran plus pocet vrcholu
 
 prochazeni a mereni casu u orientovaneho grafu podle zvoleneho pocatecniho vrcholu 
 nemusi vzdy vratit stejny pocet stromu pri kresleni stromu pruchodu do hloubky s casy
