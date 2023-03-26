@@ -7,7 +7,7 @@
 typedef struct entry_t
 {
     char* key;
-    int value;
+    struct entry_t** entries;
     struct entry_t* next;
 
 } Entry;
