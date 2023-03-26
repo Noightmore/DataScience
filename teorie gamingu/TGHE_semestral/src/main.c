@@ -1,11 +1,8 @@
-#include "include/matrix_tools.h"
-#include "include/test_tools.h"
+#include "unit_tests/basic_tests.h"
 
 int main()
 {
-    matrix_data *m_data = initialize_matrix();
-    print_connection_matrix_to_stdout(m_data);
+        test_dictionary();
 
-
-    return 0;
+        return 0;
 }
