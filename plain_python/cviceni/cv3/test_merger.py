@@ -31,6 +31,25 @@ def test_merge_tuples():
     assert expected_result == merger.merge_tuples(line_a, line_b, line_c)
 
 
+def test_merge_different_sizes():
+    """
+    test pro vyslednou funkci merge tuples
+    """
+    line_a = ((1, 3), (3, 4), (10, 2))
+    line_b = ((1, 2), (2, 4), (5, 2), (10, 5))
+    line_c = ((7, 3), (1, 5))
+
+    expected_result = {1: [3, 2, 5],
+                       2: [0, 4, 0],
+                       3: [4, 0, 0],
+                       5: [0, 2, 0],
+                       7: [0, 0, 3],
+                       10: [2, 5, 0]}
+    print(merger.merge_tuples(line_a, line_b, line_c))
+
+    assert expected_result == merger.merge_tuples(line_a, line_b, line_c)
+
+
 if __name__ == "__main__":
     test_merge_tuples()
 

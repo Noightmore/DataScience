@@ -28,41 +28,25 @@ Transformací musí vzniknout následující slovník:
 """
 
 
-def merge_tuples(line_a, line_b, line_c):
+def merge_tuples(line_a, line_b, line_c) -> dict:
     """
     Funkce, která převede tři sekvence na slovník
     """
-
-    # kdyby byl promenny pocet jednotlivych radku na vstupu list hodnot ve slovniku by byl ,
-    # tak by zde na zacatku se promenna line a seznam jejich delek vytvarely dynamicky
     _dict = {}
-    line = line_a + line_b + line_c
-    lens = [len(line_a), len(line_b), len(line_c)]
 
-    line_size = lens[0]
-    dict_list_index = 0
+    for tuples in [line_a, line_b, line_c]:
+        for _tuple in tuples:
+            index, value = _tuple
 
-    for i, _tuple in enumerate(line):
-        # check if key exists at _tuple[0]
+            if index not in _dict:
+                _dict[index] = [0, 0, 0]
 
-        if _tuple[0] not in _dict:
-            _dict[_tuple[0]] = []
-            # initialize list
-            for _ in range(dict_list_index):
-                _dict[_tuple[0]].append(0)
-
-        _dict[_tuple[0]].append(_tuple[1])
-
-        if i - line_size + 1 == 0:
-            for key in _dict:
-                if len(_dict[key]) <= dict_list_index:
-                    _dict[key].append(0)
-
-        if i - line_size == 0:
-            line_size += lens[dict_list_index + 1]
-            dict_list_index += 1
-
-    _dict = dict(sorted(_dict.items()))
+            if tuples is line_a:
+                _dict[index][0] += value
+            elif tuples is line_b:
+                _dict[index][1] += value
+            else:
+                _dict[index][2] += value
     return _dict
 
 
