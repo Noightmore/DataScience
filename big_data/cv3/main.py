@@ -20,9 +20,9 @@ def main():
     wanted_words = get_words.get_top_words_by_count(analysis[1], 10, 5)
     print(wanted_words)
 
-    zasifrovana_zprava = sifrovani.encrypt('Hello world!', 5)
+    zasifrovana_zprava = sifrovani.encrypt('ahoj', 1)
     print(zasifrovana_zprava)
-    rozsifrovana_zprava = sifrovani.decrypt(zasifrovana_zprava, 5)
+    rozsifrovana_zprava = sifrovani.decrypt(zasifrovana_zprava, 1)
     print(rozsifrovana_zprava)
 
 
