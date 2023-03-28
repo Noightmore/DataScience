@@ -76,13 +76,15 @@ esa_pra
 # uspesny:
 # a) prave u 5. navstevy knihkupectvi
 a <- dgeom(4, 0.1) # geopdf(4, 0.1) matlab
+a
 
 # b) do 5. navstevy, 5. uz se nepocita
 b <- pgeom(4-1, 0.1) # geocdf(4-1, 0.1) matlab
+b
 
 # c) pri osme a vice navsteve
 c <- 1 - pgeom(7-1, 0.1) # 1 - geocdf(7-1, 0.1) matlab
-
+c
 
 # negativne binomicke rozdeleni
 
@@ -90,8 +92,15 @@ c <- 1 - pgeom(7-1, 0.1) # 1 - geocdf(7-1, 0.1) matlab
 # s touto krevni skupinou. Darcove vsak neznaji svoji krevni.
 # jaka je pravdepodobnost, ze pro nalezeni prace 3. darce s krevni skupinou A+ budou muset vysetrit:
 # a) prave 10 darcu
-a2 <- dnbinom(9, 3, 0.35) # nbinpdf(9, 3, 0.35) matlab
+a2 <- dnbinom(7, 3, 0.35) # nbinpdf(7, 3, 0.35) matlab
+a2 # 7 neuspesne, 3 uspesne
+
 # b) vice jak 9 darcu
-b2 <- 1 - pnbinom(8, 3, 0.35) # 1 - nbincdf(8, 3, 0.35) matlab
+b2 <- 1 - pnbinom(6, 3, 0.35) # 1 - nbincdf(6, 3, 0.35) matlab
+b2 # 6 neuspesnych, 3 uspesny
+
 # c) aspon 6 (vcetne) a nejvyse 10 darcu (vcetne)
-c2 <- pnbinom(9, 3, 0.35) - pnbinom(5, 3, 0.35) # nbincdf(9, 3, 0.35) - nbincdf(5, 3, 0.35) matlab
+c2 <-  pnbinom(7, 3, 0.35)  - pnbinom(2, 3, 0.35)
+c2 # tohle nevychazi a nikdo nevi proc
+
+# poissonovo rozdeleni -> pokracovani mozna priste
