@@ -6,8 +6,7 @@ n, m = map(int, sys.stdin.readline().strip().split())
 edges = {}
 for i in range(m):
     u, v, w = map(float, sys.stdin.readline().strip().split())
-    #w = 1000000 - w * 1000000
-    w = 1 - w
+    w = 1000000 - w * 1000000
     edges[(int(u), int(v))] = w
     edges[(int(v), int(u))] = w
 
@@ -38,20 +37,18 @@ def shortest_path(start, end):
     return [start]
 
 
-def solve():
-    # read the queries and find the shortest path for each vertex duo
-    q = int(sys.stdin.readline().strip())
-    print("")
-    for i in range(q):
-        start, end = map(int, sys.stdin.readline().strip().split())
-        path = shortest_path(start, end)
-        if len(path) == 1:
+# read the queries and find the shortest path for each vertex duo
+q = int(sys.stdin.readline().strip())
+for i in range(q):
+    start, end = map(int, sys.stdin.readline().strip().split())
+    path = shortest_path(start, end)
+    if len(path) == 1:
+        print(start)
+    else:
+        path_weight = sum(edges[(path[j], path[j + 1])] for j in range(len(path) - 1))
+        path_length = len(path) - 1
+        if path_length == 0:
             print(start)
         else:
-            dist = sum(edges[(path[j], path[j+1])] for j in range(len(path)-1))
-            #dist = dist / (len(path)-1) / 1000000
-            print(" ".join(str(v) for v in path))
-
-
-if __name__ == "__main__":
-    solve()
+            distance = (1000000 * path_weight) // (path_length * 1000000)
+            print(" ".join(str(v) for v in path), distance)
