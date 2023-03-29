@@ -70,3 +70,13 @@ def test_decrypt_velka_mala():
     original = 'OxEdT FtEt'
     vysledek = caesar.decrypt(original, 19)
     assert vzor == vysledek
+
+
+if __name__ == '__main__':
+    test_encrypt_text_s_mezerami()
+    test_encrypt_large_offset()
+    test_encrypt_velka_mala()
+    test_decrypt_text_s_mezerami()
+    test_decrypt_large_offset()
+    test_decrypt_velka_mala()
+    print('Vsechny testy probehly uspesne.')
