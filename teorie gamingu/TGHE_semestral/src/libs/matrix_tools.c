@@ -12,12 +12,12 @@ unsigned int *load_matrix_dims_from_input(char* input)
         return dims;
 }
 
-unsigned int *load_input_data_row(char* input)
+unsigned int *load_input_data_row(char* input, unsigned int* coords)
 {
         float probability;
-        unsigned int *row_data = sbrk(3 * sizeof(unsigned int));
+        unsigned int *row_data = sbrk(sizeof(unsigned int));
 
-        if(sscanf(input, "%d %d %f", row_data, (row_data + 1), &probability) != 3)
+        if(sscanf(input, "%d %d %f", coords, (coords + 1), &probability) != 3)
         {
                 return NULL; // not freeing memory as the program will crash anyway
         }
@@ -30,7 +30,7 @@ unsigned int *load_input_data_row(char* input)
 
         //printf("%d",(unsigned int) (probability*1000000));
         // parse the data to the appropriate format
-        *(row_data + 2) = 1000000 - (unsigned int) (probability*1000000);
+        *(row_data) = 1000000 - (unsigned int) (probability*1000000);
 
         return row_data;
 }
@@ -91,6 +91,7 @@ int set_value_to_connection_matrix_by_input_row(matrix_data *m_data, char* input
 {
         // read user input - do a separate function for this
         unsigned int *buffer;
+        unsigned int* coords = alloca(2 * sizeof(unsigned int));
 
         // TODO: remove this for code critic test
         if (input == NULL)
@@ -98,25 +99,25 @@ int set_value_to_connection_matrix_by_input_row(matrix_data *m_data, char* input
                 return 1;
         }
 
-        buffer = load_input_data_row(input);
+        buffer = load_input_data_row(input, coords);
 
         // TODO: remove this for code critic test
         if(buffer == NULL)
         {
-                return 1;
+                return 2;
         }
 
         // TODO: remove this for code critic test
         // Check if the row and column indices are within the valid range of the matrix
-        if (*buffer >= *m_data->size || *(buffer + 1) >= *m_data->size)
+        if (*coords >= *m_data->size || *(coords + 1) >= *m_data->size)
         {
-                return 1;  // Invalid indices, return error code
+                return 3;  // Invalid indices, return error code
         }
 
         // explanation:
         // matrix[data_col_id][data_row_id] = matrix[data_row_id][data_col_id] = (formatted probability)
-        *(*(m_data->matrix + *buffer) + *(buffer + 1)) = (buffer + 2); // very readable code
-        *(*(m_data->matrix + *(buffer + 1)) + *(buffer)) = (buffer + 2); // very readable code
+        *(*(m_data->matrix + *coords) + *(coords + 1)) = (buffer); // very readable code
+        *(*(m_data->matrix + *(coords + 1)) + *(coords)) = (buffer); // very readable code
 
         return 0;
 }

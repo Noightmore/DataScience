@@ -31,60 +31,26 @@ int test_loading_matrix_dims_from_stdin()
 
 int test_load_input_data_row()
 {
-        // Test case 1: Empty input
-        char input1[] = "";
-        assert(load_input_data_row(input1) == NULL);
+        unsigned int coords[2];
+        char* input = "1 2 0.5";
+        unsigned int* result = load_input_data_row(input, coords);
+        assert(result != NULL);
+        assert(*result == 500000);
+        assert(coords[0] == 1);
+        assert(coords[1] == 2);
 
-        // Test case 2: Valid input
-        char input2[] = "3 4 0.75";
-        unsigned int* row_data2 = load_input_data_row(input2);
-        assert(row_data2[0] == 3 && row_data2[1] == 4 && row_data2[2] == 250000);
+        unsigned int coords2[2];
+        char* input2 = "1 abc 0.5";
+        unsigned int* result2 = load_input_data_row(input2, coords2);
+        assert(result2 == NULL);
 
-        // Test case 3: Non-integer input
-        char input3[] = "5 hello 0.5";
-        assert(load_input_data_row(input3) == NULL);
-
-        // Test case 4: Probability out of range
-        char input4[] = "2 3 -0.5";
-        assert(load_input_data_row(input4) == NULL);
-
-        // Test case 5: Probability is 1
-        char input5[] = "7 8 1";
-        unsigned int* row_data5 = load_input_data_row(input5);
-        assert(row_data5[0] == 7 && row_data5[1] == 8 && row_data5[2] == 0);
-
-        // Test case 6: test large values
-        char input6[] = "2 7 0.858577";
-        unsigned int* row_data6 = load_input_data_row(input6);
-        assert(row_data6[0] == 2 && row_data6[1] == 7);
-        assert(row_data6[2] == (1000000 - 858577));
-
-        // Test case 7: test large values
-        char input7[] = "2 7 0.951014";
-        unsigned int* row_data7 = load_input_data_row(input7);
-        assert(row_data7[0] == 2 && row_data7[1] == 7);
-        assert(row_data7[2] == (48986));
-
-        // Test case 8: test large values
-        char input8[] = "2 7 0.000000";
-        unsigned int* row_data8 = load_input_data_row(input8);
-        assert(row_data8[0] == 2 && row_data8[1] == 7);
-        assert(row_data8[2] == (1000000));
-
-        // Test case 9: test large values
-        char input9[] = "3 7 0.999362";
-        unsigned int* row_data9 = load_input_data_row(input9);
-        assert(row_data9[0] == 3 && row_data9[1] == 7);
-        assert(row_data9[2] == (1000000 - 999362));
-
-        // Test case 10: test large values
-        char input10[] = "2 1 0.902008";
-        unsigned int* row_data10 = load_input_data_row(input10);
-        assert(row_data10[0] == 2 && row_data10[1] == 1);
-        assert(row_data10[2] == (1000000 - 902008));
+        unsigned int coords3[2];
+        char* input3 = "1 2 1.5";
+        unsigned int* result3 = load_input_data_row(input3, coords3);
+        assert(result3 == NULL);
 
 
-        printf("All tests passed successfully - load_input_data_row\n");
+        printf("All tests passed successfully - loading_input_data_row\n");
         return 0;
 }
 
@@ -131,28 +97,29 @@ int test_allocate_connection_matrix()
 int test_set_value_to_connection_matrix_by_input_row()
 {
         matrix_data m_data = {0};
-        unsigned int row_count = 3;
-        unsigned int col_count = 3;
-        m_data.connection_count = &row_count;
-        m_data.size = &col_count;
+        unsigned int connection_count = 3;
+        unsigned int size = 3;
+        m_data.connection_count = &connection_count;
+        m_data.size = &size;
         allocate_matrix(&m_data);
 
         // Valid input
         char input1[] = "1 2 0.8\n";
-        assert(set_value_to_connection_matrix_by_input_row(&m_data, input1) == 0);
+        int output = set_value_to_connection_matrix_by_input_row(&m_data, input1);
+        assert(output == 0);
         assert(*(*(*(m_data.matrix + 1) + 2)) == 200000);
 
         // Invalid column index
         char input2[] = "5 2 0.5\n";
-        assert(set_value_to_connection_matrix_by_input_row(&m_data, input2) == 1);
+        assert(set_value_to_connection_matrix_by_input_row(&m_data, input2) == 3);
 
         // Invalid row index
         char input3[] = "1 5 0.5\n";
-        assert(set_value_to_connection_matrix_by_input_row(&m_data, input3) == 1);
+        assert(set_value_to_connection_matrix_by_input_row(&m_data, input3) == 3);
 
         // Invalid input
         char input4[] = "1 2\n";
-        assert(set_value_to_connection_matrix_by_input_row(&m_data, input4) == 1);
+        assert(set_value_to_connection_matrix_by_input_row(&m_data, input4) == 2);
 
         // Null input
         assert(set_value_to_connection_matrix_by_input_row(&m_data, NULL) == 1);

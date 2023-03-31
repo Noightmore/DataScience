@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "matrix_tools.h"
+#include "dijkstra_solver.h"
 
 #define BUFFER_SIZE 128
 

@@ -7,7 +7,8 @@
 
 #define BUFFER_SIZE 128
 
-typedef struct {
+typedef struct
+{
     unsigned int* size;
     unsigned int* connection_count;
     unsigned int*** matrix;
@@ -17,7 +18,7 @@ typedef struct {
 unsigned int* load_matrix_dims_from_input(char* input);
 
 // loads the next line from stdin and parses it into an array of ints
-unsigned int* load_input_data_row(char* input);
+unsigned int* load_input_data_row(char* input, unsigned int* coords);
 
 // method that allocates memory for the connection matrix
 int allocate_matrix(matrix_data *m_data);

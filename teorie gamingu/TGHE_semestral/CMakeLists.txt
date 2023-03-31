@@ -13,4 +13,4 @@ add_executable(TGHE_semestral
         src/unit_tests/tester.c
         src/include/app.h
         src/libs/app.c
-        src/include/dijkstra_solver.h)
+        src/include/dijkstra_solver.h src/libs/dijkstra_solver.c)
