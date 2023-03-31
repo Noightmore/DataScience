@@ -53,6 +53,37 @@ int test_load_input_data_row()
         unsigned int* row_data5 = load_input_data_row(input5);
         assert(row_data5[0] == 7 && row_data5[1] == 8 && row_data5[2] == 0);
 
+        // Test case 6: test large values
+        char input6[] = "2 7 0.858577";
+        unsigned int* row_data6 = load_input_data_row(input6);
+        assert(row_data6[0] == 2 && row_data6[1] == 7);
+        assert(row_data6[2] == (1000000 - 858577));
+
+        // Test case 7: test large values
+        char input7[] = "2 7 0.951014";
+        unsigned int* row_data7 = load_input_data_row(input7);
+        assert(row_data7[0] == 2 && row_data7[1] == 7);
+        assert(row_data7[2] == (48986));
+
+        // Test case 8: test large values
+        char input8[] = "2 7 0.000000";
+        unsigned int* row_data8 = load_input_data_row(input8);
+        assert(row_data8[0] == 2 && row_data8[1] == 7);
+        assert(row_data8[2] == (1000000));
+
+        // Test case 9: test large values
+        char input9[] = "3 7 0.999362";
+        unsigned int* row_data9 = load_input_data_row(input9);
+        assert(row_data9[0] == 3 && row_data9[1] == 7);
+        assert(row_data9[2] == (1000000 - 999362));
+
+        // Test case 10: test large values
+        char input10[] = "2 1 0.902008";
+        unsigned int* row_data10 = load_input_data_row(input10);
+        assert(row_data10[0] == 2 && row_data10[1] == 1);
+        assert(row_data10[2] == (1000000 - 902008));
+
+
         printf("All tests passed successfully - load_input_data_row\n");
         return 0;
 }

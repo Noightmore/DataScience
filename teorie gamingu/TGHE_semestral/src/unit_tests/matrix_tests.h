@@ -1,7 +1,6 @@
 #ifndef TGHE_SEMESTRAL_MATRIX_TESTS_H
 #define TGHE_SEMESTRAL_MATRIX_TESTS_H
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
