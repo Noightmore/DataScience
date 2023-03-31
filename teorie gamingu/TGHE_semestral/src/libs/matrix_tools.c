@@ -43,17 +43,17 @@ matrix_data *initialize_matrix(char* input)
         matrix_data* m_data = sbrk(sizeof(matrix_data));
         unsigned int *dims = load_matrix_dims_from_input(input);
 
-        m_data->col_count = dims;
-        m_data->row_count = (dims + 1);
+        m_data->size = dims;
+        m_data->connection_count = (dims + 1);
 
         // TODO: remove this for code critic test
-        if(m_data->col_count == NULL || m_data->row_count == NULL)
+        if(m_data->size == NULL || m_data->connection_count == NULL)
         {
                 return NULL;
         }
 
         // TODO: remove this for code critic test
-        if(*m_data->col_count <= 0 || *m_data->row_count <= 0)
+        if(*m_data->size <= 0 || *m_data->connection_count <= 0)
         {
                 return NULL;
         }
@@ -66,12 +66,12 @@ matrix_data *initialize_matrix(char* input)
 
 int allocate_matrix(matrix_data *m_data)
 {
-        m_data->matrix = sbrk(*m_data->col_count * sizeof(unsigned int***));
+        m_data->matrix = sbrk(*m_data->size * sizeof(unsigned int***));
 
-        for (int col_i = 0; col_i < *m_data->col_count; col_i++)
+        for (int col_i = 0; col_i < *m_data->size; col_i++)
         {
-                *(m_data->matrix + col_i) = sbrk(*m_data->row_count * sizeof(unsigned int**));
-                for (int row_i = 0; row_i < *m_data->row_count; row_i++)
+                *(m_data->matrix + col_i) = sbrk(*m_data->size * sizeof(unsigned int**));
+                for (int row_i = 0; row_i < *m_data->size; row_i++)
                 {
                         *(*(m_data->matrix + col_i) + row_i) = sbrk(sizeof(unsigned int*));
                         //**(*(m_data->matrix + col_i) + row_i) = 0;
@@ -108,14 +108,15 @@ int set_value_to_connection_matrix_by_input_row(matrix_data *m_data, char* input
 
         // TODO: remove this for code critic test
         // Check if the row and column indices are within the valid range of the matrix
-        if (*buffer >= *m_data->col_count || *(buffer + 1) >= *m_data->row_count)
+        if (*buffer >= *m_data->size || *(buffer + 1) >= *m_data->size)
         {
                 return 1;  // Invalid indices, return error code
         }
 
-        // matrix[data_col_id][data_row_id] = (formatted probability)
+        // explanation:
+        // matrix[data_col_id][data_row_id] = matrix[data_row_id][data_col_id] = (formatted probability)
         *(*(m_data->matrix + *buffer) + *(buffer + 1)) = (buffer + 2); // very readable code
+        *(*(m_data->matrix + *(buffer + 1)) + *(buffer)) = (buffer + 2); // very readable code
 
         return 0;
 }
-

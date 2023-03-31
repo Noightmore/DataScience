@@ -61,11 +61,11 @@ int test_allocate_connection_matrix()
 {
         // Test case 1: Allocate a matrix of size 2x2
         matrix_data m_data1 = {
-                .row_count = malloc(sizeof(unsigned int)),
-                .col_count = malloc(sizeof(unsigned int))
+                .connection_count = malloc(sizeof(unsigned int)),
+                .size = malloc(sizeof(unsigned int))
         };
-        *m_data1.row_count = 2;
-        *m_data1.col_count = 2;
+        *m_data1.connection_count = 2;
+        *m_data1.size = 2;
         int result1 = allocate_matrix(&m_data1);
         assert(result1 == 0);
         assert(m_data1.matrix != NULL);
@@ -76,11 +76,11 @@ int test_allocate_connection_matrix()
 
         // Test case 2: Allocate a matrix of size 3x4
         matrix_data m_data2 = {
-                .row_count = malloc(sizeof(unsigned int)),
-                .col_count = malloc(sizeof(unsigned int))
+                .connection_count = malloc(sizeof(unsigned int)),
+                .size = malloc(sizeof(unsigned int))
         };
-        *m_data2.row_count = 3;
-        *m_data2.col_count = 4;
+        *m_data2.connection_count = 3;
+        *m_data2.size = 4;
         int result2 = allocate_matrix(&m_data2);
         assert(result2 == 0);
         assert(m_data2.matrix != NULL);
@@ -102,8 +102,8 @@ int test_set_value_to_connection_matrix_by_input_row()
         matrix_data m_data = {0};
         unsigned int row_count = 3;
         unsigned int col_count = 3;
-        m_data.row_count = &row_count;
-        m_data.col_count = &col_count;
+        m_data.connection_count = &row_count;
+        m_data.size = &col_count;
         allocate_matrix(&m_data);
 
         // Valid input
@@ -136,8 +136,8 @@ int test_initialize_connection_matrix()
         // Test case 1: Valid input
         char input1[] = "4 6\n";
         matrix_data* m_data1 = initialize_matrix(input1);
-        assert(*(m_data1->col_count) == 4);
-        assert(*(m_data1->row_count) == 6);
+        assert(*(m_data1->size) == 4);
+        assert(*(m_data1->connection_count) == 6);
 
         // Test case 2: Invalid input
         char input2[] = "0 5\n";
@@ -147,8 +147,8 @@ int test_initialize_connection_matrix()
         // Test case 3: Valid input with large numbers
         char input3[] = "1000 5000\n";
         matrix_data* m_data3 = initialize_matrix(input3);
-        assert(*(m_data3->col_count) == 1000);
-        assert(*(m_data3->row_count) == 5000);
+        assert(*(m_data3->size) == 1000);
+        assert(*(m_data3->connection_count) == 5000);
         // works even for at least 10 times larger numbers but takes a long time to run
 
         printf("All tests passed successfully - initialize_connection_matrix\n");

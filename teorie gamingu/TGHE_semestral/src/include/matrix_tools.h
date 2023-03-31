@@ -2,15 +2,14 @@
 #define TGHE_SEMESTRAL_MATRIX_TOOLS_H
 
 #include <stdio.h>
-//#include <malloc.h>
 #include <unistd.h>
 #include <alloca.h>
 
 #define BUFFER_SIZE 128
 
 typedef struct {
-    unsigned int* col_count;
-    unsigned int* row_count;
+    unsigned int* size;
+    unsigned int* connection_count;
     unsigned int*** matrix;
 } matrix_data;
 
