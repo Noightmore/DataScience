@@ -1,8 +1,8 @@
-#include "unit_tests/basic_tests.h"
+#include "./unit_tests/tester.h"
+
 
 int main()
 {
-        test_dictionary();
-
+        run_all_tests();
         return 0;
 }
