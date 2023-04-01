@@ -22,7 +22,8 @@ int app_run()
 {
         char* buffer = alloca(BUFFER_SIZE);
         int* request_count = alloca(sizeof(int));
-        unsigned int* request_line_data = alloca(2 * sizeof(unsigned int));
+        unsigned int* from_to = alloca(2 * sizeof(unsigned int)); // request line data
+
 
         matrix_data *m_data =
                 initialize_matrix(fgets(buffer, BUFFER_SIZE, stdin));
@@ -46,10 +47,12 @@ int app_run()
         for(int i = 0; i < *request_count; i++)
         {
                 process_solution_request_line(
-                        fgets(buffer, BUFFER_SIZE, stdin), request_line_data);
+                        fgets(buffer, BUFFER_SIZE, stdin), from_to);
+                dijkstra_solver(m_data, from_to); // this function also prints the result
+
         }
 
-        //printf("%d %d", *request_line_data, *(request_line_data + 1));
+        //printf("%d %d", *from_to, *(from_to + 1));
 
        return 0;
 }
