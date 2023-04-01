@@ -5,14 +5,15 @@
 
 #include "matrix_tools.h"
 
-#define DIVISOR_VALUE 1000000
+#define DIVISOR_VALUE 1000000.0
 
+typedef struct distance_node distance_node;
 
-typedef struct distance_node
+struct distance_node
 {
         unsigned int* distance;
-        struct distance_node* next;
-} distance_node;
+        distance_node* next;
+};
 
 int load_request_count_from_input_line(char* line);
 

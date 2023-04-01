@@ -30,7 +30,7 @@ unsigned int *load_input_data_row(char* input, unsigned int* coords)
 
         //printf("%d",(unsigned int) (probability*1000000));
         // parse the data to the appropriate format
-        *(row_data) = 1000000 - (unsigned int) (probability*1000000);
+        *(row_data) = NORMALIZATION_VALUE - (unsigned int) (probability*NORMALIZATION_VALUE);
 
         return row_data;
 }
@@ -38,8 +38,7 @@ unsigned int *load_input_data_row(char* input, unsigned int* coords)
 
 matrix_data *initialize_matrix(char* input)
 {
-        // col count = number of vertices
-        // row count = number of edges
+        // size (col_count, row_count)  -> number of vertices
         matrix_data* m_data = sbrk(sizeof(matrix_data));
         unsigned int *dims = load_matrix_dims_from_input(input);
 

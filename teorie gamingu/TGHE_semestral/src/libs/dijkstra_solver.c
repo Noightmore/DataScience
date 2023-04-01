@@ -89,20 +89,28 @@ int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
                 // loop through distance list and compute the total distance
                 // + the distance to the current vertex
 
+                // debug printing function
                 for(int neighbour_i = 0; neighbour_i < *m_data->size; neighbour_i++)
                 {
                         while(min_distance_to_start_for_each_vertex[neighbour_i] != NULL)
                         {
-                                       printf("distance: %d\n",
-                                              *min_distance_to_start_for_each_vertex[neighbour_i]->distance);
-                                       min_distance_to_start_for_each_vertex[neighbour_i]
-                                            = min_distance_to_start_for_each_vertex[neighbour_i]->next;
+                                printf("distance from 0 to %d: %f\n",
+                                       neighbour_i,
+                                       (float) *min_distance_to_start_for_each_vertex[neighbour_i]
+                                       ->distance / DIVISOR_VALUE
+                                       );
+
+                                min_distance_to_start_for_each_vertex[neighbour_i]
+                                = min_distance_to_start_for_each_vertex[neighbour_i]->next;
                         }
 
                 }
 
-                visited_vertices[current_vertex] = 1;
+                visited_vertices[current_vertex] = 1; // mark the current vertex as visited
 
+                // look for the best vertex to go to next
+
+                break;
                 // go for next vertex which is the closest to the starting (the smallest edge distance value
         }
 
