@@ -39,7 +39,7 @@ int app_run()
                 //*buffer ^= *buffer; // flush buffer
         }
 
-        print_connection_matrix_to_stdout(m_data);
+        //print_connection_matrix_to_stdout(m_data);
 
         *request_count =
                 load_request_count_from_input_line(fgets(buffer, BUFFER_SIZE, stdin));

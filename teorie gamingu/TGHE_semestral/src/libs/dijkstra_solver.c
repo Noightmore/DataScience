@@ -22,67 +22,88 @@ int load_request_count_from_input_line(char* line)
 
 int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
 {
-        unsigned int* visited_vertices = alloca(*m_data->size * sizeof(unsigned int));
+        unsigned int* visited_vertices =
+                alloca(*m_data->size * sizeof(unsigned int));
 
-        // visited_vertices[*from_to] = 1; // mark the starting vertex as visited
+        distance_node** min_distance_to_start_for_each_vertex =
+                alloca(*m_data->size * sizeof(distance_node**));
+
+        unsigned int* previous_min_vertex_for_each_vertex =
+                alloca(*m_data->size * sizeof(unsigned int*));
+
+
+        // initialize all the memory to NULL (stack corruption)
+        for(int i = 0; i < *m_data->size; i++)
+        {
+                visited_vertices[i] = 0;
+                min_distance_to_start_for_each_vertex[i] = NULL;
+                previous_min_vertex_for_each_vertex[i] = 0;
+        }
 
         unsigned int current_vertex = *from_to;
 
-        distance_node* distance_list = NULL;
 
         while(current_vertex != *(from_to + 1))
         {
                 // go through all neighbors of the current vertex
-                for(int i = 0; i < *m_data->size; i++)
+                for(int neighbour_i = 0; neighbour_i < *m_data->size; neighbour_i++)
                 {
                         // TODO: refactor all of this decision making into a separate function
-                        if(*m_data->matrix[current_vertex][i] == 0)
+                        if(*m_data->matrix[current_vertex][neighbour_i] == 0)
                         {
-                                // no connection between current_vertex and vertex on the i-th position
+                                // no connection between current_vertex and vertex on the neighbour_i-th position
                                 // skip this iteration
                                 continue;
                         }
 
-                        if(visited_vertices[i] == 1)
+                        if(visited_vertices[neighbour_i] == 1)
                         {
                                 // we have already visited this vertex
                                 // skip this iteration
                                 continue;
                         }
 
-                        // we are at the start
-                        if(distance_list == NULL)
+                        // if distance_node[neighbour_i] == NULL -> infinity
+                        // if current vertex does not have an existing connection to the starting vertex
+                        if(min_distance_to_start_for_each_vertex[neighbour_i] == NULL)
                         {
-                                distance_list = alloca(sizeof(distance_node));
-                                distance_list->previous_vertex = current_vertex;
-                                distance_list->distance_to_previous_vertex_value = NULL;
-                                distance_list->divisor_value = DIVISOR_VALUE;
+                                // allocate memory for the initial linked list node
+                                min_distance_to_start_for_each_vertex[neighbour_i]
+                                = alloca(sizeof(distance_node*));
 
-                                distance_list->next = NULL;
+                                // save the edge value
+                                min_distance_to_start_for_each_vertex[neighbour_i]->distance
+                                = m_data->matrix[current_vertex][neighbour_i];
+
+                                // set next vertex to NULL
+                                min_distance_to_start_for_each_vertex[neighbour_i]->next = NULL;
+
+                                // set the previous min vertex to the current vertex
+                                previous_min_vertex_for_each_vertex[neighbour_i] = current_vertex;
+
+                                continue;
                         }
-                        // we have already added a record of a distance -> adding another one
-                        else
+
+                }
+
+                // loop through distance list and compute the total distance
+                // + the distance to the current vertex
+
+                for(int neighbour_i = 0; neighbour_i < *m_data->size; neighbour_i++)
+                {
+                        while(min_distance_to_start_for_each_vertex[neighbour_i] != NULL)
                         {
-                                distance_list->next = alloca(sizeof(distance_node));
-                                distance_list = distance_list->next;
-                                distance_list->previous_vertex = current_vertex;
-                                distance_list->distance_to_previous_vertex_value = NULL;
-                                distance_list->divisor_value = DIVISOR_VALUE;
-
-                                distance_list->next = NULL;
+                                       printf("distance: %d\n",
+                                              *min_distance_to_start_for_each_vertex[neighbour_i]->distance);
+                                       min_distance_to_start_for_each_vertex[neighbour_i]
+                                            = min_distance_to_start_for_each_vertex[neighbour_i]->next;
                         }
-
-                        // loop through distance list and compute the total distance
-                        // + the distance to the current vertex
-
-
-
-
-
 
                 }
 
                 visited_vertices[current_vertex] = 1;
+
+                // go for next vertex which is the closest to the starting (the smallest edge distance value
         }
 
         return 0;
