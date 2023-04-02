@@ -22,5 +22,6 @@ int run_dijkstra_tests()
 {
         test_load_request_count_from_input_line();
         test_process_solution_request_line();
+        test_distance_list_append();
         return 0;
 }

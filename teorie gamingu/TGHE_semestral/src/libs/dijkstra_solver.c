@@ -20,9 +20,53 @@ int load_request_count_from_input_line(char* line)
         return request_count; // successfully read the line
 }
 
+int connection_exists(matrix_data* m_data, const unsigned int* current_vertex, const unsigned int* neighbor_index)
+{
+        if(*m_data->matrix[*current_vertex][*neighbor_index] == 0)
+        {
+                return 1; // no connection between current_vertex and vertex on the neighbour_i-th position
+        }
+        return 0;
+}
+
+int vertex_is_already_visited(unsigned int** visited_vertices, const unsigned int* neighbor_index)
+{
+        if(*visited_vertices[*neighbor_index] == 1)
+        {
+                return 1; // we have already visited this vertex
+        }
+        return 0;
+}
+
+// distance node is a part of linked series of nodes
+// which represent the distance from the starting vertex to the current vertex
+void append_distance_node_to_vertex_distances(distance_node** neighbours_distance_list,
+                                              distance_node* new_distance_node,
+                                              unsigned int* distance_ptr)
+{
+        // set new node's values
+        new_distance_node->distance = distance_ptr;
+        new_distance_node->next = NULL;
+
+        if (*neighbours_distance_list == NULL)
+        {
+                *neighbours_distance_list = new_distance_node;
+                return;
+        }
+
+        distance_node* current_node = *neighbours_distance_list;
+        while (current_node->next != NULL)
+        {
+                current_node = current_node->next;
+        }
+        current_node->next = new_distance_node;
+}
+
+
 int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
 {
-        // LOCAL VARIABLES
+        // LOCAL VARIABLES ---------------------------------------------------------------------------------------------
+
         unsigned int* visited_vertices =
                 alloca(*m_data->size * sizeof(unsigned int));
 
@@ -34,37 +78,32 @@ int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
 
 
         // initialize all the memory to NULL (stack corruption)
-        for(int i = 0; i < *m_data->size; i++)
-        {
-                visited_vertices[i] = 0;
-                min_distance_to_start_for_each_vertex[i] = NULL;
-                previous_min_vertex_for_each_vertex[i] = 0;
-        }
 
+        memset(visited_vertices, 0, *m_data->size * sizeof(unsigned int));
+        memset(min_distance_to_start_for_each_vertex, 0, *m_data->size * sizeof(distance_node**));
+        memset(previous_min_vertex_for_each_vertex, 0, *m_data->size * sizeof(unsigned int*));
+
+        // set current vertex to the starting vertex
         unsigned int current_vertex = *from_to;
-        // END LOCAL VARIABLES
+
+        // END LOCAL VARIABLES -----------------------------------------------------------------------------------------
 
 
         // MAIN ALGORITHM LOOP
         while(current_vertex != *(from_to + 1))
         {
                 // go through all neighbors of the current vertex
-                for(int neighbour_i = 0; neighbour_i < *m_data->size; neighbour_i++)
+                for(unsigned int neighbour_i = 0; neighbour_i < *m_data->size; neighbour_i++)
                 {
-                        // TODO: refactor all of this decision making into a separate function
-                        if(*m_data->matrix[current_vertex][neighbour_i] == 0)
-                        {
-                                // no connection between current_vertex and vertex on the neighbour_i-th position
-                                // skip this iteration
-                                continue;
-                        }
 
-                        if(visited_vertices[neighbour_i] == 1)
-                        {
-                                // we have already visited this vertex
-                                // skip this iteration
-                                continue;
-                        }
+                        // no connection between current_vertex and vertex on the neighbour_i-th position
+                        // skip this iteration
+                        if(connection_exists(m_data, &current_vertex, &neighbour_i)) continue;
+
+                        // we have already visited this vertex
+                        // skip this iteration
+                        if(vertex_is_already_visited(&visited_vertices, &neighbour_i)) continue;
+
 
                         // if distance_node[neighbour_i] == NULL -> infinity
                         // if current vertex does not have an existing connection to the starting vertex

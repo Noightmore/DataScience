@@ -65,11 +65,11 @@ matrix_data *initialize_matrix(char* input)
 
 int allocate_matrix(matrix_data *m_data)
 {
-        m_data->matrix = sbrk(*m_data->size * sizeof(unsigned int***));
+        m_data->matrix = sbrk((long) (*m_data->size * sizeof(unsigned int***)));
 
         for (int col_i = 0; col_i < *m_data->size; col_i++)
         {
-                *(m_data->matrix + col_i) = sbrk(*m_data->size * sizeof(unsigned int**));
+                *(m_data->matrix + col_i) = sbrk((long) (*m_data->size * sizeof(unsigned int**)));
                 for (int row_i = 0; row_i < *m_data->size; row_i++)
                 {
                         *(*(m_data->matrix + col_i) + row_i) = sbrk(sizeof(unsigned int*));
