@@ -11,6 +11,4 @@ int test_load_request_count_from_input_line();
 
 int test_process_solution_request_line();
 
-int test_distance_list_append();
-
 #endif //TGHE_SEMESTRAL_DIJKSTRA_TESTS_H

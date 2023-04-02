@@ -7,30 +7,30 @@
 
 #include "matrix_tools.h"
 
-#define DIVISOR_VALUE 1000000.0
+#define DIVISOR_VALUE 1000000
 
-typedef struct distance_node distance_node;
+typedef struct probability_distance probability_distance;
 
-struct distance_node
+struct probability_distance
 {
-        unsigned int* distance;
-        distance_node* next;
+        unsigned int negative_outcomes_count;
+        unsigned int all_outcomes_count;
 };
 
 int load_request_count_from_input_line(char* line);
 
 int process_solution_request_line(char* line, unsigned int* from_to);
 
-int connection_exists(matrix_data* m_data, const unsigned int* current_vertex, const unsigned int* neighbor_index);
+int connection_does_not_exist(matrix_data* m_data, const unsigned int* current_vertex, const unsigned int* neighbor_index);
 
 int vertex_is_already_visited(unsigned int** visited_vertices, const unsigned int* neighbor_index);
 
-void append_distance_to_vertexes_distances(distance_node** neighbours_distance_list,
-                                           distance_node* new_distance_node,
-                                           unsigned int* distance_ptr);
+int is_distance_to_start_infinite(probability_distance** min_distance_to_start_for_each_vertex);
 
-// values of the source linked list overwrite the values of the destination linked list
-void fast_linked_list_copy(distance_node** source, distance_node** destination);
+void initialize_probability_distance(probability_distance** probability_dist, probability_distance* new_prob_dist);
+
+void add_probability_distance(const unsigned int* negative_outcomes_count,
+                              probability_distance** vertexes_distance_to_start);
 
 int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to);
 

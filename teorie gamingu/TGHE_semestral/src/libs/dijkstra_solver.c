@@ -20,7 +20,7 @@ int load_request_count_from_input_line(char* line)
         return request_count; // successfully read the line
 }
 
-int connection_exists(matrix_data* m_data, const unsigned int* current_vertex, const unsigned int* neighbor_index)
+int connection_does_not_exist(matrix_data* m_data, const unsigned int* current_vertex, const unsigned int* neighbor_index)
 {
         if(*m_data->matrix[*current_vertex][*neighbor_index] == 0)
         {
@@ -38,31 +38,28 @@ int vertex_is_already_visited(unsigned int** visited_vertices, const unsigned in
         return 0;
 }
 
-// distance node is a part of linked series of nodes
-// which represent the distance from the starting vertex to the current vertex
-void append_distance_to_vertexes_distances(distance_node** neighbours_distance_list,
-                                           distance_node* new_distance_node,
-                                           unsigned int* distance_ptr)
+int is_distance_to_start_infinite(probability_distance** min_distance_to_start_for_each_vertex)
 {
-        // set new node's values
-        new_distance_node->distance = distance_ptr;
-        new_distance_node->next = NULL;
-
-        // if the list is empty = distance is infinity
-        if (*neighbours_distance_list == NULL)
+        if(*min_distance_to_start_for_each_vertex == NULL)
         {
-                *neighbours_distance_list = new_distance_node;
-                return;
+                return 1; // distance to start is infinite
         }
-
-        distance_node* current_node = *neighbours_distance_list;
-        while (current_node->next != NULL)
-        {
-                current_node = current_node->next;
-        }
-        current_node->next = new_distance_node;
+        return 0;
 }
 
+void initialize_probability_distance(probability_distance** probability_dist, probability_distance* new_prob_dist)
+{
+        *probability_dist = new_prob_dist;
+        (*probability_dist)->negative_outcomes_count = 0;
+        (*probability_dist)->all_outcomes_count = 0;
+}
+
+void add_probability_distance(const unsigned int* negative_outcomes_count,
+                              probability_distance** vertexes_distance_to_start)
+{
+        (*vertexes_distance_to_start)->negative_outcomes_count += *negative_outcomes_count;
+        (*vertexes_distance_to_start)->all_outcomes_count += DIVISOR_VALUE;
+}
 
 int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
 {
@@ -71,8 +68,10 @@ int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
         unsigned int* visited_vertices =
                 alloca(*m_data->size * sizeof(unsigned int));
 
-        distance_node** min_distance_to_start_for_each_vertex =
-                alloca(*m_data->size * sizeof(distance_node**));
+        unsigned int visited_vertices_count = 0;
+
+        probability_distance** min_distance_to_start_for_each_vertex =
+                alloca(*m_data->size * sizeof(probability_distance**));
 
         unsigned int* previous_min_vertex_for_each_vertex =
                 alloca(*m_data->size * sizeof(unsigned int*));
@@ -81,7 +80,7 @@ int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
         // initialize all the memory to NULL (stack corruption)
 
         memset(visited_vertices, 0, *m_data->size * sizeof(unsigned int));
-        memset(min_distance_to_start_for_each_vertex, 0, *m_data->size * sizeof(distance_node**));
+        memset(min_distance_to_start_for_each_vertex, 0, *m_data->size * sizeof(probability_distance**));
         memset(previous_min_vertex_for_each_vertex, 0, *m_data->size * sizeof(unsigned int*));
 
         // set current vertex to the starting vertex
@@ -91,98 +90,62 @@ int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
 
 
         // MAIN ALGORITHM LOOP
-        while(current_vertex != *(from_to + 1))
+        while(visited_vertices_count < *m_data->size)
         {
+                unsigned int closest_vertex = -1;
+                unsigned int closest_vertex_distance = UINT_MAX;
+
                 // go through all neighbors of the current vertex
-                for(unsigned int neighbour_i = 0; neighbour_i < *m_data->size; neighbour_i++)
+                for(unsigned int neighbour_index = 0; neighbour_index < *m_data->size; neighbour_index++)
                 {
 
-                        // no connection between current_vertex and vertex on the neighbour_i-th position
+                        // no connection between current_vertex and vertex on the neighbour_index-th position
                         // skip this iteration
-                        if(connection_exists(m_data, &current_vertex, &neighbour_i)) continue;
+                        if(connection_does_not_exist(m_data, &current_vertex, &neighbour_index)) continue;
 
                         // we have already visited this vertex
                         // skip this iteration
-                        if(vertex_is_already_visited(&visited_vertices, &neighbour_i)) continue;
+                        if(vertex_is_already_visited(&visited_vertices, &neighbour_index)) continue;
 
-                        // add the minimal distance from the current vertex to start
-                        // to the distance list of the current vertex's neighbor
-                        append_distance_to_vertexes_distances(
-                                &min_distance_to_start_for_each_vertex[neighbour_i],
-                                alloca(sizeof(distance_node)),
-                                m_data->matrix[current_vertex][neighbour_i]
-                        );
+                        if(is_distance_to_start_infinite(
+                                &min_distance_to_start_for_each_vertex[neighbour_index]))
+                        {
+                                initialize_probability_distance(
+                                        &min_distance_to_start_for_each_vertex[neighbour_index],
+                                        alloca(sizeof(probability_distance)));
+
+                                add_probability_distance(
+                                        m_data->matrix[current_vertex][neighbour_index],
+                                        &min_distance_to_start_for_each_vertex[neighbour_index]);
+                                continue;
+                        }
+
+
 
                         // what if there is a shorter path to the current vertexes neighbor?
-
-
+                        // check if this distance is really the closest one to the starting vertex
+                        // if it is, then update the distance to the starting vertex and the previous vertex
                 }
 
                 // loop through distance list and compute the total distance
                 // + the distance to the current vertex
 
                 visited_vertices[current_vertex] = 1; // mark the current vertex as visited
+                visited_vertices_count++; // increment the number of visited vertices
 
-                // look for the best vertex to go to next
-                unsigned int best_vertex_distance = UINT_MAX;
-
-                for(int neighbour_i = 0; neighbour_i < *m_data->size; neighbour_i++)
+                // print all distances
+                for(unsigned int i = 0; i < *m_data->size; i++)
                 {
-                        if(visited_vertices[neighbour_i] == 1)
+                        if(min_distance_to_start_for_each_vertex[i] != NULL)
                         {
-                                // we have already visited this vertex
-                                // skip this iteration
-                                continue;
-                        }
-
-                        // if distance_node[neighbour_i] == NULL -> infinity
-                        // if current vertex does not have an existing connection to the starting vertex
-                        if(min_distance_to_start_for_each_vertex[neighbour_i] == NULL)
-                        {
-                                // skip this iteration
-                                continue;
-                        }
-
-                        // compute the total distance by distance node sequence of the current vertex
-                        // TODO: add this to the previous looping of the current vertex's neighbors
-                        unsigned int distance_depth = 1;
-                        unsigned int total_distance = 0;
-
-                        while(min_distance_to_start_for_each_vertex[neighbour_i] != NULL)
-                        {
-                                total_distance +=
-                                        *min_distance_to_start_for_each_vertex[neighbour_i]->distance;
-
-                                min_distance_to_start_for_each_vertex[neighbour_i] =
-                                        min_distance_to_start_for_each_vertex[neighbour_i]->next;
-                                distance_depth++;
-                        }
-
-                        if(total_distance < best_vertex_distance)
-                        {
-                                // vertex with the shortest distance to a starting vertex
-                                current_vertex = neighbour_i;
+                                printf("Distance from %u to start (%u): %u/%u\n", i,
+                                       *from_to,
+                                       min_distance_to_start_for_each_vertex[i]->negative_outcomes_count,
+                                       min_distance_to_start_for_each_vertex[i]->all_outcomes_count);
                         }
                 }
 
-                // debug printing function
-                for(int neighbour_i = 0; neighbour_i < *m_data->size; neighbour_i++)
-                {
-                        while(min_distance_to_start_for_each_vertex[neighbour_i] != NULL)
-                        {
-                                printf("distance from 0 to %d: %f\n",
-                                       neighbour_i,
-                                       (float) *min_distance_to_start_for_each_vertex[neighbour_i]
-                                               ->distance / DIVISOR_VALUE
-                                );
-
-                                min_distance_to_start_for_each_vertex[neighbour_i]
-                                        = min_distance_to_start_for_each_vertex[neighbour_i]->next;
-                        }
-
-                }
-
-                //break;
+                break;
                 // go for next vertex which is the closest to the starting (the smallest edge distance value
         }
 
