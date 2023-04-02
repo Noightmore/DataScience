@@ -2,6 +2,7 @@
 #define TGHE_SEMESTRAL_DIJKSTRA_SOLVER_H
 
 #include <stdio.h>
+#include <limits.h>
 
 #include "matrix_tools.h"
 

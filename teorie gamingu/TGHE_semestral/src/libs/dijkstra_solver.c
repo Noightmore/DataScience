@@ -22,6 +22,7 @@ int load_request_count_from_input_line(char* line)
 
 int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
 {
+        // LOCAL VARIABLES
         unsigned int* visited_vertices =
                 alloca(*m_data->size * sizeof(unsigned int));
 
@@ -41,8 +42,10 @@ int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
         }
 
         unsigned int current_vertex = *from_to;
+        // END LOCAL VARIABLES
 
 
+        // MAIN ALGORITHM LOOP
         while(current_vertex != *(from_to + 1))
         {
                 // go through all neighbors of the current vertex
@@ -109,8 +112,48 @@ int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
                 visited_vertices[current_vertex] = 1; // mark the current vertex as visited
 
                 // look for the best vertex to go to next
+                unsigned int best_vertex_distance = UINT_MAX;
 
-                break;
+                for(int neighbour_i = 0; neighbour_i < *m_data->size; neighbour_i++)
+                {
+                        if(visited_vertices[neighbour_i] == 1)
+                        {
+                                // we have already visited this vertex
+                                // skip this iteration
+                                continue;
+                        }
+
+                        // if distance_node[neighbour_i] == NULL -> infinity
+                        // if current vertex does not have an existing connection to the starting vertex
+                        if(min_distance_to_start_for_each_vertex[neighbour_i] == NULL)
+                        {
+                                // skip this iteration
+                                continue;
+                        }
+
+                        // compute the total distance by distance node sequence of the current vertex
+                        // TODO: add this to the previous looping of the current vertex's neighbors
+                        unsigned int distance_depth = 1;
+                        unsigned int total_distance = 0;
+
+                        while(min_distance_to_start_for_each_vertex[neighbour_i] != NULL)
+                        {
+                                total_distance +=
+                                        *min_distance_to_start_for_each_vertex[neighbour_i]->distance;
+
+                                min_distance_to_start_for_each_vertex[neighbour_i] =
+                                        min_distance_to_start_for_each_vertex[neighbour_i]->next;
+                                distance_depth++;
+                        }
+
+                        if(total_distance < best_vertex_distance)
+                        {
+                                // vertex with the shortest distance to a starting vertex
+                                current_vertex = neighbour_i;
+                        }
+                }
+
+                //break;
                 // go for next vertex which is the closest to the starting (the smallest edge distance value
         }
 

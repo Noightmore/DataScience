@@ -29,7 +29,7 @@ int allocate_matrix(matrix_data *m_data);
 // fills the matrix with data from stdin
 int set_value_to_connection_matrix_by_input_row(matrix_data *m_data, char* input);
 
-// runs all matrix intialization functions and returns a pointer to the matrix
+// runs all matrix initialization functions and returns a pointer to the matrix
 // caller takes the responsibility of freeing the memory
 matrix_data* initialize_matrix(char* input);
 
