@@ -25,9 +25,12 @@ int connection_exists(matrix_data* m_data, const unsigned int* current_vertex, c
 
 int vertex_is_already_visited(unsigned int** visited_vertices, const unsigned int* neighbor_index);
 
-void append_distance_node_to_vertex_distances(distance_node** neighbours_distance_list,
-                                              distance_node* new_distance_node,
-                                              unsigned int* distance_ptr);
+void append_distance_to_vertexes_distances(distance_node** neighbours_distance_list,
+                                           distance_node* new_distance_node,
+                                           unsigned int* distance_ptr);
+
+// values of the source linked list overwrite the values of the destination linked list
+void fast_linked_list_copy(distance_node** source, distance_node** destination);
 
 int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to);
 

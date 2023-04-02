@@ -87,40 +87,40 @@ int test_distance_list_append()
         distance_node* neighbours_distance_list1 = NULL;
         distance_node* new_distance_node1 = (distance_node*)malloc(sizeof(distance_node));
         unsigned int distance1 = 10;
-        append_distance_node_to_vertex_distances(&neighbours_distance_list1,
-                                                 new_distance_node1,
-                                                 &distance1);
+        append_distance_to_vertexes_distances(&neighbours_distance_list1,
+                                              new_distance_node1,
+                                              &distance1);
         // print the whole linked list
         print_distance_list(neighbours_distance_list1);
         printf("Test case 1: distance node added to the end of the list.\n");
 
         // Test case 2: neighbours_distance_list has one node initially
-        distance_node* neighbours_distance_list2 = (distance_node*)malloc(sizeof(distance_node));
+        distance_node* neighbours_distance_list2 = (distance_node*)alloca(sizeof(distance_node));
         unsigned int distance2 = 20;
         neighbours_distance_list2->distance = &distance2;
         neighbours_distance_list2->next = NULL;
-        distance_node* new_distance_node2 = (distance_node*)malloc(sizeof(distance_node));
+        distance_node* new_distance_node2 = (distance_node*)alloca(sizeof(distance_node));
         unsigned int distance3 = 30;
-        append_distance_node_to_vertex_distances(&neighbours_distance_list2,
-                                                 new_distance_node2,
-                                                 &distance3);
+        append_distance_to_vertexes_distances(&neighbours_distance_list2,
+                                              new_distance_node2,
+                                              &distance3);
         // print the whole linked list
         print_distance_list(neighbours_distance_list2);
         printf("Test case 2: distance node added to the end of the list.\n");
 
         // Test case 3: neighbours_distance_list has multiple nodes initially
-        distance_node* neighbours_distance_list3 = (distance_node*)malloc(sizeof(distance_node));
+        distance_node* neighbours_distance_list3 = (distance_node*)alloca(sizeof(distance_node));
         unsigned int distance4 = 40;
         neighbours_distance_list3->distance = &distance4;
-        neighbours_distance_list3->next = (distance_node*)malloc(sizeof(distance_node));
+        neighbours_distance_list3->next = (distance_node*)alloca(sizeof(distance_node));
         unsigned int distance5 = 50;
         neighbours_distance_list3->next->distance = &distance5;
         neighbours_distance_list3->next->next = NULL;
-        distance_node* new_distance_node3 = (distance_node*)malloc(sizeof(distance_node));
+        distance_node* new_distance_node3 = (distance_node*)alloca(sizeof(distance_node));
         unsigned int distance6 = 60;
-        append_distance_node_to_vertex_distances(&neighbours_distance_list3,
-                                                 new_distance_node3,
-                                                 &distance6);
+        append_distance_to_vertexes_distances(&neighbours_distance_list3,
+                                              new_distance_node3,
+                                              &distance6);
         // print the whole linked list
         print_distance_list(neighbours_distance_list3);
         printf("Test case 3: distance node added to the end of the list.\n");

@@ -40,14 +40,15 @@ int vertex_is_already_visited(unsigned int** visited_vertices, const unsigned in
 
 // distance node is a part of linked series of nodes
 // which represent the distance from the starting vertex to the current vertex
-void append_distance_node_to_vertex_distances(distance_node** neighbours_distance_list,
-                                              distance_node* new_distance_node,
-                                              unsigned int* distance_ptr)
+void append_distance_to_vertexes_distances(distance_node** neighbours_distance_list,
+                                           distance_node* new_distance_node,
+                                           unsigned int* distance_ptr)
 {
         // set new node's values
         new_distance_node->distance = distance_ptr;
         new_distance_node->next = NULL;
 
+        // if the list is empty = distance is infinity
         if (*neighbours_distance_list == NULL)
         {
                 *neighbours_distance_list = new_distance_node;
@@ -104,49 +105,21 @@ int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
                         // skip this iteration
                         if(vertex_is_already_visited(&visited_vertices, &neighbour_i)) continue;
 
+                        // add the minimal distance from the current vertex to start
+                        // to the distance list of the current vertex's neighbor
+                        append_distance_to_vertexes_distances(
+                                &min_distance_to_start_for_each_vertex[neighbour_i],
+                                alloca(sizeof(distance_node)),
+                                m_data->matrix[current_vertex][neighbour_i]
+                        );
 
-                        // if distance_node[neighbour_i] == NULL -> infinity
-                        // if current vertex does not have an existing connection to the starting vertex
-                        if(min_distance_to_start_for_each_vertex[neighbour_i] == NULL)
-                        {
-                                // allocate memory for the initial linked list node
-                                min_distance_to_start_for_each_vertex[neighbour_i]
-                                = alloca(sizeof(distance_node*));
+                        // what if there is a shorter path to the current vertexes neighbor?
 
-                                // save the edge value
-                                min_distance_to_start_for_each_vertex[neighbour_i]->distance
-                                = m_data->matrix[current_vertex][neighbour_i];
-
-                                // set next vertex to NULL
-                                min_distance_to_start_for_each_vertex[neighbour_i]->next = NULL;
-
-                                // set the previous min vertex to the current vertex
-                                previous_min_vertex_for_each_vertex[neighbour_i] = current_vertex;
-
-                                continue;
-                        }
 
                 }
 
                 // loop through distance list and compute the total distance
                 // + the distance to the current vertex
-
-                // debug printing function
-                for(int neighbour_i = 0; neighbour_i < *m_data->size; neighbour_i++)
-                {
-                        while(min_distance_to_start_for_each_vertex[neighbour_i] != NULL)
-                        {
-                                printf("distance from 0 to %d: %f\n",
-                                       neighbour_i,
-                                       (float) *min_distance_to_start_for_each_vertex[neighbour_i]
-                                       ->distance / DIVISOR_VALUE
-                                       );
-
-                                min_distance_to_start_for_each_vertex[neighbour_i]
-                                = min_distance_to_start_for_each_vertex[neighbour_i]->next;
-                        }
-
-                }
 
                 visited_vertices[current_vertex] = 1; // mark the current vertex as visited
 
@@ -190,6 +163,23 @@ int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
                                 // vertex with the shortest distance to a starting vertex
                                 current_vertex = neighbour_i;
                         }
+                }
+
+                // debug printing function
+                for(int neighbour_i = 0; neighbour_i < *m_data->size; neighbour_i++)
+                {
+                        while(min_distance_to_start_for_each_vertex[neighbour_i] != NULL)
+                        {
+                                printf("distance from 0 to %d: %f\n",
+                                       neighbour_i,
+                                       (float) *min_distance_to_start_for_each_vertex[neighbour_i]
+                                               ->distance / DIVISOR_VALUE
+                                );
+
+                                min_distance_to_start_for_each_vertex[neighbour_i]
+                                        = min_distance_to_start_for_each_vertex[neighbour_i]->next;
+                        }
+
                 }
 
                 //break;
