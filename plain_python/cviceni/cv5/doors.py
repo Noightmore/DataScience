@@ -13,20 +13,25 @@ Podrobnější zadání včetně příkladu je jako obvykle na elearning.tul.cz
 
 
 def solve_puzzle(words):
-    for perm in itertools.permutations(words):
-        chain = [perm[0]]
-        for i in range(1, len(perm)):
-            if chain[-1][-1] == perm[i][0]:
-                chain.append(perm[i])
-            else:
-                break
-        else:
-            return True  # executed if the loop completes without encountering a "break"
+    def build_chain(chain, remaining_words):
+        if not remaining_words:
+            return True
+        last_word = chain[-1]
+        for i, word in enumerate(remaining_words):
+            if last_word[-1] == word[0]:
+                result = build_chain(chain + [word], remaining_words[:i] + remaining_words[i+1:])
+                if result:
+                    return True
+        return False
+
+    for i, word in enumerate(words):
+        if build_chain([word], words[:i] + words[i+1:]):
+            return True
     return False
 
 
 def doors():
-    with open("large.txt", encoding='utf-8-sig') as f:
+    with open("small.txt", encoding='utf-8-sig') as f:
         num_cases = int(f.readline().strip())
 
         for _ in range(num_cases):
@@ -42,6 +47,5 @@ def doors():
 
 
 if __name__ == '__main__':
-    import itertools
     doors()
 
