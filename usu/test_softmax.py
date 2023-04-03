@@ -18,7 +18,7 @@ def softmax(u):
 
 def test_softmax():
     # Scalar input
-    u_scalar = 1
+    u_scalar = 5
     output_scalar = softmax(u_scalar)
     assert np.allclose(output_scalar, 1.0)
 
