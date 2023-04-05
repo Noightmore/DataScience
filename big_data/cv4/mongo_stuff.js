@@ -70,17 +70,29 @@ db.restaurants.find({ "borough": "Manhattan", "cuisine": "Italian" })
 $comment: "print all restaurants that have got score higher than 80"
 db.restaurants.find({ "grades.score": { "$gt": 80 } })
 
-$comment: "get theamount of existing documents inside of the database"
+$comment: "get the amount of existing documents inside of the database"
 db.restaurants.countDocuments()
 
 $comment: "Bonus part"
 
 $comment: "print all restaurants with score between 80 and 90"
 db.restaurants.find({
-  "$and": [
-    { "grades.score": { "$gt": 80 } },
-    { "grades.score": { "$lt": 90 } }
-  ]
+    "grades": {
+        "$elemMatch": {
+            "score": {
+                "$gte": 80,
+                "$lte": 90
+            }
+        },
+        "$not": {
+            "$elemMatch": {
+                "score": {
+                    "$lt": 80,
+                    "$gt": 90
+                }
+            }
+        }
+    }
 })
 
 
