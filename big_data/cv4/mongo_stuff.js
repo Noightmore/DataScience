@@ -95,6 +95,21 @@ db.restaurants.find({
     }
 })
 
+$text: {
+taky moznost:
+db.restaurants.find({
+    "grades": {
+        "$elemMatch": {
+            "score": {
+                "$gte": 80,
+                "$lte": 90
+            }
+        }
+    }
+})
+
+}
+
 
 $comment: "add a new parameter called \"popular: 1 \"to restaurant record which have score that is higher than 80 and add new parameter \"trash: 1\" to restaurants with score lower than 1"
 db.restaurants.updateMany({ "grades.score": { "$gt": 80 } }, { "$set": { "popular": 1 } })
@@ -111,7 +126,7 @@ db.restaurants.updateMany({ "grades.score": { "$gt": 90 } }, { "$set": { "top_sc
 db.restaurants.find({ "grades.score": { "$gt": 80 } })
 
 $comment: "add a new parameter called \"top_score: 1 \"to all grades that have score higher than 90"
-db.restaurants.updateMany({ "grades.score": { "$gte": 90 } }, { "$set": { "grades.$[].top_score": 1 } })
+db.restaurants.updateMany({"grades.score": {$gt: 90}}, {$set: {"grades.$[elem].top_score": 1}}, {arrayFilters: [{"elem.score": {$gt: 90}}]})
 db.restaurants.find({ "grades.score": { "$gte": 90 } })
 
 
