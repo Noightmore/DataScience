@@ -9,3 +9,4 @@ Veskere ulohy k vypracovani plus poznamky k predmetum, ktere maji neco spolecneh
 - staticka analyza
 
 NO MATLAB USED
+
