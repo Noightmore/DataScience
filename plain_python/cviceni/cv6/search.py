@@ -28,75 +28,64 @@ slovo bear.
 Podrobnější zadání včetně příkladu je jako obvykle na elearning.tul.cz
 """
 
-
-import os
 import re
-from typing import Match, Any
-
-two_vowels = r'[aeiyou]{2}'
-TWO_VOWELS = re.compile(two_vowels, re.IGNORECASE)
-three_vowels = r'[aeiyou]'
-THREE_VOWELS = re.compile(three_vowels, re.IGNORECASE)
-six_chars = r'.'
-SIX_CHARACTERS = re.compile(six_chars, re.IGNORECASE)
-duplicate_words = r'\b(\w+)\b(.*)\b\1\b'
-DUPLICATE_WORDS = re.compile(duplicate_words, re.IGNORECASE)
+from typing import Any, TextIO
 
 
-def get_matches_counts(word: str, counter: dict) -> object:
+def process_text(text: str) -> None:
     """
-    Finds specific patterns in a word.
+    Method that process the text and finds the number of words that match the patterns
+    which are specified above. And prints the results.
+    :param text: text loaded from the file preferably.
+    :return: void
     """
+    # Define regex patterns for the different word types
+    duplicate_words_pattern: str = r'\b(\w+)\b(.*)\b\1\b'
+    double_vowels_pattern: str = r'\b\w*[aeyiou]{2}\w*\b'
+    triple_vowels_pattern: str = r'\b\w*[aeyiou]\w*[aeyiou]\w*[aeyiou]\w*\b'
+    long_words_pattern: str = r'.{6,}'
 
-    if not word.strip():
-        return
+    # Count the number of words that match the patterns
+    text = text.lower()
+    # Convert all words to lowercase
+    words: list[Any] = re.findall(r'\b\w+\b', text)
 
-    two_vowels_result = TWO_VOWELS.search(word)
-    if two_vowels_result:
-        counter["two_vowels"] += 1
+    # Count the number of lines containing duplicate words
+    num_duplicates: int = len(re.findall(duplicate_words_pattern, text))
 
-    three_vowels_result = THREE_VOWELS.findall(word)
-    if len(three_vowels_result) >= 3:
-        counter["three_vowels"] += 1
+    # Remove duplicates from the list of words
+    unique_words: list[Any] = list(set(words))
 
-    six_characters_result = SIX_CHARACTERS.findall(word)
-    if len(six_characters_result) >= 6:
-        counter["six_characters"] += 1
+    # Convert the list of unique words to a string
+    unique_words_string: str = ' '.join(unique_words)
+
+    # Count the number of words containing double vowels
+    num_double_vowels: int = len(re.findall(double_vowels_pattern, unique_words_string))
+
+    # Count the number of words containing triple vowels
+    num_triple_vowels: int = len(re.findall(triple_vowels_pattern, unique_words_string))
+
+    # Count the number of words with 6 or more characters
+    long_word_count: int = 0
+    for word in unique_words:
+        if re.match(long_words_pattern, word):
+            long_word_count += 1
+
+    # Print the results
+    print(f"{num_double_vowels}")
+    print(f"{num_triple_vowels}")
+    print(f"{long_word_count}")
+    print(f"{num_duplicates}")
 
 
 def main(file_name: str):
-    """
-    processes the file and checks for specific patterns.
-    Prints the results.
-    """
 
-    if not os.path.isfile(file_name):
-        return
+    # Read the text file
+    file: TextIO
+    with open(file_name, 'r') as file:
+        text: str = file.read()
 
-    match_counter = dict(two_vowels=0, three_vowels=0, six_characters=0, duplicates_in_line=0)
-
-    with open(file_name, "r", encoding="utf-8") as file:
-        rows: list[str] = file.readlines()
-
-        rows = list(map(lambda row: row.strip(), rows))
-
-        for line in rows:
-            has_duplicates: Match[str] | None = DUPLICATE_WORDS.search(line)
-
-            if has_duplicates is None:
-                continue
-
-            match_counter["duplicates_in_line"] += 1
-
-        rows = list(map(lambda x: x.split(" "), rows))
-
-        words: list[Any] = list(set({word.lower() for words in rows for word in words}))
-
-        for word in words:
-            get_matches_counts(word, match_counter)
-
-    for key in match_counter:
-        print(match_counter[key])
+    process_text(text)
 
 
 if __name__ == '__main__':
