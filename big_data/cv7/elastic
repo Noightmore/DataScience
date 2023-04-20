@@ -1,0 +1,41 @@
+POST /person/_doc
+{
+  "firstname": "John",
+  "lastname": "Doe"
+}
+
+# get this newly created person
+GET /person/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "firstname": "John" } },
+        { "match": { "lastname": "Doe" } }
+      ]
+    }
+  }
+}
+
+# update the person
+POST /person/_update/osXDnocBZcMp7ktSZCpv
+{
+  "doc": {
+    "firstname": "Jane",
+    "lastname": "Doe"
+  }
+}
+
+# print all persons
+GET /person/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+# delete the said person
+DELETE /person/_doc/osXDnocBZcMp7ktSZCpv
+
+# delete person index
+DELETE /person
