@@ -35,12 +35,8 @@ def create_vertex_weights(words) -> dict:
 def is_eulerian_path(dictionary: dict) -> bool:
     """
         Function to check whether a given graph has an Eulerian path or not.
+        algorithm source: https://math.stackexchange.com/questions/1871065/euler-path-for-directed-graph
     """
-    # A directed graph has an Eulerian path if and only if the following conditions are satisfied:
-    # At most one vertex in the graph has out-degree = 1 + in-degree,
-    # and at most one vertex in the graph has in-degree = 1 + out-degree.
-    # All the remaining vertices have in-degree == out-degree.
-    # source: https://math.stackexchange.com/questions/1871065/euler-path-for-directed-graph
 
     dominant_out, dominant_in = 0, 0
 
