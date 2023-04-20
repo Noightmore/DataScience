@@ -102,30 +102,20 @@ def main():
                 "grades.grade": { "$ne": "Not Yet Graded" }
             }
         },
-        {
-            "$project": {
-                "name": 1,
-                "avg_score": {
-                    "$avg": "$grades.score"
-                }
-            }
-        },
-        {
-            "$sort": {
-                "avg_score": -1
-            }
-        },
-        {
-            "$limit": 10
-        }
+        { '$unwind': '$grades' },
+        { '$match': { 'grades.score': { '$exists': True } } },
+        { '$group': {
+            '_id': '$grades.grade',
+            'avg_score': { '$avg': '$grades.score' }
+        } }
     ]
 
     result = list(collection.aggregate(pipeline))
 
-    for document in result:
-        print(f"{document['name']}: {document['avg_score']}")
+    print(result)
 
-    # bonus
+
+# bonus
     print_delimiter('bonus')
     # pipeline = [
     #     {
