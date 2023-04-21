@@ -84,7 +84,7 @@ if __name__ == '__main__':
     start_index = 0
     end_index = 2
 
-    # Calculate shortest path
+    # Calculate the shortest path
     vertices = dijkstra(connection_matrix, start_index)
     shortest_path = get_shortest_path(vertices, end_index)
 
