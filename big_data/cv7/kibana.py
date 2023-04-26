@@ -5,7 +5,8 @@ def main():
     from elasticsearch import Elasticsearch
 
     # create an Elasticsearch client
-    es = Elasticsearch(['http://localhost:5601'], http_auth=('elastic', 'elastic'))
+    #es = Elasticsearch(['http://localhost:5601'], http_auth=('elastic', 'elastic'))
+    es = Elasticsearch([{'host': 'localhost', 'port': 9200, "scheme": "https"}], basic_auth=('elastic', 'elastic'), verify_certs=False)
 
     # create the 'person' index
     es.indices.create(index='person')
