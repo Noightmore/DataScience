@@ -1,6 +1,13 @@
+"""
+
+Program for parsing html and json data and comparing them
+according to the requirements specified in the assignment.
+
+"""
+
 import json
 import re
-from typing import Dict, List, TypedDict, Any
+from typing import Dict, List, TypedDict, Union
 from bs4 import BeautifulSoup
 
 
@@ -12,96 +19,99 @@ class SportsmanData(TypedDict):
     firstname: str
     lastname: str
     nationality: str
-    birth: bool  # male = True, female = False
-    gender: str
+    gender: bool  # male = True, female = False
 
 
-def load_sportsmen_from_json() -> Dict[str, List[SportsmanData]]:
+def parse_json_and_transfer() -> Dict[str, List[SportsmanData]]:
     """
     Load sportsmen from a JSON file.
     """
-    record: Dict[str, List[SportsmanData]] = {}
-
     with open('competitors.json', 'r', encoding='utf-8') as json_file:
         sportsmen_data: List[SportsmanData] = json.load(json_file)
 
-        for sportsman in sportsmen_data:
-            if sportsman.get("lastname") not in record:
-                record[sportsman.get("lastname")] = []
+    record: Dict[str, List[SportsmanData]] = {}
+    for sportsman in sportsmen_data:
+        lastname = sportsman.get('lastname')
 
-            record[sportsman.get("lastname")].append(sportsman)
-
-    return record
-
-
-def transform_racers(string: str, gender: bool) -> list[dict[str, str | bool | Any]]:
-    """
-        Funkce pro parsování řádku výsledků štafety z HTML souboru
-    """
-    record = []
-    rank_delimiter = string.find(")")
-
-    rank = string[slice(0, rank_delimiter)]
-    rest = string[slice(rank_delimiter + 1, len(string))].strip()
-
-    country = re.compile(
-        "^(.*?)(?=[0-9])", re.IGNORECASE).search(rest).group(0).strip()
-    rest = rest[slice(len(country), len(rest))].strip()
-
-    time = re.compile("[0-9]+:[[0-9]+:[0-9]+").search(rest).group(0)
-    rest = rest[slice(len(time), len(rest))].strip()
-
-    rest = rest.replace("(", "").replace(")", "").replace(".", "")
-    names = [x.strip() for x in rest.split(",")]
-
-    for racer_name in names:
-        firstname, *lastname = re.compile(r"\s+").split(racer_name)
-        record.append({"firstname": firstname,
-                       "lastname": " ".join(lastname),
-                       "result": rank,
-                       "id": False,
-                       "nationality": country,
-                       "time": time,
-                       "birth": "",
-                       "gender": gender
-                       })
+        if lastname not in record:
+            record[lastname] = []
+        record[lastname].append(sportsman)
 
     return record
 
 
 def parse_html() -> List[SportsmanData]:
     """
-        Funkce pro naparsování HTML souboru
+    Parse an HTML file to extract sportsmen data.
     """
+
     with open('result.html', 'r', encoding='utf-8') as html_file:
         content = html_file.read()
-        soup = BeautifulSoup(content, 'html.parser')
-        relay_header = soup.find(
-            'p', text=re.compile('Relay', flags=re.IGNORECASE))
-        relay_lines = relay_header.fetchNextSiblings(limit=4)
-        gender = None
-        racers = []
 
-        for line in relay_lines:
-            text = line.text
+    soup = BeautifulSoup(content, 'html.parser')
+    relay_cat = soup.find('p', text=re.compile('Relay', flags=re.IGNORECASE))
+    relay_line_info = relay_cat.fetchNextSiblings(limit=4)
 
-            if "Men" == text.strip():
-                gender = True
-                continue
-            elif "Women" == text.strip():
-                gender = False
-                continue
+    gender = None
+    sportsmen = []
 
-            participants = [x.strip() for x in text.split("),")]
-            participants = [transform_racers(
-                x, gender) for x in participants]
-            participants = [
-                item for sublist in participants for item in sublist]
+    for line in relay_line_info:
+        text = line.text.strip()
 
-            for participant in participants:
-                racers.append(participant)
+        if text == "Men":
+            gender = True
+            continue
 
-        return racers
+        if text == "Women":
+            gender = False
+            continue
+
+        participants = [x.strip() for x in text.split("),")]
+        participants = [transfer_sportsmen(x, gender) for x in participants]
+        participants = [item for sublist in participants for item in sublist]
+
+        sportsmen.extend(participants)
+
+    return sportsmen
+
+
+def transfer_sportsmen(string: str, gender: bool) -> List[Dict[str, Union[str, bool]]]:
+    """
+    Parse a relay results row from an HTML file
+    Args:
+        string: The string containing the relay results row.
+        gender: The gender of the racers in the relay.
+
+    Returns:
+        A list of dictionaries containing the parsed data for each racer.
+    """
+    record = []
+    rank_delimiter = string.find(")")
+    rank = string[:rank_delimiter]
+    text = string[rank_delimiter + 1:].strip()
+
+    country = re.compile("^(.*?)(?=[0-9])", re.IGNORECASE).search(text).group(0).strip()
+    text = text[len(country):].strip()
+
+    time = re.compile("[0-9]+:[[0-9]+:[0-9]+").search(text).group(0)
+    text = text[len(time):].strip()
+
+    text = text.replace("(", "").replace(")", "").replace(".", "")
+    names = [x.strip() for x in text.split(",")]
+
+    for sportsman_name in names:
+        firstname, *lastname = re.compile(r"\s+").split(sportsman_name)
+        record.append({
+            "firstname": firstname,
+            "lastname": " ".join(lastname),
+            "result": rank,
+            "id": False,
+            "nationality": country,
+            "time": time,
+            "gender": gender,
+        })
+
+    return record
 
 
 def output_json(result_list):
@@ -114,54 +124,57 @@ def output_json(result_list):
         output.write(json.dumps(result_list, indent=4, sort_keys=True))
 
 
-def main():
+def main() -> None:
     """
-        Hlavní metoda programu
+    Main program function
     """
-    json_data = load_sportsmen_from_json()
+    # Load data
+    json_data = parse_json_and_transfer()
     html_data = parse_html()
+
+    # Compare data and generate results
     result = []
+    for sportsman in html_data:
+        lastname = sportsman["lastname"]
+        firstname = sportsman["firstname"]
+        candidates = json_data.get(lastname, [])
+        db_sportsman = next(
+            (c for c in candidates if c.get("firstname") == firstname), None
+        )
 
-    for racer in html_data:
-        if racer["lastname"] in json_data:
-            candidates = json_data.get(racer["lastname"])
-            is_in_list = False
-            racer_from_db = None
+        if db_sportsman:
+            result.append(
+                {
+                    "id": db_sportsman.get("id"),
+                    "result": sportsman.get("result"),
+                    "time": sportsman.get("time"),
+                }
+            )
 
-            for candidate in candidates:
-                if candidate.get("firstname") == racer.get("firstname"):
-                    is_in_list = True
-                    racer_from_db = candidate
-                    break
+        result.append(
+            {
+                "id": False,
+                "result": sportsman.get("result"),
+                "time": sportsman.get("time"),
+                "no_match": f"{firstname} {lastname}",
+            }
+        )
 
-            if is_in_list:
-                result.append({
-                    "id": racer_from_db.get("id"),
-                    "result": racer.get("result"),
-                    "time": racer.get("time")
-                })
-            else:
-                result.append({
-                    "id": False,
-                    "result": racer.get("result"),
-                    "time": racer.get("time"),
-                    "no_match": " ".join([racer.get("firstname"), racer.get("lastname")])
-                })
-
+    # Output results to file
     output_json(result)
-
-    with open('compare.txt', 'w', encoding='utf-8') as compare, \
-            open('errors.txt', 'w', encoding='utf-8') as errors:
-
+    with open('compare.txt', 'w', encoding='utf-8') as compare, open(
+            'errors.txt', 'w', encoding='utf-8'
+    ) as errors:
         sorted_results = sorted(result, key=lambda x: x["id"])
-        for racer in sorted_results:
-            if racer.get("id") is False:
-                name = racer.get("no_match")
+        for sportsman in sorted_results:
+            if sportsman.get("id") is False:
+                name = sportsman.get("no_match")
                 errors.write(f"{name}\n")
-            else:
-                r_id = racer["id"]
-                r_res = racer["result"]
-                compare.write(f"{r_id} {r_res}\n")
+                continue
+
+            s_id = sportsman["id"]
+            s_res = sportsman["result"]
+            compare.write(f"{s_id} {s_res}\n")
 
 
 if __name__ == '__main__':
