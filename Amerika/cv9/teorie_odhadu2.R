@@ -26,7 +26,8 @@ print(var_x)
 
 # dalsi testovani, jestli mean bude 10 000
 # this may be wrong method used
-guess2 <- var.test(x, sigma.squared = 10000)
+guess2 <- t.test(x, alternative = "two.sided", conf.level = 0.95,
+                  sigma.squared = 10000, data.name = NULL)
 print(guess2) # that is sussy bussin
 
 # p-value aways ends up being 2.2e-16 which is basically 0, it should not be tho
