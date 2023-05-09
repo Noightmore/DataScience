@@ -1,6 +1,8 @@
+# X^2 (chi kvadrat) rozdeleni
+
 # studentovo rozdeleni
 
-more in r scripts
+more in scripts
 
 # fisherovo-schnedecorovo rozdeleni
 

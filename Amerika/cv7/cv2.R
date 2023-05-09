@@ -13,9 +13,12 @@ cens <- c(rep(0, 79), 1)
 freq <- c(rep(1, 79), 21)
 val <- 0.05 # hladina vyznamnosti
 # creare vector of zeros
-fit <- fitdistr(x, "exponential" , val, cens, freq)
+fit_weibull <- fitdistr(x, "weibull", start=list(shape=1, scale=1), lower=c(0, 0), cens, freq)
 shape <- fit$estimate[1]
 scale <- fit$estimate[2]
 
 # matlab:
 # wblfit(x, 0.05, cens, freq)
+
+# susi
+# mozna zkusit survreg() function from the survival
