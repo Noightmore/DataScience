@@ -1,3 +1,4 @@
+# creates new person index
 POST /person/_doc
 {
   "firstname": "John",
