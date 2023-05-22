@@ -1,0 +1,92 @@
+# create keyspace cass01
+
+CREATE KEYSPACE cass01
+WITH replication = {
+   'class': 'SimpleStrategy',
+   'replication_factor': 1
+};
+
+# verify that the keyspace was created successfully
+cqlsh> DESCRIBE KEYSPACES;
+
+cass01  system_auth         system_schema  system_views
+system  system_distributed  system_traces  system_virtual_schema
+
+USE cass01;
+
+
+# create table activity with 2 columns id and datetime
+CREATE TABLE cass01.activity (
+   id UUID,
+   daytime TIMESTAMP,
+   PRIMARY KEY (id, daytime)
+) WITH CLUSTERING ORDER BY (daytime ASC);
+
+
+ALTER TABLE cass01.activity ADD event text;
+DESCRIBE cass01.activity;
+
+INSERT INTO cass01.activity (id, daytime, event)
+VALUES (uuid(), '2023-05-18 10:00:00+0000', 'Dummy Event');
+
+INSERT INTO cass01.activity (id, daytime, event)
+VALUES (uuid(), toTimeStamp(now()), 'Another Dummy Event');
+
+SELECT * FROM cass01.activity;
+
+TRUNCATE cass01.activity;
+
+DROP TABLE cass01.activity;
+
+DROP KEYSPACE cass01;
+
+CREATE KEYSPACE cass01_bonus
+WITH replication = {
+   'class': 'SimpleStrategy',
+   'replication_factor': 1
+};
+
+CREATE TABLE cass01.bonus (
+   id UUID,
+   datetime TIMESTAMP,
+   type TEXT,
+   duration INT,
+   PRIMARY KEY ((id, type), datetime)
+) WITH CLUSTERING ORDER BY (datetime ASC);
+
+
+ALTER TABLE cass01.bonus ADD column1 list<text>;
+ALTER TABLE cass01.bonus ADD column2 map<text, int>;
+ALTER TABLE cass01.bonus ADD column3 tuple<text, boolean>;
+
+-- Inserting 10 records
+INSERT INTO cass01.my_table (id, datetime, type, duration, column1, column2, column3)
+VALUES (uuid(), '2023-05-18 10:00:00+0000', 'Type 1', 10, ['Value 1', 'Value 2'], {'Key 1': 1, 'Key 2': 2}, ('Text', true));
+
+INSERT INTO cass01.my_table (id, datetime, type, duration, column1, column2, column3)
+VALUES (uuid(), '2023-05-18 11:00:00+0000', 'Type 2', 20, ['Value 3', 'Value 4'], {'Key 3': 3, 'Key 4': 4}, ('Text 2', false));
+
+INSERT INTOSELECT * FROM cass01.my_table; cass01.my_table (id, datetime, type, duration, column1, column2, column3)
+VALUES (uuid(), '2023-05-18 11:00:00+0000', 'Type 3', 20, ['Value 3', 'Value 4'], {'Key 3': 3, 'Key 4': 4}, ('Text 2', false));
+
+INSERT INTO cass01.my_table (id, datetime, type, duration, column1, column2, column3)
+VALUES (uuid(), '2023-05-18 11:00:00+0000', 'Type 3', 20, ['Value 3', 'Value 4'], {'Key 3': 3, 'Key 4': 4}, ('Text 2', false));
+
+INSERT INTO cass01.my_table (id, datetime, type, duration, column1, column2, column3)
+VALUES (uuid(), '2023-05-18 11:00:00+0000', 'Type 3', 20, ['Value 3', 'Value 4'], {'Key 3': 3, 'Key 4': 4}, ('Text 2', false));
+
+INSERT INTO cass01.my_table (id, datetime, type, duration, column1, column2, column3)
+VALUES (uuid(), '2023-05-18 11:00:00+0000', 'Type 3', 20, ['Value 3', 'Value 4'], {'Key 3': 3, 'Key 4': 4}, ('Text 2', false));
+
+INSERT INTO cass01.my_table (id, datetime, type, duration, column1, column2, column3)
+VALUES (uuid(), '2023-05-18 11:00:00+0000', 'Type 3221', 20, ['Value 3222', 'Value 4'], {'Key 31': 3, 'Key 4': 4}, ('Text 2', false));
+
+-- Printing the inserted records
+SELECT * FROM cass01.my_table;
+
+
+
+
+
+
+
