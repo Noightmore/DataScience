@@ -1,4 +1,4 @@
-# pr. 13 z kapitoly 7.5 rozsah vyberu
+# pr. cv13 z kapitoly 7.5 rozsah vyberu
 # pri odhadu volebnich vysledku chceme, aby sirka intervalu volebniho vysledku majici odhadem 20 % hlasu
 # byla maximalne 2 %. Urcete rozsah vyberu pro 95 % intervalovy odhad
 # pocitani pomoci vzorce:
