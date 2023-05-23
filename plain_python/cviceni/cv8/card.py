@@ -1,8 +1,3 @@
-"""
-@TODO implementujte dle zadání cvičení 8
-"""
-
-
 class Card:
     """
     Třída pro reprezentaci hracích karet
@@ -45,6 +40,35 @@ class Card:
         if isinstance(other, Card):
             return self.compare_cards(other) > 0
         return False
+
+    def __le__(self, other):
+        if isinstance(other, Card):
+            return self.compare_cards(other) <= 0
+        return False
+
+    def __ge__(self, other):
+        if isinstance(other, Card):
+            return self.compare_cards(other) >= 0
+        return False
+
+    def __ne__(self, other):
+        if isinstance(other, Card):
+            return self.compare_cards(other) != 0
+        return False
+
+    def rank(self, value):
+        if not isinstance(value, int):
+            raise TypeError("Invalid rank value. Rank must be an integer between 2 and 14.")
+        if not (1 <= value <= 13):
+            raise TypeError("Invalid rank value. Rank must be an integer between 2 and 14.")
+        self.rank = value
+
+    def suit(self, value):
+        if not isinstance(value, str):
+            raise TypeError("Invalid suit value. Suit must be one of the characters: 's', 'k', 'p', 't'.")
+        if value not in ['s', 'k', 'p', 't']:
+            raise TypeError("Invalid suit value. Suit must be one of the characters: 's', 'k', 'p', 't'.")
+        self.suit = value
 
     def __str__(self):
 
