@@ -105,3 +105,20 @@ def test_less_then():
     t_card1 = card.Card(2, "s")
     t_card2 = card.Card(5, "k")
     assert t_card1 < t_card2
+
+
+@pytest.mark.parametrize('rank, suit', [
+    (1, "s"),
+    (18, "s"),
+    (5, "x"),
+    (17, "x"),
+])
+def test_bad_card_raises(rank, suit):
+    """
+    I přímé přiřazení musí vyvolat type TypeError.
+    """
+
+    with pytest.raises(TypeError):
+        t_card = card.Card(rank, suit)
+        t_card.rank = 1
+        t_card.suit = "s"
