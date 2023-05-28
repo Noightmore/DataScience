@@ -36,16 +36,16 @@ parser.add_argument("-s", "--search", action="extend",
                     nargs="+", help="Hledané výrazy")
 
 
-def read_file(filepath: Path) -> list[str]:
+def read_file(file_path: Path) -> list[str]:
     """
         function for reading file
     """
 
-    if not os.path.isfile(filepath):
+    if not os.path.isfile(file_path):
         return []
 
-    with open(filepath, encoding="utf-8") as filehandle:
-        lines = filehandle.readlines()
+    with open(file_path, encoding="utf-8") as file:
+        lines = file.readlines()
         return lines
 
 
@@ -53,7 +53,7 @@ def number_them_lines(lines: list[str]) -> list[str]:
     """
         line numbering function
     """
-    return [f"{i + 1}:{x}" for i, x in enumerate(lines)]
+    return [f"{number + 1}:{line}" for number, line in enumerate(lines)]
 
 
 def filter_lines(lines: list[str], expressions: list[str]) -> list[str]:
