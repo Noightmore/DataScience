@@ -23,11 +23,12 @@ program opět vypsat chybu nebo nápovědu.
 
 import argparse
 import os
+import sys
 from pathlib import Path
 
 parser = argparse.ArgumentParser(
     prog='Hledac',
-    description='Hledá řádky v souboru, které obsahují zadané výrazy.',
+    description='Hledá řádky v souboru, které obsahují zadané výrazy, stejně jako příkaz grep -n',
     exit_on_error=False
 )
 parser.add_argument("-f", "--filename", help="Jméno souboru k analýze")
@@ -48,7 +49,7 @@ def read_file(filepath: Path) -> list[str]:
         return lines
 
 
-def number_them_lines(lines: list[str]):
+def number_them_lines(lines: list[str]) -> list[str]:
     """
         line numbering function
     """
@@ -63,9 +64,9 @@ def filter_lines(lines: list[str], expressions: list[str]) -> list[str]:
     return list(filter(lambda line: all(expr in line for expr in expressions), lines))
 
 
-def main(cli_args=None):
+def main(cli_args=None) -> int:
     """
-        Main Program method
+    Main Program method
     """
 
     if cli_args is None:
@@ -81,17 +82,26 @@ def main(cli_args=None):
         contents = read_file(path_to_file)
         numbered = number_them_lines(contents)
 
-        if args.search is None:
-            print("".join(numbered))
-            return 0
+        if args.search is not None:
+            filtered_lines = filter_lines(numbered, args.search)
+            output_lines(filtered_lines)
+        else:
+            output_lines(numbered)
 
-        print("".join(filter_lines(numbered, args.search)))
-        return 1
+        return 0
 
     except (ValueError, argparse.ArgumentError):
         parser.print_help()
         return -1
 
 
-if __name__ == '__main__':
-    main()
+def output_lines(lines):
+    """
+    Outputs the lines to the console
+    """
+    print("".join(lines))
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))
+
