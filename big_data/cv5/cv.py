@@ -141,7 +141,7 @@ def main():
 
     collection.insert_one(new_restaurant)
 
-    # 13. Vypište svoji restauraci
+    # cv13. Vypište svoji restauraci
     print_delimiter(13)
     print("New restaurant added with ID:", new_restaurant["_id"])
 

@@ -1,0 +1,353 @@
+# cv8
+
+# 1. query for searching term "coffee" in the name field of each product
+
+GET /products/_search
+{
+  "query": {
+    "term": {
+      "name": "coffee"
+    }
+  }
+}
+
+# result:
+{
+  "took": 15,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 11,
+      "relation": "eq"
+    },
+    "max_score": 5.1803083,
+    "hits": [...]
+  }
+}
+
+# 2. query for searching term "coffee" in the name field of each product with
+# a slight modification of working for small typos "coffe" or "cofee"
+
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": {
+        "query": "coffee",
+        "fuzziness": "1"
+      }
+    }
+  }
+}
+
+# result:
+{
+  "took": 4,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 12,
+      "relation": "eq"
+    },
+    "max_score": 5.1803083,
+    "hits": [...]
+  }
+}
+
+# 3. query that looks for a term with a tag "coffee" (term)
+GET /products/_search
+{
+  "query": {
+    "terms": {
+      "tags.keyword": [
+        "Coffee"
+      ]
+    }
+  }
+}
+
+# result:
+{
+  "took": 3,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 12,
+      "relation": "eq"
+    },
+    "max_score": 1,
+    "hits": [...]
+    }
+}
+
+# 4. query that looks for products with tag coffee with 10 and less items in stock (in_stock)
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "terms": {
+            "tags": [
+              "Coffee"
+            ]
+          }
+        },
+        {
+          "range": {
+            "in_stock": {
+              "lte": 10
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# result:
+{
+  "took": 3,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 1,
+      "relation": "eq"
+    },
+    "max_score": 2,
+    "hits": [
+      {
+        "_index": "products",
+        "_id": "kvJ4AogB-aI6AkTYRvMM",
+        "_score": 2,
+        "_source": {
+          "name": "Coffee Cup 8oz 5338cd",
+          "price": 37,
+          "in_stock": 0,
+          "sold": 231,
+          "tags": [
+            "Coffee"
+          ],
+          "description": "Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue.",
+          "is_active": false,
+          "created": "2002/10/15"
+        }
+      }
+    ]
+  }
+}
+
+# 5. query that looks for products with name coffee but do not contain cup
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "name": "coffee"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "term": {
+            "name": "cup"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# result:
+{
+    "took":4,
+    "timed_out":false,
+    "_shards":{
+        "total":1,
+        "successful":1,
+        "skipped":0,
+        "failed":0
+    },
+    "hits":{
+        "total":{
+            "value":6,
+            "relation":"eq"
+        },
+        "max_score":5.1803083,
+        "hits":[
+            "..."
+        ]
+    }
+}
+
+# 6. query that filters all products that were created in the year 2000
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "created": {
+              "gte": "2000-01-01"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# result:
+{
+   "took":14,
+   "timed_out":false,
+   "_shards":{
+      "total":1,
+      "successful":1,
+      "skipped":0,
+      "failed":0
+   },
+   "hits":{
+      "total":{
+         "value":1000,
+         "relation":"eq"
+      },
+      "max_score":0,
+      "hits":[
+         "..."
+      ]
+   }
+}
+
+# 7. query that does full-text search of "Red wine" for each name field of each product
+GET /products/_search
+{
+  "query": {
+    "match_phrase": {
+      "name": "Red Wine"
+    }
+  }
+}
+
+# result:
+{
+   "took":12,
+   "timed_out":false,
+   "_shards":{
+      "total":1,
+      "successful":1,
+      "skipped":0,
+      "failed":0
+   },
+   "hits":{
+      "total":{
+         "value":1,
+         "relation":"eq"
+      },
+      "max_score":6.4624066,
+      "hits":[
+         {
+            "_index":"products",
+            "_id":"dvJ4AogB-aI6AkTYRvEH",
+            "_score":6.4624066,
+            "_source":{
+               "name":"Vinegar - Red Wine",
+               "price":124,
+               "in_stock":13,
+               "sold":4,
+               "tags":[
+                  "Alcohol",
+                  "Wine"
+               ],
+               "description":"Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla.",
+               "is_active":true,
+               "created":"2006/06/06"
+            }
+         }
+      ]
+   }
+}
+
+# 8. query that works as a recommendation system for search queries
+GET /products/_search
+{
+  "size": 5,
+  "query": {
+    "wildcard": {
+      "name": {
+        "value": "*coffee*"
+      }
+    }
+  }
+}
+
+# result:
+*c* - 522
+*co* - 132
+*cof* - 12
+*coff* - 12
+*coffe* -12
+*coffee* - 12
+
+# 9. query that returns recepies that contain variable content of any of the recepies field
+GET /recipes/_search
+{
+  "query": {
+    "query_string": {
+      "query": "spaghetti",
+      "fields": ["title", "description", "ingredients.name"]
+    }
+  }
+}
+
+# 10. query that looks for  term "Pasta Carbonara" in the title field
+GET /recipes/_search
+{
+  "query": {
+    "query_string": {
+      "query": "Pasta Carbonara",
+      "fields": ["title"]
+    }
+  }
+}
+
+# 11. enhanced version of the previous query that looks for titles that are close with the term "Pasta Carbonara"
+GET /recipes/_search
+{
+  "query": {
+    "query_string": {
+      "query": "\"Pasta Carbonara\"~2",
+      "default_field": "title"
+    }
+  }
+}
+
+# result:
+vraci 1 vysledek

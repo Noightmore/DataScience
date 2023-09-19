@@ -122,6 +122,7 @@ int dijkstra_solver(matrix_data* m_data, const unsigned int* from_to)
 
 
 
+
                         // what if there is a shorter path to the current vertexes neighbor?
                         // check if this distance is really the closest one to the starting vertex
                         // if it is, then update the distance to the starting vertex and the previous vertex

@@ -10,113 +10,88 @@ nebo False, podle toho, zda řešení existuje nebo neexistuje.
 Podrobnější zadání včetně příkladu je jako obvykle na elearning.tul.cz
 """
 
-from collections import deque
+from collections import defaultdict
+import os
 
 
-def solve_puzzle(start, target, _list):
+def create_vertex_weights(words) -> dict:
+    """
+        Function to create a dictionary of letters with their counts at the start and end of the word.
+    """
+    dictionary = defaultdict(lambda: [0, 0])
 
-    if start == target:
+    for word in words:
+        safe_word = word.strip()
+
+        leading_letter = safe_word[0]
+        trailing_letter = safe_word[-1]
+
+        dictionary[leading_letter][0] += 1
+        dictionary[trailing_letter][1] += 1
+
+    return dictionary
+
+
+def is_eulerian_path(dictionary: dict) -> bool:
+    """
+        Function to check whether a given graph has an Eulerian path or not.
+        algorithm source: https://math.stackexchange.com/questions/1871065/euler-path-for-directed-graph
+    """
+
+    dominant_out, dominant_in = 0, 0
+
+    for vertex in dictionary:
+        in_degree, out_degree = dictionary[vertex]
+
+        if abs(in_degree - out_degree) > 1:
+            return False
+
+        if out_degree > in_degree:
+            dominant_out += 1
+
+        if in_degree > out_degree:
+            dominant_in += 1
+
+    if dominant_out > 1 or dominant_in > 1:
         return False
-    # If the target is not
-    # present in the dictionary
-    if target not in _list:
+
+    return True
+
+
+def find_solution(input_file_path: str, output_file_path: str) -> bool:
+    """
+        Function to analyze a text document and the possibility to create a string based
+        on the rules of classic word football game.
+    """
+    if not os.path.isfile(input_file_path):
         return False
 
-    # To store the current chain length
-    # and the length of the words
-    #level = 0
-    wordlength = len(start)
+    with open(input_file_path, "r", encoding="utf-8") as file:
+        lines = file.readlines()
 
-    # Push the starting word into the queue
-    Q = deque()
-    Q.append(start)
+    num_doors = int(lines.pop(0))
+    results = []
 
-    # While the queue is non-empty
-    while (len(Q) > 0):
+    for _ in range(num_doors):
+        num_words = int(lines.pop(0))
+        words = lines[:num_words]
+        del lines[:num_words]
 
-        # Increment the chain length
-        #level += 1
+        vertex_weights = create_vertex_weights(words)
+        is_eulerian = is_eulerian_path(vertex_weights)
 
-        # Current size of the queue
-        sizeofQ = len(Q)
+        results.append(f'{is_eulerian}')
 
-        # Since the queue is being updated while
-        # it is being traversed so only the
-        # elements which were already present
-        # in the queue before the start of this
-        # loop will be traversed for now
-        for i in range(sizeofQ):
+    with open(output_file_path, "w", encoding="utf-8") as file:
+        file.write("\n".join(results))
 
-            # Remove the first word from the queue
-            word = [j for j in Q.popleft()]
-            #Q.pop()
-
-            # For every character of the word
-            for pos in range(wordlength):
-
-                # Retain the original character
-                # at the current position
-                orig_char = word[pos]
-
-                # Replace the current character with
-                # every possible lowercase alphabet
-                for c in range(ord('a'), ord('z')+1):
-                    word[pos] = chr(c)
-
-                    # If the new word is equal
-                    # to the target word
-                    if "".join(word) == target:
-                        return True #level + 1
-
-                    # Remove the word from the set
-                    # if it is found in it
-                    if "".join(word) not in _list:
-                        continue
-
-                    # And push the newly generated word
-                    # which will be a part of the chain
-                    Q.append(_list.index("".join(word)))
-
-                    del _list[_list.index("".join(word))]
-
-                # Restore the original character
-                # at the current position
-                word[pos] = orig_char
-
-    return 0
+    return True
 
 
 def doors():
-    start, target = "", ""
-    output = ""
-    file = open("large.txt", "r", encoding='utf-8-sig')
-
-    num_cases = int(file.readline().strip())
-
-    for _ in range(num_cases):
-        num_words = int(file.readline().strip())
-        words = []
-
-        # loads words
-        for _a in range(num_words):
-            word = file.readline().strip()
-            if _a == 0:
-                start = word
-            elif _a == num_words -1:
-                target = word
-            words.append(word)
-
-        result = solve_puzzle(start, target, words)
-        #print(result)
-        output += str(result) + "\n"
-
-    file.close()
-
-    f = open("vysledky.txt", "w")
-    print(output)
-    f.write(output)
-    f.close()
+    find_solution("large.txt", "vysledky.txt")
 
 
 if __name__ == '__main__':
     doors()
+
