@@ -1,0 +1,22 @@
+ co bude u statnic, prevodniky, zakladni principy.
+
+ paraelni, sigma-delta
+
+ kvantovani, vzorkovaci frekvence
+
+ dvojkovy doplnek: zneguji a prictu 1 -- specialni forma pro zaporny scitani a odcitani, velmi lehce se to dela.
+
+ kvantizacni sum SNR
+
+ .wav file bit order:
+
+    1. header
+    2. data
+
+    1. header:
+
+        1. RIFF header
+        2. fmt chunk
+        3. data chunk
+
+  
