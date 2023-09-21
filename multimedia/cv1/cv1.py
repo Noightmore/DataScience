@@ -1,8 +1,6 @@
 import wave
 import numpy as np
 import matplotlib.pyplot as plt
-import librosa
-import librosa.display
 import struct
 
 
@@ -82,18 +80,18 @@ def plot_wav_file(wav_file):
     plt.show()
 
 
-def plot_spectogram(wav_file):
-    y, sr = librosa.load(wav_file)
-
-    # Create a spectrogram
-    d = librosa.amplitude_to_db(librosa.stft(y), ref=np.max)  # Short-Time Fourier Transform (STFT)
-
-    # Display the spectrogram
-    plt.figure(figsize=(10, 6))
-    librosa.display.specshow(d, sr=sr, x_axis='time', y_axis='log')
-    plt.colorbar(format='%+2.0f dB')
-    plt.title('Spectrogram')
-    plt.show()
+# def plot_spectogram(wav_file):
+#     y, sr = librosa.load(wav_file)
+#
+#     # Create a spectrogram
+#     d = librosa.amplitude_to_db(librosa.stft(y), ref=np.max)  # Short-Time Fourier Transform (STFT)
+#
+#     # Display the spectrogram
+#     plt.figure(figsize=(10, 6))
+#     librosa.display.specshow(d, sr=sr, x_axis='time', y_axis='log')
+#     plt.colorbar(format='%+2.0f dB')
+#     plt.title('Spectrogram')
+#     plt.show()
 
 
 if __name__ == "__main__":
