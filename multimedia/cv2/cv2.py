@@ -42,8 +42,9 @@ class WavFile:
             self.plot_single_channel()
             plt.grid(True)
             plt.show()
+            return None
 
-        elif self.num_channels > 1:
+        if self.num_channels > 1:
             for channel_num in range(self.num_channels):
                 plt.figure(figsize=(10, 3))
                 plt.title(f'Channel {channel_num + 1}')
@@ -51,8 +52,9 @@ class WavFile:
                 plt.tight_layout()
                 plt.grid(True)
                 plt.show()
-        else:
-            print("No audio channels found.")
+            return None
+
+        print("No audio channels found.")
 
     def plot_single_channel(self, channel_num=0):
         if self.audio_data is None or (self.num_channels <= channel_num or channel_num < 0):
