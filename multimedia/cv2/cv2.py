@@ -72,10 +72,11 @@ class WavFile:
 
 def main():
 
-    for path in ["cv02_wav_01.wav", "cv02_wav_02.wav",
-                 "cv02_wav_03.wav", "cv02_wav_04.wav",
-                 "cv02_wav_05.wav", "cv02_wav_06.wav", "cv02_wav_07.wav"]:
+    audio_files = ["cv02_wav_01.wav", "cv02_wav_02.wav",
+                   "cv02_wav_03.wav", "cv02_wav_04.wav",
+                   "cv02_wav_05.wav", "cv02_wav_06.wav", "cv02_wav_07.wav"]
 
+    for path in audio_files:
         print(f"Loading WAV file '{path}'")
 
         try:
