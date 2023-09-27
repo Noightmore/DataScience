@@ -1,6 +1,11 @@
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import struct
+import matplotlib
+
+plt.ion()
+matplotlib.use('Qt5Agg')
 
 
 class WavFile:
@@ -53,10 +58,10 @@ class WavFile:
                 self.frame_rate = struct.unpack('<I', header[24:28])[0]
 
                 # Check the byte rate (bytes per second)
-                # byte_rate = struct.unpack('<I', header[28:32])[0]
-                #
-                # # Check the block align (bytes per sample)
-                # block_align = struct.unpack('<H', header[32:34])[0]
+                byte_rate = struct.unpack('<I', header[28:32])[0]
+
+                # Check the block align (bytes per sample)
+                block_align = struct.unpack('<H', header[32:34])[0]
 
                 # Check the bits per sample (e.g., 16 bits)
                 self.sample_width = struct.unpack('<H', header[34:36])[0]
@@ -95,7 +100,7 @@ class WavFile:
 
     def plot_channels(self):
         if self.audio_data is None:
-            print("WAV data corrupted or not loaded")
+            print("WAV data not loaded. Call load_wav_file() first.")
             return
 
         # Split the audio data into separate channels
@@ -119,25 +124,3 @@ class WavFile:
             plt.grid(True)
             plt.show()
 
-
-def main():
-
-    audio_files = ["cv02_wav_01.wav", "cv02_wav_02.wav",
-                   "cv02_wav_03.wav", "cv02_wav_04.wav",
-                   "cv02_wav_05.wav", "cv02_wav_06.wav", "cv02_wav_07.wav"]
-
-    for path in audio_files:
-        print(f"Loading WAV file '{path}'")
-
-        try:
-            wav_loader = WavFile(path)
-            print(wav_loader)
-            wav_loader.plot_channels()
-        except Exception as e:
-            print(f"Error: {str(e)}")
-        print("--------------------------------------------------")
-        print()
-
-
-if __name__ == "__main__":
-    main()
