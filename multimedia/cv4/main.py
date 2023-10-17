@@ -1,11 +1,7 @@
-"""
-    Program řešící cvičení 4 z předmětu MT
-"""
 from pathlib import Path
 
 import cv2
 import matplotlib.pyplot as plt
-from tqdm import tqdm
 
 
 def main():
@@ -59,8 +55,6 @@ def main():
 
     plt.show(block=False)
 
-    input("Pro ukončení stiskni libovolnou klávesu")
-
 
 def brightness_correction(source: Path, error: Path, c=255):
     """Funkce pro jasovou korekci obrázku
@@ -99,37 +93,48 @@ def brightness_correction(source: Path, error: Path, c=255):
 
 
 def histogram_equalization(source: Path):
-    """Funkce pro ekvalizaci histogramu obrázků
+    """Function for histogram equalization of images
 
     Args:
-        source (Path): Cesta k obrázku
+        source (Path): Path to the image
 
     Raises:
-        FileNotFoundError: Cesta k obrázku neexistuje nebo není souborem
+        FileNotFoundError: If the image path doesn't exist or is not a file
 
     Returns:
-        dict: Slovník s novým obrázkem, jeho histogramem a ekvalizovanými ekvivalenty
+        dict: Dictionary with the original image, its histogram, and the equalized image and histogram
     """
     if not source.exists() or not source.is_file():
         raise FileNotFoundError()
 
     image = cv2.imread(source.as_posix())
     equalized = image.copy()
-    # Funkce calcHist vrací pole o délce 256 se zastoupením jednotlivých hodnot jasů (0 - 255)
+
+    # Calculate the histogram of the original image
     histogram = cv2.calcHist([image], [0], None, [256], [0, 256])
 
-    min_intensity = 0
-    lowest_intensity = 0
     max_intensity = 255
-    width = image.shape[0]
-    height = image.shape[1]
+    width, height, _ = image.shape
 
-    for y in tqdm(range(0, width), desc="Ekvalizace Histogramu"):
+    # Initialize a cumulative histogram
+    cumulative_histogram = [0] * 256
+    cumulative_histogram[0] = histogram[0]
+
+    # Calculate the cumulative histogram
+    for i in range(1, 256):
+        cumulative_histogram[i] = cumulative_histogram[i - 1] + histogram[i]
+
+    # Normalize the cumulative histogram
+    total_pixels = width * height
+    normalized_histogram = [int((max_intensity / total_pixels) * val) for val in cumulative_histogram]
+
+    # Apply histogram equalization to the equalized image
+    for y in range(0, width):
         for x in range(0, height):
             intensity = image[y, x, 0]
-            cumulative_intensity = [int(x) for x in histogram[lowest_intensity:intensity]]
-            equalized[y, x] = (max_intensity / (width * height)) * sum(cumulative_intensity)
+            equalized[y, x] = normalized_histogram[intensity]
 
+    # Calculate the histogram of the equalized image
     equalized_histogram = cv2.calcHist([equalized], [0], None, [256], [0, 256])
 
     return {
