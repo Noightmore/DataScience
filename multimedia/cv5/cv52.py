@@ -1,61 +1,74 @@
 import numpy as np
 
 
-def lzw_encode(data):
-    dictionary = {chr(i): i for i in range(256)}
-    current_code = 256
+def lzw_compress(data: list[str], max_iters: int = 1000) -> list[str]:
 
+    phrases = {v: str(k + 1) for k, v in enumerate(sorted(list(set(data))))}
+    remainder = data.copy()
+    iteration = 0
     result = []
-    buffer = ""
 
-    for char in data:
-        buffer += char
-        if buffer not in dictionary:
-            dictionary[buffer] = current_code
-            current_code += 1
-            result.append(dictionary[buffer[:-1]])
-            buffer = char
+    while len(remainder) > 0 and iteration < max_iters:
+        iteration += 1
+        longest_phrase = remainder
+        longest_phrase_str = "".join(longest_phrase)
 
-    result.append(dictionary[buffer])
+        while longest_phrase_str not in phrases:
+            longest_phrase = longest_phrase[:-1]
+            longest_phrase_str = "".join(longest_phrase)
+
+        result.append(phrases[longest_phrase_str])
+        new_phrase = "".join(remainder[0:len(longest_phrase) + 1])
+        new_phrase_index = len(phrases.items())
+        phrases[new_phrase] = str(new_phrase_index + 1)
+        remainder = remainder[len(longest_phrase):]
 
     return result
 
 
-def lzw_decode(encoded_data):
-    dictionary = {i: chr(i) for i in range(256)}
-    current_code = 256
+def lzw_decompress(data: list[str], og_data: list[str], max_iters: int = 1000) -> list[str]:
 
-    decoded_data = [chr(encoded_data[0])]
-    buffer = chr(encoded_data[0])
+    phrases = {v: k for k, v in {v: str(k + 1) for k, v in enumerate(sorted(list(set(og_data))))}.items()}
+    remainder = data.copy()
+    iteration = 0
+    result = []
 
-    for code in encoded_data[1:]:
-        if code in dictionary:
-            entry = dictionary[code]
-        elif code == current_code:
-            entry = buffer + buffer[0]
+    while len(remainder) > 0 and iteration < max_iters:
+        iteration += 1
+        encoded_symbol = remainder[0]
+
+        if encoded_symbol in phrases:
+            result.append(phrases[encoded_symbol])
+
+            if len(result) > 1:
+                new_phrase_index = str(len(phrases.items()) + 1)
+                phrases[new_phrase_index] = result[-2] + result[-1][0]
+
         else:
-            raise ValueError("Decoding error: Code not found in dictionary.")
+            if len(result) > 0:
+                new_phrase_index = len(phrases.items()) + 1
+                nwe_phrase = result[-1] + result[-1][0]
+                phrases[new_phrase_index] = nwe_phrase
+                result.append(nwe_phrase)
 
-        decoded_data.append(entry)
-        dictionary[current_code] = buffer + entry[0]
-        current_code += 1
-        buffer = entry
+        remainder = remainder[1:]
 
-    return "".join(decoded_data)
+    return result
 
 
 def main():
+    # load ./Cv05_LZW_data.bin as raw binary data
     with open("./Cv05_LZW_data.bin", "r", encoding="utf-8") as file_handle:
         nums = np.fromfile(file_handle, dtype='uint8')
 
-        #print(nums)
-        nums = [str(x) for x in nums]
-        print("".join(nums))
-        out = lzw_encode(nums)
-        # convert out to string
-        out2 = [str(x) for x in out]
-        print(out2)
-        print(lzw_decode(out))
+        # convert to list of strings
+        data = [str(x) for x in nums]
+        print("".join(data))
+        compressed_data = lzw_compress(data)
+        print(compressed_data)
+
+        decompressed_data = lzw_decompress(compressed_data, data)
+        print("".join(decompressed_data))
 
 
 if __name__ == "__main__":

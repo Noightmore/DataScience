@@ -45,63 +45,76 @@ class HuffmanNode:
     def __lt__(self, other):
         return self.frequency < other.frequency
 
+    def __gt__(self, other):
+        return self.frequency > other.frequency
 
-def build_huffman_tree(data):
-    # Count the frequency of each character in the data
-    frequency = Counter(data)
-
-    # Create a priority queue of Huffman nodes
-    priority_queue = [HuffmanNode(char, freq) for char, freq in frequency.items()]
-    heapq.heapify(priority_queue)
-
-    # Build the Huffman tree
-    while len(priority_queue) > 1:
-        left = heapq.heappop(priority_queue)
-        right = heapq.heappop(priority_queue)
-        parent = HuffmanNode(None, left.frequency + right.frequency)
-        parent.left, parent.right = left, right
-        heapq.heappush(priority_queue, parent)
-
-    return priority_queue[0]
+    def __eq__(self, other):
+        return self.frequency == other.frequency
 
 
-def build_huffman_codes(root, current_code="", huffman_codes=None):
-    if huffman_codes is None:
-        huffman_codes = {}
+class HuffmanCoding:
 
-    if root.char is not None:
-        huffman_codes[root.char] = current_code
-        return
+    def __init__(self, data):
+        self.data = data
+        self.root = None
+        self.huffman_codes = None
 
-    build_huffman_codes(root.left, current_code + "0", huffman_codes)
-    build_huffman_codes(root.right, current_code + "1", huffman_codes)
+    # def __str__(self, prefix="", is_left=True):
+    #     if self.root:
+    #         print(prefix + ("|-- " if is_left else "`-- ") + str(self.root.char) + " (" + str(self.root.freq) + ")")
+    #         prefix += "|   " if is_left else "    "
+    #         print_huffman_tree(root.left, prefix, True)
+    #         print_huffman_tree(root.right, prefix, False)
 
-    return huffman_codes
+    def build_huffman_tree(self):
+        frequency = Counter(self.data)
+        priority_queue = [HuffmanNode(char, freq) for char, freq in frequency.items()]
+        heapq.heapify(priority_queue)
 
+        # Build the Huffman tree
+        while len(priority_queue) > 1:
+            left = heapq.heappop(priority_queue)
+            right = heapq.heappop(priority_queue)
+            parent = HuffmanNode(None, left.frequency + right.frequency)
+            parent.left, parent.right = left, right
+            heapq.heappush(priority_queue, parent)
 
-def huffman_encode(data):
-    root = build_huffman_tree(data)
-    huffman_codes = build_huffman_codes(root)
-    print(huffman_codes)
-    encoded_data = "".join(huffman_codes[char] for char in data)
-    return encoded_data, root
+        self.root = priority_queue[0]
 
+    def build_huffman_codes(self, root=None, current_code=""):
+        if root is None:
+            root = self.root
+        if self.huffman_codes is None:
+            self.huffman_codes = {}
 
-def huffman_decode(encoded_data, root):
-    decoded_data = []
-    current = root
+        if root.char is not None:
+            self.huffman_codes[root.char] = current_code
+            return
 
-    for bit in encoded_data:
-        if bit == "0":
-            current = current.left
-        else:
-            current = current.right
+        self.build_huffman_codes(root.left, current_code + "0")
+        self.build_huffman_codes(root.right, current_code + "1")
 
-        if current.char is not None:
-            decoded_data.append(current.char)
-            current = root
+    def huffman_encode(self):
+        self.build_huffman_tree()
+        self.build_huffman_codes()
+        encoded_data = "".join(self.huffman_codes[char] for char in self.data)
+        return encoded_data
 
-    return np.array(decoded_data, dtype='uint8')
+    def huffman_decode(self, encoded_data):
+        decoded_data = []
+        current = self.root
+
+        for bit in encoded_data:
+            if bit == "0":
+                current = current.left
+            else:
+                current = current.right
+
+            if current.char is not None:
+                decoded_data.append(current.char)
+                current = self.root
+
+        return np.array(decoded_data, dtype='uint8')
 
 
 def main():
@@ -117,17 +130,21 @@ def main():
         out2 = rle_decode(out)
         print(out2)
 
+    print()
     print("Huffman")
 
     with open("./Cv05_LZW_data.bin", "r", encoding="utf-8") as file_handle:
         data = np.fromfile(file_handle, dtype='uint8')
 
-        encoded_data, huffman_tree = huffman_encode(data)
-        print(f"Original data: {data}")
-        print(f"Encoded data: {encoded_data}")
+        huffman_coding = HuffmanCoding(data)
 
-        decoded_data = huffman_decode(encoded_data, huffman_tree)
-        print(f"Decoded data:  {decoded_data}")
+        print(np.array(data, dtype='uint8'))
+        encoded_data = huffman_coding.huffman_encode()
+        print(encoded_data)
+        decoded_data = huffman_coding.huffman_decode(encoded_data)
+        print(decoded_data)
+
+        #print(str(huffman_coding))
 
 
 if __name__ == "__main__":
