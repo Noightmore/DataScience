@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class LZW:
     """
         Třída pro provedení LZW komprese a dekomprese nad daty
@@ -95,6 +96,7 @@ class LZW:
         self.data = result
         return True
 
+
 def main():
     with open("./Cv05_LZW_data.bin", "r", encoding="utf-8") as file_handle:
         integers = np.fromfile(file_handle, dtype='uint8')
@@ -126,6 +128,7 @@ def main():
             print(f"Compressed Data: {compressed_data}")
             print(f"Decompressed Data: {decompressed_data}")
             print(f"Data Loss: {data_loss}\n")
+
 
 if __name__ == "__main__":
     main()
