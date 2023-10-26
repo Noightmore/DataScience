@@ -29,7 +29,7 @@ def lzw_compress(data: list[str], max_iters: int = 1000) -> list[str]:
 def lzw_decompress(data: list[str], og_data: list[str], max_iters: int = 1000) -> list[str]:
 
     phrases = {v: k for k, v in {v: str(k + 1) for k, v in enumerate(sorted(list(set(og_data))))}.items()}
-    remainder = data.copy()
+    remainder = data
     iteration = 0
     result = []
 
@@ -37,21 +37,19 @@ def lzw_decompress(data: list[str], og_data: list[str], max_iters: int = 1000) -
         iteration += 1
         encoded_symbol = remainder[0]
 
-        if encoded_symbol not in phrases:
-            if len(result) > 0:
-                new_phrase_index = len(phrases.items()) + 1
-                new_phrase = result[-1] + result[-1][0]
-                phrases[new_phrase_index] = new_phrase
-                result.append(new_phrase)
-
-        else:
+        if encoded_symbol in phrases:
             result.append(phrases[encoded_symbol])
 
-            if len(result) <= 1:
-                continue
+            if len(result) > 1:
+                new_phrase_index = str(len(phrases.items()) + 1)
+                phrases[new_phrase_index] = result[-2] + result[-1][0]
 
-            new_phrase_index = str(len(phrases.items()) + 1)
-            phrases[new_phrase_index] = result[-2] + result[-1][0]
+        else:
+            if len(result) > 0:
+                new_phrase_index = len(phrases.items()) + 1
+                nwe_phrase = result[-1] + result[-1][0]
+                phrases[new_phrase_index] = nwe_phrase
+                result.append(nwe_phrase)
 
         remainder = remainder[1:]
 
