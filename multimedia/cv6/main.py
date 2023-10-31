@@ -121,7 +121,7 @@ def main():
     print("RLE")
     with open("./Cv06_RLE_data.bin", "r", encoding="utf-8") as file_handle:
         nums = np.fromfile(file_handle, dtype='uint8')
-        # print(nums)
+        #print(nums)
         nums = [str(x) for x in nums]
         print("".join(nums))
         out = rle_encode(nums)

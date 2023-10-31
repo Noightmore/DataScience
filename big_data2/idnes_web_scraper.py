@@ -13,7 +13,7 @@ SIZE = 1000
 
 
 def fileSize():
-    size = float(os.stat(f_JSON).st_size)/ (1024 * 1024)
+    size = float(os.stat(f_JSON).st_size) / (1024 * 1024)
     print(size)
     return size
 
