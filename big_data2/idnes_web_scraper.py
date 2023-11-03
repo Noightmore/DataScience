@@ -88,7 +88,7 @@ def read_article(url):
 
 
 if __name__ == '__main__':
-    for i in range(3000, 7000):
+    for i in range(3500, 10000):
         print("PAGE: " + str(i))
         urls = find_articles(i)
         data = []
