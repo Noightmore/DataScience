@@ -1,12 +1,6 @@
 import numpy as np
 
 
-def normalize_probabilities(probs):
-    total_prob = sum(probs.values())
-    normalized_probs = {k: v / total_prob for k, v in probs.items()}
-    return normalized_probs
-
-
 def calculate_cumulative_probabilities(probs):
     cumulative_probs = {}
     cumulative_prob = 0.0
@@ -17,23 +11,24 @@ def calculate_cumulative_probabilities(probs):
 
 
 def arithmetic_encode(message, probs):
-    normalized_probs = normalize_probabilities(probs)
-    cumulative_probs = calculate_cumulative_probabilities(normalized_probs)
+    cumulative_probs = calculate_cumulative_probabilities(probs)
 
     low = 0.0
     high = 1.0
+    coding_intervals = {}
 
     for symbol in message:
         range_size = high - low
         high = low + range_size * cumulative_probs[symbol]
         low = low + range_size * (cumulative_probs[symbol] - probs[symbol])
+        coding_intervals[symbol] = (low, high)
 
+    print(f"coding_intervals: {coding_intervals}")
     return (low + high) / 2
 
 
 def arithmetic_decode(encoded_val, probs, message_length):
-    normalized_probs = normalize_probabilities(probs)
-    cumulative_probs = calculate_cumulative_probabilities(normalized_probs)
+    cumulative_probs = calculate_cumulative_probabilities(probs)
 
     message = []
     low = 0.0

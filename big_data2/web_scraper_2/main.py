@@ -1,18 +1,3 @@
-"""
-    Cvičení 1: Scrapování dat z IDNES.cz
-
-    - Navrhněte algoritmus, který bude postupně procházet články webového portálu IDNES.cz
-    - Ke každému článku uloží:
-        - název článku
-        - obsah článku
-        - kategorii
-        - počet fotografií
-        - datum publikace
-        - počet komentářů
-    - Informace bude ukládat do textového souboru ve formátu JSON
-    - Cílem je stáhnout alespoň 250MB textových dat
-    - BONUS: Stáhněte minimálně 1GB textových dat
-"""
 import json
 import random
 import re
