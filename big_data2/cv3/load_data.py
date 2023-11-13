@@ -18,14 +18,15 @@ drop_table_query = "DROP TABLE IF EXISTS news_articles;"
 # Define the table creation query
 table_creation_query = (
     "CREATE TABLE IF NOT EXISTS news_articles ("
-    "    url TEXT PRIMARY KEY,"
+    "    url TEXT,"
     "    title TEXT,"
     "    category TEXT,"
     "    content TEXT,"
     "    no_of_photos INT,"
     "    post_date TIMESTAMP,"
-    "    no_of_comments INT"
-    ");"
+    "    no_of_comments INT,"
+    "    PRIMARY KEY (url, post_date)"
+    ") WITH CLUSTERING ORDER BY (post_date DESC);"
 )
 
 # Execute the table creation query
@@ -53,52 +54,46 @@ for filename in os.listdir(json_folder):
 
                 # Convert the date string to a datetime object
                 try:
-                    date_object = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S%z")
-                except ValueError:
+                    timestamp_string = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S%z")
+
+                    #print(timestamp_string)
+
+
+                    # Print extracted values for debugging
+                    # print("title:", title)
+                    # print("category:", category)
+                    # print("content:", content)
+                    # print("no_of_photos:", no_of_photos)
+                    # print("date:", timestamp_string)
+                    # print("no_of_comments:", no_of_comments)
+
+                    # Define the query with named placeholders
+                    query = session.prepare(
+                        """
+                            INSERT INTO news_articles (url, title, category, content, no_of_photos, post_date, no_of_comments)
+                            VALUES (:url, :title, :category, :content, :no_of_photos, :timestamp_string, :no_of_comments)
+                        """
+                    )
+
+                    # Prepare a dictionary with named values
+                    named_values = {
+                        "url": url,
+                        "title": title,
+                        "category": category,
+                        "content": content,
+                        "no_of_photos": no_of_photos,
+                        "timestamp_string": timestamp_string,
+                        "no_of_comments": no_of_comments
+                    }
+
+                    # Execute the query with named values
+
                     try:
-                        date_object = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f%z")
+                        session.execute(query, named_values)
                     except Exception as e:
                         print(f"Error occurred: {e}")
-
-
-                # Convert the datetime object to a timestamp string
-                timestamp_string = date_object.strftime("%Y-%m-%d %H:%M:%S%z")
-
-
-                # Print extracted values for debugging
-                # print("title:", title)
-                # print("category:", category)
-                # print("content:", content)
-                # print("no_of_photos:", no_of_photos)
-                # print("date:", timestamp_string)
-                # print("no_of_comments:", no_of_comments)
-
-                # Define the query with named placeholders
-                query = session.prepare(
-                    """
-                        INSERT INTO news_articles (url, title, category, content, no_of_photos, post_date, no_of_comments)
-                        VALUES (:url, :title, :category, :content, :no_of_photos, :timestamp_string, :no_of_comments)
-                    """
-                )
-
-                # Prepare a dictionary with named values
-                named_values = {
-                    "url": url,
-                    "title": title,
-                    "category": category,
-                    "content": content,
-                    "no_of_photos": no_of_photos,
-                    "date": timestamp_string,
-                    "no_of_comments": no_of_comments
-                }
-
-                # Execute the query with named values
-
-                try:
-                    session.execute(query, named_values)
                 except Exception as e:
                     print(f"Error occurred: {e}")
-
 
 # Close the Cassandra session and cluster connection
 session.shutdown()
