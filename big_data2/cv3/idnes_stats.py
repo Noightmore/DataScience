@@ -51,35 +51,21 @@ def bonus(session):
 
 def cv(session):
 
-    query = f"SELECT post_date FROM news_keyspace.news_articles;"
+    query = ("""
+        SELECT
+        SUBSTR(post_date, 1, 4) AS year,
+        COUNT(*) AS article_count
+        FROM
+            news_keyspace.news_articles;
+        """)
+
     result = session.execute(query)
-    # Extract years from the result
-    years = [datetime.utcfromtimestamp(row.post_date.timestamp()).year for row in result if row.post_date]
 
-    # Plot the graph
-    plt.hist(years, bins=range(min(years), max(years) + 1), edgecolor='black', alpha=0.7)
-    plt.title('Distribution of Post Dates by Year')
-    plt.xlabel('Year')
-    plt.ylabel('Frequency')
-    plt.show()
-
-    # Count the number of posts per year
-    posts_per_year = defaultdict(int)
     for row in result:
-        if row.post_date:
-            year = datetime.utcfromtimestamp(row.post_date.timestamp()).year
-            posts_per_year[year] += 1
+        print(f"Year: {row.year}, Article Count: {row.article_count}")
 
-    # Extract years and corresponding post counts
-    years = list(posts_per_year.keys())
-    post_counts = list(posts_per_year.values())
 
-    # Plot the bar graph
-    plt.bar(years, post_counts, color='blue')
-    plt.title('Distribution of Posts Added per Year')
-    plt.xlabel('Year')
-    plt.ylabel('Number of Posts')
-    plt.show()
+
 
 
 def main():
@@ -87,7 +73,7 @@ def main():
     session = cluster.connect('news_keyspace')
 
     cv(session)
-    bonus(session)
+    #bonus(session)
 
     # Close the Cassandra session and cluster connection
     session.shutdown()
