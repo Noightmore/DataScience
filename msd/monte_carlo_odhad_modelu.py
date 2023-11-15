@@ -65,4 +65,8 @@ print(hatTheta)
 #print(f"covariance matrix: {np.cov(hatTheta.T)}")
 print(f"sigma2 * inv(H.T @ H): {sigma2 * np.linalg.inv(H.T @ H)}")
 
+# Z is a complex value 1 + 2i
+#Z = 1 + 2j
 
+# print z squared
+#print("The square of z is", Z * Z)
