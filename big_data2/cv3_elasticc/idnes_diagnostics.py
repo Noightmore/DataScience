@@ -1,6 +1,5 @@
 from collections import Counter
 from datetime import datetime
-
 from elasticsearch import Elasticsearch
 import urllib3
 import matplotlib.pyplot as plt
@@ -19,8 +18,6 @@ def cv2(es, index_name):
     # get count of total posts
     count = es.count(index=index_name)["count"]
     print(f"Number of posts: {count}")
-
-
 
     # print amount of duplicate posts urls are the same
     query = {
@@ -88,21 +85,306 @@ def cv2(es, index_name):
     print(f"Post with the highest amount of photos: {result['hits']['hits'][0]['_source']['no_of_photos']}")
     print(f"Post with the highest amount of photos url: {result['hits']['hits'][0]['_source']['url']}")
 
-
-    # get the count of unique categories
+    # Query to get unique categories and their counts
     query = {
         "size": 0,
         "aggs": {
-            "unique_categories": {
-                "cardinality": {
-                    "field": "category.keyword"
+            "category_counts": {
+                "terms": {
+                    "field": "category",
+                    "size": 10  # Set the size based on the expected number of unique categories
+                    # top 10
                 }
             }
         }
     }
 
+    # Execute the query
     result = es.search(index=index_name, body=query)
-    print(f"Number of unique categories: {result['aggregations']['unique_categories']['value']}")
+
+    # Extract and print the category counts
+    categories = result["aggregations"]["category_counts"]["buckets"]
+    for category in categories:
+        print(f"Category: {category['key']}, Count: {category['doc_count']}")
+
+
+    # Your query to retrieve all titles
+    query = {
+        "_source": ["title"],
+        "query": {
+            "match_all": {}
+        }
+    }
+
+    # Use the scroll API to retrieve all titles
+    scroll_size = 1000
+    response = es.search(index=index_name, body=query, scroll='2m', size=scroll_size)
+    scroll_id = response['_scroll_id']
+
+    # Extract and normalize titles, then calculate word frequencies
+    word_counter = Counter()
+
+    while len(response['hits']['hits']) > 0:
+        for hit in response['hits']['hits']:
+            title = hit['_source']['title'].lower()  # Normalize to lowercase
+            # Tokenize the title text (you may need a more sophisticated tokenizer)
+            words = title.split()
+            word_counter.update(words)
+
+        response = es.scroll(scroll_id=scroll_id, scroll='2m')
+
+    print("Top 5 most common words in titles:")
+    # Print the top 5 most common words
+    for word, count in word_counter.most_common(5):
+        print(f"Word: {word}, Count: {count}")
+
+
+def cv2_pt2(es, index_name):
+    # Query to calculate the sum of no_of_comments
+    query = {
+        "size": 0,
+        "aggs": {
+            "total_comments": {
+                "sum": {
+                    "field": "no_of_comments"
+                }
+            }
+        }
+    }
+
+    # Execute the query
+    result = es.search(index=index_name, body=query)
+
+    # Extract and print the sum of no_of_comments
+    total_comments = result["aggregations"]["total_comments"]["value"]
+    print(f"Total Number of Comments: {total_comments}")
+
+    # Your query to retrieve all titles and contents
+    query = {
+        "_source": ["title", "content"],
+        "query": {
+            "match_all": {}
+        }
+    }
+
+    # Use the scroll API to retrieve all titles and contents
+    scroll_size = 1000
+    response = es.search(index=index_name, body=query, scroll='2m', size=scroll_size)
+    scroll_id = response['_scroll_id']
+
+    # Count words in titles and contents
+    total_word_count = 0
+
+    while len(response['hits']['hits']) > 0:
+        for hit in response['hits']['hits']:
+            # Count words in title
+            title = hit['_source']['title']
+            title_word_count = len(title.split())
+
+            # Count words in content
+            content = hit['_source']['content'] if 'content' in hit['_source'] else ""
+            content_word_count = len(content.split())
+
+            total_word_count += title_word_count + content_word_count
+
+        response = es.scroll(scroll_id=scroll_id, scroll='2m')
+
+    # Print the total word count
+    print(f"Total Word Count: {total_word_count}")
+
+
+def cv2_bonus(es, index_name):
+    # Your query to retrieve all titles and contents
+    query = {
+        "_source": ["title", "content"],
+        "query": {
+            "match_all": {}
+        }
+    }
+
+    # Use the scroll API to retrieve all titles and contents
+    scroll_size = 1000
+    response = es.search(index=index_name, body=query, scroll='2m', size=scroll_size)
+    scroll_id = response['_scroll_id']
+
+    # Count words with length > 6 in titles and contents
+    word_counter = Counter()
+
+    while len(response['hits']['hits']) > 0:
+        for hit in response['hits']['hits']:
+            # Extract and normalize titles and contents
+            title = hit['_source']['title'].lower() if 'title' in hit['_source'] else ""
+            content = hit['_source']['content'].lower() if 'content' in hit['_source'] else ""
+
+            # Combine titles and contents
+            combined_text = title + " " + content
+
+            # Tokenize and count words with length > 6
+            words = combined_text.split()
+            long_words = [word for word in words if len(word) > 6]
+            word_counter.update(long_words)
+
+        response = es.scroll(scroll_id=scroll_id, scroll='2m')
+
+    # Print the top 8 words with length > 6
+    top_words = word_counter.most_common(8)
+    for word, count in top_words:
+        print(f"Word: {word}, Count: {count}")
+
+
+def cv2_bonus_pt2(es, index_name):
+    # Your query to retrieve the top 3 articles with the most "covid-19" occurrences
+    query = {
+        "_source": ["url", "title", "content"],
+        "size": 3,
+        "query": {
+            "query_string": {
+                "query": "covid-19",
+                "fields": ["title", "content"]
+            }
+        },
+        "sort": [
+            {
+                "_score": {
+                    "order": "desc"
+                }
+            }
+        ]
+    }
+
+    # Execute the query
+    result = es.search(index=index_name, body=query)
+
+    # just print the contents seperated by a line and the name of each of its properties
+    # for hit in result['hits']['hits']:
+    #     print("------------------------------------------------")
+    #     print(f"URL: {hit['_source']['url']}")
+    #     print(f"Title: {hit['_source']['title']}")
+    #     print(f"Content: {hit['_source']['content']}")
+    #     print("------------------------------------------------")
+
+    # get the counts of "covid-19" phrases located in eachs article's title and content
+
+    # Extract and print the counts
+    for hit in result['hits']['hits']:
+        title = hit['_source']['title']
+        content = hit['_source']['content']
+
+        title_count = title.lower().count("covid-19")
+        content_count = content.lower().count("covid-19")
+
+        print(f"url: {hit['_source']['url']}")
+        print(f"Title Count: {title_count}, Content Count: {content_count}")
+
+    # Your query to retrieve all content properties
+    query = {
+        "_source": ["url", "content"],
+        "size": 1000,  # Adjust based on your dataset size
+        "query": {
+            "match_all": {}
+        }
+    }
+
+    # Execute the query
+    result = es.search(index=index_name, body=query)
+
+    # Initialize variables for highest/lowest word count and total word length
+    max_word_count = 0
+    lowest_word_count = float('inf')  # Set to positive infinity initially
+    max_word_count_url = ""
+    total_word_count = 0
+
+    for hit in result['hits']['hits']:
+        url = hit['_source']['url']
+        content = hit['_source'].get('content', '')
+
+        # Calculate word count
+        word_count = len(content.split())
+
+        # Calculate total word length
+        total_word_count += sum(len(word) for word in content.split())
+
+        # Check if it's the highest word count so far
+        if word_count > max_word_count:
+            max_word_count = word_count
+            max_word_count_url = url
+
+        # Check if it's the lowest word count so far
+        if word_count < lowest_word_count:
+            lowest_word_count = word_count
+
+    # Calculate average word length
+    average_word_count = total_word_count / max(1, sum(1 for _ in result['hits']['hits']))
+
+    # Print the results
+    print(f"URL with Highest Word Count: {max_word_count_url}, Word Count: {max_word_count}")
+    print(f"Lowest Word Count: {lowest_word_count}")
+    print(f"Average Word Count: {average_word_count}")
+
+
+def cv2_bonus_pt3(es, index_name):
+    # Your query to retrieve all content properties
+    query = {
+        "_source": ["content"],
+        "query": {
+            "match_all": {}
+        }
+    }
+
+    # Initialize variables for total word count and total word length
+    total_word_count = 0
+    total_word_length = 0
+
+    # Execute the initial search using the Scroll API
+    scroll_size = 1000
+    response = es.search(index=index_name, body=query, scroll='2m', size=scroll_size)
+
+    # Process the initial result
+    total_word_count += sum(len(hit['_source']['content'].split()) for hit in response['hits']['hits'])
+    total_word_length += sum(sum(len(word) for word in hit['_source']['content'].split()) for hit in response['hits']['hits'])
+
+    # Continue scrolling until no more results are returned
+    while len(response['hits']['hits']) > 0:
+        response = es.scroll(scroll_id=response['_scroll_id'], scroll='2m')
+
+        # Process each subsequent result
+        total_word_count += sum(len(hit['_source']['content'].split()) for hit in response['hits']['hits'])
+        total_word_length += sum(sum(len(word) for word in hit['_source']['content'].split()) for hit in response['hits']['hits'])
+
+    # Calculate the average word length
+    average_word_length = total_word_length / max(1, total_word_count)
+
+    # Print the result
+    print(f"Average Word Length: {average_word_length}")
+
+
+def cv2_bonus_pt4(es, index_name):
+    # query to retrive month with the most posts
+
+    query = {
+        "size": 0,
+        "aggs": {
+            "posts_per_month": {
+                "date_histogram": {
+                    "field": "date",
+                    "calendar_interval": "month",
+                    "format": "yyyy-MM",
+                    "min_doc_count": 1
+                }
+            }
+        }
+
+    }
+
+    result = es.search(index=index_name, body=query)
+
+    # take the month with the most posts
+    month = result["aggregations"]["posts_per_month"]["buckets"][-1]["key_as_string"]
+    print(f"Month with the most posts: {month}")
+
+    # rake the month with the least posts
+    month = result["aggregations"]["posts_per_month"]["buckets"][0]["key_as_string"]
+    print(f"Month with the least posts: {month}")
 
 
 def cv3(es, index_name):
@@ -214,7 +496,7 @@ def cv3_pt2(es, index):
                 "terms": {
                     "field": "category",
                     "order": {"_key": "asc"},
-                    "size": 10000  # Set a reasonable size for the terms aggregation
+                    "size": 10  # Set a reasonable size for the terms aggregation
                 }
             }
         }
@@ -470,7 +752,12 @@ def cv3_bonus(es, index_name):
 def main():
     index = 'idnes'
     my_elasticc = connect()
-    cv2(my_elasticc, index)
+    #cv2(my_elasticc, index)
+    #cv2_pt2(my_elasticc, index)
+    #cv2_bonus(my_elasticc, index)
+    #cv2_bonus_pt2(my_elasticc, index)
+    #cv2_bonus_pt3(my_elasticc, index)
+    cv2_bonus_pt4(my_elasticc, index)
     #cv3(my_elasticc, index)
     # cv3_pt2(my_elasticc, index)
     #cv3_bonus(my_elasticc, index)
