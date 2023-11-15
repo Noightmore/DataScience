@@ -15,6 +15,96 @@ def connect():
     return es
 
 
+def cv2(es, index_name):
+    # get count of total posts
+    count = es.count(index=index_name)["count"]
+    print(f"Number of posts: {count}")
+
+
+
+    # print amount of duplicate posts urls are the same
+    query = {
+        "size": 0,
+        "aggs": {
+            "duplicate_urls": {
+                "terms": {
+                    "field": "url.keyword",
+                    "min_doc_count": 2,
+                    "size": count
+                }
+            }
+        }
+    }
+
+    result = es.search(index=index_name, body=query)
+    print(f"Number of duplicate posts: {len(result['aggregations']['duplicate_urls']['buckets'])}")
+
+    # get the oldest post + its url
+    query = {
+        "size": 1,
+        "sort": [
+            {
+                "date": {
+                    "order": "asc"
+                }
+            }
+        ]
+    }
+
+    result = es.search(index=index_name, body=query)
+    print(f"Oldest post: {result['hits']['hits'][0]['_source']['date']}")
+    print(f"Oldest post url: {result['hits']['hits'][0]['_source']['url']}")
+
+
+    # get the post with the highest amount of comments + its url
+    query = {
+        "size": 1,
+        "sort": [
+            {
+                "no_of_comments": {
+                    "order": "desc"
+                }
+            }
+        ]
+    }
+
+    result = es.search(index=index_name, body=query)
+    print(f"Post with the highest amount of comments: {result['hits']['hits'][0]['_source']['no_of_comments']}")
+    print(f"Post with the highest amount of comments url: {result['hits']['hits'][0]['_source']['url']}")
+
+    # post with the highest amount of photos + its url
+    query = {
+        "size": 1,
+        "sort": [
+            {
+                "no_of_photos": {
+                    "order": "desc"
+                }
+            }
+        ]
+    }
+
+    result = es.search(index=index_name, body=query)
+    print(f"Post with the highest amount of photos: {result['hits']['hits'][0]['_source']['no_of_photos']}")
+    print(f"Post with the highest amount of photos url: {result['hits']['hits'][0]['_source']['url']}")
+
+
+    # get the count of unique categories
+    query = {
+        "size": 0,
+        "aggs": {
+            "unique_categories": {
+                "cardinality": {
+                    "field": "category.keyword"
+                }
+            }
+        }
+    }
+
+    result = es.search(index=index_name, body=query)
+    print(f"Number of unique categories: {result['aggregations']['unique_categories']['value']}")
+
+
 def cv3(es, index_name):
     query = {
         "size": 0,
@@ -73,24 +163,21 @@ def cv3(es, index_name):
 
     word_count_content = []
     word_comments = []
-    letter_count_dict = {}
+    letter_count_dict = Counter()
 
     # Process the results
-    for i, hit in enumerate(result['hits']['hits']):
+    for hit in result['hits']['hits']:
         content = hit['_source']['content']
         comment = hit['_source']['no_of_comments']
 
         # Count words in 'content' field
-        word_count_content.append(len(content.split()))
+        word_count = len(content.split())
+        word_count_content.append(word_count)
         word_comments.append(comment)
 
         # Count letters in each word and update the dictionary
-        for word in content.split():
-            letter_count = len([char for char in word if char.isalpha()])
-            if letter_count in letter_count_dict:
-                letter_count_dict[letter_count] += 1
-            else:
-                letter_count_dict[letter_count] = 1
+        letter_counts = [len([char for char in word if char.isalpha()]) for word in content.split()]
+        letter_count_dict.update(letter_counts)
 
     # plot scatter
     plt.scatter(word_comments, word_count_content, color='blue', alpha=0.5)
@@ -380,13 +467,13 @@ def cv3_bonus(es, index_name):
         print(f"Category: {cat[0]}, number of articles: {cat[1]}")
 
 
-
 def main():
     index = 'idnes'
     my_elasticc = connect()
-    # cv3(my_elasticc, index)
+    cv2(my_elasticc, index)
+    #cv3(my_elasticc, index)
     # cv3_pt2(my_elasticc, index)
-    cv3_bonus(my_elasticc, index)
+    #cv3_bonus(my_elasticc, index)
 
 
 if __name__ == "__main__":
