@@ -28,9 +28,10 @@ B = 1
 C = .1
 
 sigma2 = 1
+mean = 0
 N = 1000
 H = np.vstack((np.ones(N), np.arange(N), np.arange(N)**2)).T
-w = np.random.randn(N) * np.sqrt(sigma2)
+w = np.random.randn(N + mean) * np.sqrt(sigma2)
 
 trials = 100
 
