@@ -8,5 +8,13 @@ Veskere ulohy k vypracovani plus poznamky k predmetum, ktere maji neco spolecneh
 - teorie grafu a her
 - staticka analyza
 
+- MT
+- MSD
+- TBP
+- MVD
+- ANS
+
 NO MATLAB USED
+
+
 
