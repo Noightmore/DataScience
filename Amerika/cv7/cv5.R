@@ -1,4 +1,4 @@
-# pr 26. normalni distribuce cv7
+# pr 26. normalni distribuce cv6
 #a)
 # what is the probabilty that the value is between -2 and 5
 mean <- 0

@@ -752,15 +752,15 @@ def cv3_bonus(es, index_name):
 def main():
     index = 'idnes'
     my_elasticc = connect()
-    #cv2(my_elasticc, index)
-    #cv2_pt2(my_elasticc, index)
-    #cv2_bonus(my_elasticc, index)
-    #cv2_bonus_pt2(my_elasticc, index)
-    #cv2_bonus_pt3(my_elasticc, index)
+    cv2(my_elasticc, index)
+    cv2_pt2(my_elasticc, index)
+    cv2_bonus(my_elasticc, index)
+    cv2_bonus_pt2(my_elasticc, index)
+    cv2_bonus_pt3(my_elasticc, index)
     cv2_bonus_pt4(my_elasticc, index)
-    #cv3(my_elasticc, index)
-    # cv3_pt2(my_elasticc, index)
-    #cv3_bonus(my_elasticc, index)
+    cv3(my_elasticc, index)
+    cv3_pt2(my_elasticc, index)
+    cv3_bonus(my_elasticc, index)
 
 
 if __name__ == "__main__":

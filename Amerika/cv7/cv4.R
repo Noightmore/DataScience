@@ -1,5 +1,5 @@
 # normal distribution
-# pr. 24 z normalni distribuce cv7
+# pr. 24 z normalni distribuce cv6
 mean <- 5
 deltaSq <- 4 # use root of deltaSq
 
