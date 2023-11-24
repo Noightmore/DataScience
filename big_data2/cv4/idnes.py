@@ -1,6 +1,4 @@
 from pyspark.sql import SparkSession
-import json
-import re
 
 
 def main():
@@ -21,7 +19,7 @@ def main():
     df = df.selectExpr("explode(words) as word")
 
     # filter out empty strings
-    df = df.filter("length(word) > 0")
+    df = df.filter("length(word) > 6")
 
     # count words
     df = df.groupBy("word").count()
@@ -35,6 +33,9 @@ def main():
 if __name__ == "__main__":
     main()
 
+
+# slova jakekoliv delky:
+#
 # +-----+-------+
 # | word|  count|
 # +-----+-------+
@@ -92,6 +93,62 @@ if __name__ == "__main__":
 # only showing top 50 rows
 
 
-
+# slova delky 6:
+#
+# +------------+------+
+# |        word| count|
+# +------------+------+
+# |     policie|156678|
+# |   například|106646|
+# |     protože|100661|
+# |     několik| 84852|
+# |   policisté| 76447|
+# |   prezident| 76083|
+# |   policejní| 68565|
+# |     ministr| 65971|
+# |     dalších| 65447|
+# |     procent| 65152|
+# |     jednání| 61460|
+# |     milionů| 59878|
+# |     případě| 57424|
+# |  prezidenta| 56281|
+# |     všechny| 54716|
+# |   nemocnice| 53415|
+# |     idnescz| 50893|
+# |     pondělí| 50393|
+# |     nakonec| 48647|
+# |    poslední| 47188|
+# |     později| 46687|
+# |ministerstvo| 45425|
+# | společnosti| 45132|
+# |  rozhodnutí| 44127|
+# |ministerstva| 42689|
+# |    sociální| 42506|
+# |   informace| 42388|
+# |    předseda| 41832|
+# |   prohlásil| 41815|
+# |    několika| 41736|
+# |     situace| 41681|
+# |   zahraničí| 41185|
+# |     premiér| 40805|
+# |     situaci| 40425|
+# |     oblasti| 39927|
+# |     čtvrtek| 39739|
+# |    evropské| 38593|
+# |     zároveň| 38490|
+# |   především| 38396|
+# |     jednoho| 38334|
+# |     dokonce| 38212|
+# |  posledních| 38137|
+# |    ministra| 35283|
+# |    podařilo| 35243|
+# |     některé| 33701|
+# |  společnost| 33369|
+# |    opatření| 32950|
+# |   informací| 32798|
+# |     všichni| 32574|
+# |   listopadu| 32143|
+# +------------+------+
+# only showing top 50 rows
 
 
