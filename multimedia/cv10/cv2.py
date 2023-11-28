@@ -2,20 +2,8 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
-# Load the image
-#image = cv2.imread('Cv11_merkers.bmp', cv2.IMREAD_GRAYSCALE) # read image
 
-# encode image using gradual erosion cv2.erode
-# structural element is 3x3 matrix
-# and decode the image using delatation cv2.dilate
-
-# Display the image
-#cv2.imshow('Image', image)
-#cv2.waitKey(0)
-#cv2.destroyAllWindows()
-
-
-def calc_closest_factors(c: int):
+def calculate_closest_factors(c: int):
     """Calculate the closest two factors of c.
 
     Returns:
@@ -33,7 +21,7 @@ def calc_closest_factors(c: int):
         i += 1
         if c % i == 0:
             a = i
-            b = c//a
+            b = c // a
 
     return [b, a]
 
@@ -43,68 +31,78 @@ def encode_with_erosion(path):
     kernel = np.ones((3, 3), np.uint8)
     half_height = image.shape[0] // 2
 
-    # Analyzované prvky v obrázku - horní a dolní polovina obrázku
+    # Analyzed elements in the image - top and bottom half of the image
     features = [image[:half_height, :], image[half_height:, :]]
 
-    # Slovník grafů, které budou na konci procedury vykresleny.
+    # Dictionary of graphs that will be drawn at the end of the procedure.
     plots = {
         "Image": image,
     }
 
-    # Analýza prvků
+    # Analysis of elements
     for index, feature in enumerate(features):
-        # Počet souřadnic prvků - počítáme s tím, že na konci bude jenom jedna
+        # Number of element coordinates - we assume that there will be only one at the end
         coordinates_count = len(feature)
-        # Počet iterací eroze
+        # Number of erosion iterations
         iterations = 0
-        # Kopie obrázku pro postupnou erozi
+        # Copy of the image for gradual erosion
         encoded_image = feature.copy()
 
-        # Nalezení počtu iterací nutných k zakódování
+        # Find the number of iterations needed for encoding
         while True:
-            # Zakódování pomocí eroze
+            # Encoding using erosion
             temporary_image = cv2.erode(encoded_image, kernel)
-            # Updatování počtu souřadnic
+            # Updating the number of coordinates
             coordinates_count = len(np.column_stack(np.where(temporary_image != 0)))
 
-            # Pokud jsme ztratili informaci o značkách (a.k.a eroze odstranila už všechno)
-            # Tak to přerušíme a necháme staré výsledky
+            # If we have lost the information about the marks (i.e., erosion has removed everything)
+            # Then we break it and leave the old results
             if coordinates_count == 0:
                 break
 
-            # Pokud ještě souřadnice zbyly, přičteme iteraci a nastavíme mezivýsledek
+            # If there are still coordinates left, we add an iteration and set the interim result
             iterations += 1
             encoded_image = temporary_image
 
-        # Přidání zakódovaného obrázku do grafů
-        plots[f"Feature {index} - Enkódovaný"] = encoded_image
+        # Adding the encoded image to the graphs
+        plots[f"Part {index} - Encoded"] = encoded_image
 
-        # Získání souřadnic značek
+        # Getting the coordinates of the marks
         coordinates = np.column_stack(np.where(encoded_image != 0))
 
-        print("")
-        print(f"Souřadnice značek (feature {index}): {coordinates[0]}")
-        print(f"Počet iterací: {iterations}")
-        print("")
+        print("-------------------------------------------------------")
+        print(f"Coordinates index (part {index}): {coordinates[0]}")
+        print(f"Iteration count: {iterations}")
+        print("-------------------------------------------------------")
 
-        # Dekódování pomocí dilatace
+        # Decoding using dilation
         decoded_image = cv2.dilate(encoded_image, kernel, iterations=iterations)
-        plots[f"Feature {index} - Dekódovaný"] = decoded_image
+        plots[f"Part {index} - Decoded"] = decoded_image
 
-    # Vykreslení grafů
-    plt.figure("Eroze a dilatace")
-    subplot_factors = calc_closest_factors(len(plots.keys()))
-    index = 1
+    plt.figure("Erosion and Dilation")
 
+    # Create figures for each image
     for label, image_data in plots.items():
-        plt.subplot(subplot_factors[0], subplot_factors[1], index)
+        plt.figure()  # Create a new figure for each image
         plt.title(label)
         plt.imshow(image_data, cmap="gray")
+        plt.axis("off")
 
-        index += 1
+        # Rotate x-axis labels
+        plt.xticks(rotation=45)
 
-    # Ukázání okna s grafy
+        # Show the window with the current image
+        plt.show()
+
+    # Combine the two images feature 0 and feature 1
+    # and display the result
+    plt.figure("Combined")
+    plt.title("Combined")
+    plt.imshow(np.vstack((plots["Part 0 - Decoded"], plots["Part 1 - Decoded"])), cmap="gray")
+    plt.axis("off")
+    plt.xticks(rotation=45)
     plt.show()
 
 
-encode_with_erosion("Cv11_merkers.bmp")
+if __name__ == "__main__":
+    encode_with_erosion("Cv11_merkers.bmp")
