@@ -24,7 +24,7 @@ def ibwt(encoded_text: str, input_index: int) -> tuple[str, list[str]]:
     """Inverse Burrows-Wheeler transform."""
 
     decoding_matrix = list(encoded_text)
-    for i in range(len(encoded_text) - 1):
+    for _ in range(len(encoded_text) - 1):
         letters_to_add = [x[-1] for x in sorted(decoding_matrix)]
         decoding_matrix = [x + y for x, y in zip(decoding_matrix, letters_to_add)]
 
@@ -36,7 +36,7 @@ def ibwt(encoded_text: str, input_index: int) -> tuple[str, list[str]]:
 
 # Example usage
 if __name__ == "__main__":
-    input_text = "hello world"
+    input_text = "banana"
     out = bwt(input_text)
     print(f"Original: {input_text}")
     print(f"BWT: {out[0]}")
