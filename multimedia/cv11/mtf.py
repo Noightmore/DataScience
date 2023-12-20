@@ -21,8 +21,8 @@ def encode_mtf(text: str, alphabet: list[str]) -> tuple[str, str]:
 
 def decode_mtf(encoded_text: str, alphabet: list[str]) -> tuple[str, str]:
 
-    if not encoded_text.isdigit():
-        raise ValueError("Encoded text must be a string of digits.")
+    #if not encoded_text.isdigit():
+     #   raise ValueError("Encoded text must be a string of digits.")
 
     decoding_stack = alphabet.copy()
     decoded_output = []
@@ -39,18 +39,21 @@ def decode_mtf(encoded_text: str, alphabet: list[str]) -> tuple[str, str]:
 
 def main():
     alphabet = list("abcdefghijklmnopqrstuvwxyz")
-    user_input = input("Zadej vstup pro MTF: ")
+    user_input = input("text for MTF: ")
 
     encoded_output, encoding_stack = encode_mtf(user_input, alphabet)
-    decoded_output, decoding_stack = decode_mtf(encoded_output, alphabet)
+
 
     print()
-    print(f"Vstup: {user_input}")
+    print(f"Input: {user_input}")
     print(f"Abeceda: {str.join('', alphabet)}")
     print()
     print(f"Kódování: {encoded_output}")
     print(f"Kódovací zásobník: {encoding_stack}")
     print()
+
+    decoded_output, decoding_stack = decode_mtf(encoded_output, alphabet)
+
     print(f"Dekódování: {decoded_output}")
     print(f"Dekódovací zásobník: {decoding_stack}")
     print()

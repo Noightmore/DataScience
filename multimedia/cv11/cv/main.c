@@ -52,7 +52,7 @@ int repairSignal(signal *s)
                 }
         }
 
-        printf("numZeros: %d\n", numZeros);
+        //printf("numZeros: %d\n", numZeros);
 
         int isOdd = (numZeros % 2 != 0);
 
@@ -82,6 +82,16 @@ int repairSignal(signal *s)
                 {
                         // invert the error bit position
                         error_bit_pos = XOR(error_bit_pos, 255);
+                }
+                else
+                {
+                    // error is in complement
+                    // no bit flip needed just copy the og number
+                    uint8_t correction = s->number;
+                    s->complement = XOR(correction, 255);
+                    printBinary(correction);
+                    printf("Corrected signal: %d", correction);
+                    return 1;
                 }
 
                 printBinary(error_bit_pos);
