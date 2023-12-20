@@ -36,7 +36,7 @@ def ibwt(encoded_text: str, input_index: int) -> tuple[str, list[str]]:
 
 # Example usage
 if __name__ == "__main__":
-    input_text = "hello world"
+    input_text = "this$is$the"
     out = bwt(input_text)
     print(f"Original: {input_text}")
     print(f"BWT: {out[0]}")
