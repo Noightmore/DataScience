@@ -47,7 +47,7 @@ while success:
         )
 
         # Spočítáme sumu barevných hodnot pixelů v diferenci
-        # Je to v podstatě ekvivalentní zápisu cv2.absdiff(last_image, rgb)
+        # Je to v podstatě ekvivalentní zápisu cv3.absdiff(last_image, rgb)
 
         # Suma rozdílů hodnot obrazových bodů v následujících snímcích
         method_2 = np.sum(

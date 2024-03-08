@@ -61,7 +61,7 @@ def cv2():
     total_comments = sum(int(item['num_comments']) for item in data)
     total_words = sum(len(item['text'].split()) for item in data)
 
-    print("cv2")
+    print("cv3")
 
     # Print the results
     print(f'Item Count: {item_count}')
