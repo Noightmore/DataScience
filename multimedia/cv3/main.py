@@ -98,7 +98,7 @@ def load_images_and_display_different_color_maps(path: str):
 
     """
     try:
-        # Load the image using cv2.imread()
+        # Load the image using cv3.imread()
         image = load_bitmap_from_binary_file(path)
 
         if image is None:
@@ -148,7 +148,7 @@ def load_images_and_display_different_color_maps(path: str):
 
 def load_and_display_image_ycrcb(file_path):
     try:
-        # Load the image using cv2.imread()
+        # Load the image using cv3.imread()
         image = load_bitmap_from_binary_file(file_path)
 
         if image is None:
