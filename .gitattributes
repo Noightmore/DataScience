@@ -1,1 +1,5 @@
 usu/*.ipynb linguist-vendored
+USA/*.ipynb linguist-vendored
+uzo/*/*ipynb linguist-vendored
+msd/*.ipynb linguist-vendored
+apmo/*.ipynb linguist-vendored
