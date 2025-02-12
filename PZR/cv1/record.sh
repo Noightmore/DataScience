@@ -7,7 +7,7 @@ RECORDINGS_DIR="./recordings"  # Target directory for recordings
 mkdir -p "$RECORDINGS_DIR"
 
 # List of phrases to record
-files=("je_prave" "hodina" "hodin" "hodiny" "minuta" "minut" "minuty" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "20" "30" "40" "50")
+files=("silence" "je_prave" "jsou_prave" "hodina" "hodin" "hodiny" "minuta" "minut" "minuty" "0" "1" "dve" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "20" "30" "40" "50")
 
 # Function to play a beep sound
 beep_sound() {
