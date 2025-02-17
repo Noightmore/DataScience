@@ -267,5 +267,5 @@ def enhanced_assemble_speech_from_time(time_input, recordings_folder):
 
 
 if __name__ == '__main__':
-    download_recordings()
+    #download_recordings()
     enhanced_assemble_speech_from_time(datetime.now(), RECORDINGS_DIR)
