@@ -1,0 +1,58 @@
+MUSIM DELAT V MATLABU ;((((((
+
+nutno pridat maly sum, aby tam nebyly ciste nuly -> brani to rozpoznavani; vypocet energie
+
+nenulova stejnosmerna slozka DC offset, nutno odfiltrovat,
+spocteni stredni hodnoty a odecteni -> preemfazovy filtr -> horni propust
+y[n] = x[n] - a*x[n-1]; a = 0.97
+
+detekovat slova na urovni framu
+energie pozadi je nizsi nez energie reci
+soucet kvadratu jednotlivych vzorku signalu a vezmem jeho logaritmus pro normalizaci pro kazdy frame
+energie = log(sum(x[n]^2))
+energii lze idealne vykreslit pomoci kulicek, kde velikost je hodnota jednoho vzorku
+detekce -> pokud je energie vetsi nez prah, je to rec
+detekce koncne -> jedu nazpatek
+
+moznost udelat moznost streamovaneho zvuku? pomoci stavoveho automatu
+
+pred explosivou je bezne sledovan pokles energie zvuku
+
+detekce rozpoznani reci: priznaky, priznakovy vektor -- soubor priznaku pro kazdy frame:
+energie
+zero crossing rate - pocet prechodu nulove urovne (jak casto prochazi nulou)
+
+NUTNO ODSTRANIT U OBOU CASTI STEJNESMERNOU SLOZKU, DC offset
+
+metoda  porovnovani s referencemi
+
+pro priste slozitejsi priznaky:
+- spektralni priznaky, kepstralni priznaky, dynamicke priznaky
+
+16K vzorkovani, 16 bitu, mono, format wav
+
+pauzy mezi slovy 2-3 sekund. 5 nahravek od kazde osoby (sekvence 0-9)
+
+u nahravani zvuku pozor na vylepsovani signalu, automatic noise supression, automaticky balanc signalu.
+Podivat se jestli je neco takoveho u linuxu.
+
+napsat program, co najde slova, vyrizne, a ulozi do souboru se spravnym nazvem
+zvolit vhodny prah pro detekci reci, pouzit energii zvuku.
+pro nalezeni prahu pouzit nejakou metodu prumeru pro nalezeni vhodneho prahu
+Kazda vyriznuta nahravka by mela byt 2s dlouha 32000 vzorku.
+Cilove nahravky format wav -> 60044 bitu na nahravku
+
+format ukladani nahravek ve formatu viz prednaska! Musi byt presne! cislo osoby se dozvim
+vytvorit adresar s cislem osoby a v nem mit nahravky: 50x 2s nahravek
+
+staci poslat jen repozitar bez programu
+
+dalsi cast uz matlab B a C cast v prednasce
+matlab normalizuje signal mezi -1 a 1, pozor!  Nutno treba normalizovat sum podle toho
+sum nejaka iid
+
+precist tipy pro implementaci v prezentaci
+
+osobni cislo: 2501
+
+koupit drahy mikrofon

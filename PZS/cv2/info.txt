@@ -1,0 +1,55 @@
+na zacatku se proberou questions; todo pripravit na priste! lehci uz nebude! Idealne cerpar data z prednasek
+nutno delat domaci studium!
+
+Questions concerning topics from Lecture 2:
+• Solving of difference equations – describe the process, what is the goal,
+what methods are known.
+• Auto-correlation/cross-correlation of deterministic signals (meaning,
+properties)
+• Signal energy/ signal power (meaning, computation)
+• Discrete-time Fourier Transform (DTFT, notation, properties)
+• DTFT spectrum of signal (meaning, properties)
+
+## vlastnosti signalu:
+
+- je memoryless? "vystupni signal zavisi pouze na aktualnim vstupnim signalu" napr zesilovac!
+- je kauzalni? "vystupni signal zavisi pouze na predchozich hodnotach vstupniho signalu"; "zadne x[x+c] pro c>0"
+- je stabilni? "pokud je vstupni signal konecny, tak vystupni signal musi byt take konecny"
+- je homogenni? T(c * x[n]) = c*T(x[n]) "nasobeni constantou uvnitr je stejne jako nasobeni constantou venku"
+- je aditivni? T(x[n] + y[n]) = T(x[n]) + T(y[n]) "scitani uvnitr je stejne jako scitani venku"
+- je casove invariantni (nenasobime konstantou n mimo x[n]) T(x[n-n0]) = T(x[n]) "posunuti v case je stejne jako posunuti venku"
+
+## konvoluce:
+
+zpusob jak vypocitat vystup, kdyz mame vstup zadany impulzni odezvou
+
+x[n] = 2d[n+2] + d[n+1] d[n-1] + 3d[n-2]
+
+h[n] = d[n-1] + d[n-2] + d[n-3]
+
+tabulkova metoda pro konvoluci:
+
+```
+n | -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6
+T(2d[n+2]) | - | 2 | 2 | 2
+T(d[n+1]) | - | - | 1 | 1 | 1
+T(d[n-1]) | - | - | - | 1 | 1 | 1
+T(3d[n-2]) | - | - | - | - | 3 | 3 | 3
+conv | - | 2 | 3 | 3 |2 | 4| 4 | 3
+```
+
+secteme vsechny hodnoty v radku po sloupcich pro ziskani conv
+
+v matlabu:
+
+x = [2 1 0 1 3];
+h = [0 1 1 1];
+conv(x, h)
+
+impulzni odezva kauzalniho filtru: zacina na nule -> generuje hodnoty; "pravostranna posloupnost"
+konvoluce je komutativni -> x[n] * h[n] = h[n] * x[n]
+conv(x,h) = conv(h,x);
+
+je asociativni a distributivni (misto hvezdicky si lze predstavit klasicke nasobeni)
+- asociativni: nezalezi na poradi filtrace; lze nahradit sekvenci filtru nahradit jednim filtrem
+- distributivni: x[n] * (h1[n] + h2[n]) = x[n] * h1[n] + x[n] * h2[n]; lze rozdelit na dva filtry a pak secist

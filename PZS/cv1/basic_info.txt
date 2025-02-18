@@ -1,0 +1,5 @@
+excercises: domaci ukoly pro extra body ke zkousce
+basic excercise: soubor prikladu, bude u zkousky
+study materials: co bych mel vedet z kazde prednasky, abych byl ok
+
+na prednaskach probira prikady, ktere budou u zkousky. Ale na cviceni ne. Ale jsou to ty same, co jsou v basic excercises
