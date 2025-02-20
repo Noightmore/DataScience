@@ -47,7 +47,7 @@ vytvorit adresar s cislem osoby a v nem mit nahravky: 50x 2s nahravek
 
 staci poslat jen repozitar bez programu
 
-dalsi cast uz matlab B a C cast v prednasce
+dalsi cast uz matlab B a C cast v prednasce ;(
 matlab normalizuje signal mezi -1 a 1, pozor!  Nutno treba normalizovat sum podle toho
 sum nejaka iid
 
