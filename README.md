@@ -13,8 +13,16 @@ Veskere ulohy k vypracovani plus poznamky k predmetum, ktere maji neco spolecneh
 - TBP
 - MVD
 - ANS
+- UZO
+- APMO
+- BTS
 
-NO MATLAB USED
+- DAI
+- PZR
+- PZS
+- RDB
+
+As little matlab used as possible
 
 
 

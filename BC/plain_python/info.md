@@ -1,0 +1,1 @@
+toto tu slouzi pouze jako orientacni info, jak pouzivat jazyk python. Nejlepsi jazyk pro datovou analyzu

@@ -126,3 +126,5 @@ webencodings==0.5.1
 websocket-client==1.8.0
 xxhash==3.5.0
 yarl==1.18.3
+
+# balicky pouzite pro praci s projekty. Pouzit byl python verze 3.11

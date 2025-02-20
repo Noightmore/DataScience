@@ -1,10 +1,12 @@
-usu/*.ipynb linguist-vendored
-USA/*.ipynb linguist-vendored
-uzo/*/*ipynb linguist-vendored
-msd/*.ipynb linguist-vendored
-apmo/*.ipynb linguist-vendored
-PZR/*/*.ipynb linguist-vendored
-PZS/*/*.ipynb linguist-vendored
-DAI/*/*.ipynb linguist-vendored
-DAI/*.ipynb linguist-vendored
-plain_python/cviceni/cv7/result.html linguist-vendored
+BC/usu/*.ipynb linguist-vendored
+BC/USA/*.ipynb linguist-vendored
+BC/uzo/*/*ipynb linguist-vendored
+BC/msd/*.ipynb linguist-vendored
+BC/apmo/*.ipynb linguist-vendored
+
+ING/PZR/*/*.ipynb linguist-vendored
+ING/PZS/*/*.ipynb linguist-vendored
+ING/DAI/*/*.ipynb linguist-vendored
+ING/DAI/*.ipynb linguist-vendored
+
+BC/plain_python/cviceni/cv7/result.html linguist-vendored
