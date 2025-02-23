@@ -3,7 +3,7 @@ clc;
 close all;
 
 % Define parameters
-folderPath = 'cv2_pzr/p2501';
+folderPath = './p2501';
 frameSize = 400; % 25 ms (400 samples)
 frameStep = 160; % 10 ms (160 samples)
 energyThresholdPercentage = 0.30; % 30% of the energy difference
