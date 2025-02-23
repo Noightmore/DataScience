@@ -128,3 +128,7 @@ xxhash==3.5.0
 yarl==1.18.3
 
 # balicky pouzite pro praci s projekty. Pouzit byl python verze 3.11
+
+# zavislosti pridane pro cv2
+sounddevice~=0.5.1
+fastdtw~=0.3.4
