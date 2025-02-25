@@ -16,7 +16,11 @@ autokorelace v matlabu:
 x = randn(1e6, 1)
 xcorr(x,x) % autocorelace
 
+pouze autokorelace je symetricka
+
 vyuziti k detekci periodicity
+
+hledame argument x, kde maximum y
 
 korelaci lze spocitat pomoci konvoluce: r[n] = x[n] * y[-n]
 ale NENI KOMUTATIVNI! Autokorelace je.
@@ -24,13 +28,15 @@ ale NENI KOMUTATIVNI! Autokorelace je.
 
 • Signal energy/ signal power (meaning, computation)
 
-signal power: energie prumerova, v konecnym case
+signal power: energie prumerova, v konecnym case, energie je autokorelace s nulovym posunem
 
 • Discrete-time Fourier Transform (DTFT, notation, properties)
 
 DTFT umoznuje analyzovat nekonecny signaly: pouziti u nekonecnych filtru impulzni odezvy
 
 x(e^(-jw)) = sum of n from -infty to infty of (x[n] * e^(-jwn))
+
+- konvolucni teorem
 
 -> udava maagnitudovy spektrum (podobnost s vlnkou posunuta o fazi),jednotlivy casti: podobnost signalu s kosinovnkou a sinusovkou
 -> kdyz je vstup sudy signal -> vystup dft je pouze ta cosine cast
@@ -39,7 +45,6 @@ x(e^(-jw)) = sum of n from -infty to infty of (x[n] * e^(-jwn))
 jako kdybych spocital ty spektra zvlast a secetl
 
 • DTFT spectrum of signal (meaning, properties)
-
 
 
 

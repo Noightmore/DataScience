@@ -28,7 +28,7 @@ for i = 1:length(audioFiles)
     sound(x, Fs);
     pause(length(x) / Fs + 1);
 
-    % Add subtle noise
+    % Add subtle iid noise
     noise = 0.01 * (randi(3, length(x), 1) - 2);
     noisy_signal = x + noise;
 
