@@ -1,0 +1,18 @@
+1. normalni forma:
+atomicita atributu, rozsekani atributu, uz nelze dal rozsekat dle potreb programu.
+- atomicitu si urciji sam dle potreb programu
+
+2. normalni forma:
+nesmi byt 2 tabulky v jedne tabulce
+
+3. normalni forma:
+tranzitivni zavislosti, ktere nejsou zavisle na klici nesmi byt v tabulce
+nesmi byt zavislot mezi neklicovymi atributy
+
+boyce codova normalni forma:
+
+to se nam nestane
+
+4. normalni forma:
+
+to se nam nestane
