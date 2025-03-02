@@ -24,4 +24,4 @@ reprezentance neznameho slova musi byt na ose VODOROVNE
 
 podrobnejsi popssano na tipy pro implementaci v prezetaci!
 
-je tam bonus na konci, experiment!
+je tam bonus na konci, experiment
