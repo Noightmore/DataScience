@@ -1,0 +1,4 @@
+files/DSVowels.wav
+files/DSVowels_mine.wav
+files/DSVowels_mine2.wav
+files/DSVowels_mine4.wav
