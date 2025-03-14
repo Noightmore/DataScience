@@ -132,3 +132,5 @@ yarl==1.18.3
 # zavislosti pridane pro cv2
 sounddevice~=0.5.1
 fastdtw~=0.3.4
+matplotlib~=3.10.1
+playsound~=1.3.0
