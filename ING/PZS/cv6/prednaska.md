@@ -1,0 +1,3 @@
+DTF properties:
+
+linearita, symmetrie
