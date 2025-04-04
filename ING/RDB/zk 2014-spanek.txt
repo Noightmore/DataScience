@@ -1,0 +1,31 @@
+RDB 2014 ZK - příklad - 2. termín
+
+    Normalizujte databázi pro ukládání návštěv u lékaře.
+    Máme uchovávat:
+    pacient_rodné číslo, pacient_jméno, pacient_příjmení, pacient_adresa, lékař_jméno, lékař_příjmení, lékař_specializace, kód_diagnozy, diagnóza, typ_vyšetření, datum_návštěvy
+
+Každý pacient může navštěvovat více doktorů.
+Budeme v budoucnu chtít vyhledávat pacienty dle místa atd...
+Každá návštěva má jednu diagnózu a jeden typ vyšetření... koukne do krku => chřipka
+Každý lékař má jednu specializaci.
+Každá diagnóza je jedinečná, měla by mít jedinečný kód.
+Do relace pro uchovávání návštěv je zadáván kód diagnózy a vyšetření, který doktor, komu a kdy ji diagnostikoval.
+
+Vytvořte ERD diagram s tabulkami v optimální NF.
+
+    SQL příkaz, který vybere pacienty, kterým byla diagnostikována chřipka nebo diabetes, a kteří nikdy nebyli u ortopeda nebo u doktora se specializací ORL.
+
+    Trigger pro automatické ukládání kódu nemoci u návštěv.
+    Doktor vloží do záznamu název nemoci (třeba chřipka). Je zkontrolováno, zda je tato nemoc v tabulce s nemocemi a má definovaný kód, pokud ano, tak využije její kód.
+    Pokud ne, nejdříve ji přidá k nemocem a vytvoří kód, pak tento kód využije.
+    Kód může být generován přes autoincrement... nemusíme řešit jeho strukturu.
+
+    Jaký index byste použili při urychlení práce s tabulkou uchovávající pohlaví?
+
+    U čeho děláme IZOLACI a jaké známe.
+
+Omlouvám se, pokud jsem někde něco trochu přehození, ale přesné zadání jsem neopsal...
+Kdyby něco, tak pište na
+easyhb@seznam.cz
+
+
