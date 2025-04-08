@@ -69,44 +69,34 @@ def demons_souls_theme_notes():
 
     return (
         # Bar 1–2
-        ("G4", quarter), ("Bb4", quarter), ("D5", quarter), ("F5", quarter),  # Bar 1
-        ("F5", full),                                                       # Bar 2
+        ("G4", quarter), ("Bb4", quarter), ("D5", quarter), ("F5", quarter + full),  # Bar 1 + 2
 
         # Bar 3–4
-        ("F4", quarter), ("G4", quarter), ("Bb4", quarter), ("D5", quarter),  # Bar 3
-        ("D5", full),                                                       # Bar 4
+        ("F4", quarter), ("G4", quarter), ("Bb4", quarter), ("D5", quarter + full),  # Bar 3 + 4
 
         # Bar 5–6
-        ("D5", quarter), ("C5", quarter), ("Bb4", quarter), ("F4", quarter),  # Bar 5
-        ("F4", full),                                                        # Bar 6
+        ("D5", quarter), ("C5", quarter), ("Bb4", quarter), ("F4", quarter + full),  # Bar 5 + 6
 
         # Bar 7–8
-        ("G4", quarter), ("F4", quarter), ("D4", quarter), ("C4", quarter),   # Bar 7
-        ("C4", full),                                                        # Bar 8
+        ("G4", quarter), ("F4", quarter), ("D4", quarter), ("C4", quarter + full),   # Bar 7 + 8
 
         # Bar 9–10
-        ("G4", quarter), ("Bb4", quarter), ("D5", quarter), ("F5", quarter),  # Bar 9
-        ("F5", full),                                                       # Bar 10
+        ("G4", quarter), ("Bb4", quarter), ("D5", quarter), ("F5", quarter + full),  # Bar 9
 
         # Bar 11–12
-        ("F4", quarter), ("G4", quarter), ("Bb4", quarter), ("D5", quarter),  # Bar 11
-        ("D5", full),                                                       # Bar 12
+        ("F4", quarter), ("G4", quarter), ("Bb4", quarter), ("D5", quarter + full),  # Bar 11
 
         # Bar 13–14
-        ("D5", quarter), ("Eb5", quarter), ("F5", quarter), ("G5", quarter),  # Bar 13
-        ("G5", full),                                                       # Bar 14
+        ("D5", quarter), ("Eb5", quarter), ("F5", quarter), ("G5", quarter + full),  # Bar 13 + 14
 
         # Bar 15–16
-        ("G5", quarter), ("F5", quarter), ("Eb5", quarter), ("D5", quarter),  # Bar 15
-        ("D5", full),                                                       # Bar 16
+        ("G5", quarter), ("F5", quarter), ("Eb5", quarter), ("D5", quarter + full),  # Bar 15 + 16
 
         # Bar 17–18
-        ("D5", quarter), ("C5", quarter), ("Bb4", quarter), ("F4", quarter),  # Bar 17
-        ("F4", full),                                                       # Bar 18
+        ("D5", quarter), ("C5", quarter), ("Bb4", quarter), ("F4", quarter + full),  # Bar 17 + 18
 
         # Bar 19–20
-        ("F4", quarter), ("G4", quarter), ("Bb4", quarter), ("D5", quarter),  # Bar 19
-        ("D5", full),                                                       # Bar 20
+        ("F4", quarter), ("G4", quarter), ("Bb4", quarter), ("D5", quarter + full),  # Bar 19 + 20
     )
 
 
