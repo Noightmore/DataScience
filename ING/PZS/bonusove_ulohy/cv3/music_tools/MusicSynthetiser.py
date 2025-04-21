@@ -157,9 +157,6 @@ def synthesize_melody(tones, fs, melody_notes, base_duration=1.0, fade_ratio=0.1
     return np.concatenate(melody)
 
 
-
-
-
 # -----------------------------
 # rir applier
 # -----------------------------

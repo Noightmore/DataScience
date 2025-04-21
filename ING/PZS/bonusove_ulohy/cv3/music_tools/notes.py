@@ -108,45 +108,45 @@ def demons_souls_theme_bass():
 
     return (
         # Bar 1
-        ("G2", full),
+        ("G2", full + full),
         # Bar 2
-        ("Bb2", full),
+        #("Bb2", full),
         # Bar 3
-        ("D3", full),
+        ("D3", full + full),
         # Bar 4
-        ("F2", full),
+        #("F2", full),
         # Bar 5
-        ("G2", full),
+        ("G2", full + full),
         # Bar 6
-        ("Bb2", full),
+        #("Bb2", full),
         # Bar 7
-        ("D3", full),
+        ("D3", full + full),
         # Bar 8
-        ("Eb3", full),
+        #("Eb3", full),
         # Bar 9
-        ("D3", full),
+        ("D3", full + full),
         # Bar 10
-        ("Bb2", full),
+        #("Bb2", full),
         # Bar 11
-        ("D3", full),
+        ("D3", full  + full),
         # Bar 12
-        ("Eb3", full),
+        #("Eb3", full),
         # Bar 13
-        ("D3", full),
+        ("D3", full  + full),
         # Bar 14
-        ("Bb2", full),
+        #("Bb2", full),
         # Bar 15
-        ("D3", full),
+        ("D3", full  + full),
         # Bar 16
-        ("Eb3", full),
+        #("Eb3", full),
         # Bar 17
-        ("D3", full),
+        ("D3", full  + full),
         # Bar 18
-        ("Eb3", full),
+        #("Eb3", full),
         # Bar 19
-        ("F3", full),
+        ("F3", full + full),
         # Bar 20
-        ("G3", full)
+        #("G3", full)
     )
 
 
