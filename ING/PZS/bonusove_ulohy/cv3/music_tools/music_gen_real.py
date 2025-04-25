@@ -252,6 +252,6 @@ def play_majula_theme():
 
 
 if __name__ == '__main__':
-    play_demons_souls_theme()
-    #play_dark_souls_theme()
+    #play_demons_souls_theme()
+    play_dark_souls_theme()
     #play_majula_theme()
