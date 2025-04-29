@@ -10,5 +10,5 @@ int main(int argc, char *argv[]) {
         view::chart_plot::plot_waveform(points, "Waveform of ./p2501/c0_p2501_s01.wav");
     }
 
-    return app.exec();
+    return QApplication::exec();
 }
