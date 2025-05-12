@@ -1,0 +1,33 @@
+
+window metoda: fir, linearni faze, jednoducha, nema libovolnou magnitudu, nema minimalni rad, je deterministicka, je stabilni
+least square: FIR, linearni faze, stredne jednoducha, ma libovolnou magnitudu, asi ma minimalni rad? tak stredne????, zase tak stredne deterministicka, stabilni
+fr. resp. smp: fir linearni faze, jednoducha, arbitrary magnitude ma, nema minimalni rad, nedeterministicka, stabilni
+
+metoda oken asi prozatim nejoptimalnejsi
+v matlabu least squares nebo equiriple
+
+----------
+dalsi typy filt:
+butterworth
+chebyshev 1, 2
+eliptic
+
+v cem se lisi? Ve vzhledu! butterworth je ryze klesajici funcke pro lowpass (jenom lowpass ale)
+
+jejich parametry:
+jsou pro iir, nelinearni faze, neni jednoduchy, libovolna magnituda neni, minimalni rad, je deterministicky, stabilita dle navrhu
+
+rad filtru: delta omega = 12pi/L (hodnota pro danyb typ filtru) vybira se podle delty
+
+N = 120;
+f = [0,0.7,0.8,1];
+a = [0 0 1 1];
+w = 1./[2e-4 1e-3];
+b = firls(N,f,a,w);
+
+[H,w_ax] = freqz(b,1,1000);
+figure;plot(w/pi,abs(H));
+
+equiriple je vhodny kdyz nas zajima rad3
+
+filter designer in matlab
