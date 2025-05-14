@@ -1,0 +1,8 @@
+least square optimal filter
+
+g = (A' * A)^-1 * A' * X_r
+
+adaptivni filtr pro odstraneni sumu
+
+delka filtru musi byt kvuli reverberaci mistnosti, kratky filtr muze trpet dozvukem odrazem te pani (nechteny zvuk)
+
