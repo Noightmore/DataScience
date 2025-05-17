@@ -4,13 +4,13 @@ import shutil
 #
 
 # Settings
-work_dir = "."  # Update this!
+work_dir = "."  # Update this! !!!!!!!!!!!!!!!!!
 proto_8s = os.path.join(work_dir, "proto-8s-39f")
 proto_3s = os.path.join(work_dir, "proto-3s-39f")
 models_list = os.path.join(work_dir, "models0")
 
 # Define short words (3-state)
-short_words = {"V", "ZA", "SIL"}
+short_words = {"V", "ZA", "SIL"} # remove unnecessary short phrases, ok
 
 # Load prototypes
 with open(proto_8s, "r") as f:
