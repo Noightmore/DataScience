@@ -22,6 +22,24 @@ def polynomial_division(dividend, divisor, set_type):
 
         return coeffs
 
+    def poly_to_string(coeffs):
+        """Formats polynomial as a string for nice printing."""
+        terms = []
+        degree = len(coeffs) - 1
+        for i, c in enumerate(coeffs):
+            power = degree - i
+            if c == 0:
+                continue
+            term = ""
+            if c != 1 or power == 0:
+                term += f"{c}"
+            if power > 0:
+                term += "x"
+            if power > 1:
+                term += f"^{power}"
+            terms.append(term)
+        return " + ".join(terms) if terms else "0"
+
     # Ensure the divisor is not zero
     if not divisor or all(c == 0 for c in divisor):
         raise ValueError("Divisor cannot be zero.")
@@ -35,6 +53,10 @@ def polynomial_division(dividend, divisor, set_type):
     dividend = stabilize(dividend, set_type)
     divisor = stabilize(divisor, set_type)
 
+    print(f"\nStarting division:")
+    print(f"Dividend: {poly_to_string(dividend)}")
+    print(f"Divisor:  {poly_to_string(divisor)}\n")
+
     # Reverse to make polynomial order natural for easier index math
     dividend = dividend[::-1]
     divisor = divisor[::-1]
@@ -46,7 +68,6 @@ def polynomial_division(dividend, divisor, set_type):
     divisor_leading_coeff = divisor[-1]
 
     while len(remainder) >= len(divisor):
-        # Leading coefficient is last (since reversed)
         remainder_leading_coeff = remainder[-1]
 
         if set_type.startswith('Z') and len(set_type) > 1:
@@ -56,27 +77,29 @@ def polynomial_division(dividend, divisor, set_type):
         else:
             leading_term = remainder_leading_coeff / divisor_leading_coeff
 
-        quotient.insert(0, leading_term)  # prepend to match degree
+        quotient.insert(0, leading_term)
 
-        # Subtract divisor * leading_term from remainder
         for i in range(len(divisor)):
             idx = len(remainder) - len(divisor) + i
             remainder[idx] -= leading_term * divisor[i]
-
             if set_type.startswith('Z') and len(set_type) > 1:
                 remainder[idx] %= mod
 
-        # Remove trailing zeros (highest powers)
         while remainder and remainder[-1] == 0:
             remainder.pop()
 
-        # Print each division step
-        print(f"Step: quotient so far: {quotient[::-1]}, remainder: {remainder[::-1]}")
+        print(f"Division step:")
+        print(f"  Quotient: {poly_to_string(quotient)}")
+        print(f"  Remainder: {poly_to_string(remainder)}\n")
 
-    # Reverse back remainder to original order
     remainder = remainder[::-1]
 
+    print(f"Final result:")
+    print(f"  Quotient: {poly_to_string(quotient)}")
+    print(f"  Remainder: {poly_to_string(remainder)}\n")
+
     return quotient, remainder
+
 
 
 def main():
@@ -86,7 +109,7 @@ def main():
     set_type = 'Z5'       # Set type can be 'Z', 'Q', 'R', 'C', or 'Z5', 'Z7', etc.
 
     quotient, remainder = polynomial_division(dividend, divisor, set_type)
-    print(f"Quotient: {quotient}, Remainder: {remainder}")
+    #print(f"Quotient: {quotient}, Remainder: {remainder}")
 
 
 if __name__ == "__main__":
@@ -95,3 +118,4 @@ if __name__ == "__main__":
 # TD: OVERIT FUNKCIONALITU DLE VYPOCTU NA PAPIR
 
 # TD: dodelat gcd polynomu, nsd, mozna i pekny vypis
+# ireducibilia, monicke polynomy
