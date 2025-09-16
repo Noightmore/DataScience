@@ -119,3 +119,6 @@ if __name__ == "__main__":
 
 # TD: dodelat gcd polynomu, nsd, mozna i pekny vypis
 # ireducibilia, monicke polynomy
+
+
+# ehehee, uz nemusime delat, tul restart gang!
