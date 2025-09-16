@@ -52,7 +52,7 @@ jako kdybych spocital ty spektra zvlast a secetl
 ## vlastnosti signalu:
 
 - je memoryless? "vystupni signal zavisi pouze na aktualnim vstupnim signalu" napr zesilovac!
-- je kauzalni? "vystupni signal zavisi pouze na predchozich hodnotach vstupniho signalu"; "zadne x[x+c] pro c>0"
+- je kauzalni? "vystupni signal zavisi pouze na predchozich hodnotach vstupniho signalu"; "zadne x[n+c] pro c>0"
 - je stabilni? "pokud je vstupni signal konecny, tak vystupni signal musi byt take konecny"
 - je homogenni? T(c * x[n]) = c*T(x[n]) "nasobeni constantou uvnitr je stejne jako nasobeni constantou venku"
 - je aditivni? T(x[n] + y[n]) = T(x[n]) + T(y[n]) "scitani uvnitr je stejne jako scitani venku"
