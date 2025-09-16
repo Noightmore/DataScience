@@ -3,7 +3,7 @@ import os
 #  ~/Programming/Datascience/ING/PZR/htk/fun $ ../../../../.venv/bin/python ./helper_scripts/generate_lab_files.py
 
 DATA_DIR = "data"
-SIL = "SIL"
+SIL = "sil"
 
 for person_folder in os.listdir(DATA_DIR):
     person_path = os.path.join(DATA_DIR, person_folder)
@@ -14,6 +14,7 @@ for person_folder in os.listdir(DATA_DIR):
         if file.endswith(".wav") and file.startswith("w"):
             base_name = os.path.splitext(file)[0]
             word = base_name.split("_")[0][1:]  # extract part after 'w' and before '_'
+            word = word.lower()
             lab_path = os.path.join(person_path, f"{base_name}.lab")
 
             with open(lab_path, "w") as f:

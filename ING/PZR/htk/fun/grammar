@@ -1,9 +1,8 @@
 $display = ZOBRAZ;
 $stock = TESLA | APPLE;
-$past = ZA POSLEDNI;
+$past = ZA-POSLEDNI;
 $timeunit = TYDEN | MESIC | ROK;
-$in = V;
-$interval_spec = INTERVALU;
-$granularity = DNU | HODIN;
+$in_interval_spec = V-INTERVALU;
+$granularity = DNU | HODIN | MESICU;
 
-( SENT-START (<$display $stock $past $timeunit $in $interval_spec $granularity>) SENT-END )
+( SENT-START $display $stock $past $timeunit $in_interval_spec $granularity SENT-END )

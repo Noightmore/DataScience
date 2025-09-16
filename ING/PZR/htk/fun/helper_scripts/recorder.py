@@ -4,12 +4,16 @@ import sounddevice as sd
 import soundfile as sf
 import matplotlib.pyplot as plt
 
+# ~/Programming/Datascience/ING/PZR/htk/fun/data $ ../../../../../.venv/bin/python ../helper_scripts/recorder.py
+
 data_folder = "data"
 
 # SETTINGS
-WORDS = ["ZOBRAZ", "TESLA", "APPLE", "ZA", "POSLEDNI", "TYDEN", "MESIC", "ROK", "V",
-         "INTERVALU", "DNU", "HODIN"]
-RECORDINGS_PER_WORD = 1
+#WORDS = ["ZOBRAZ", "TESLA", "APPLE", "ZA-POSLEDNI", "TYDEN", "MESIC", "ROK",
+#         "V-INTERVALU", "DNU", "HODIN"]
+
+WORDS = ["MESICU"]
+RECORDINGS_PER_WORD = 5 
 SAMPLE_RATE = 16000  # 16kHz
 SILENCE_PADDING = 0.3  # 0.5 seconds of silence at start and end
 PRE_RECORD_DISCARD = 0 # Discard first 100ms
