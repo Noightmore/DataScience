@@ -1,0 +1,7 @@
+singleton a factory v c++
+
+predelat implementaci javy ze spanek repo do c++
+basic polymorfismus
+
+thread safety, pouze zamykame veci co jsou nutne, treba jen pro prepis/zapis, cteni neni nutne zamkykat.
+zamykani je resource heavy

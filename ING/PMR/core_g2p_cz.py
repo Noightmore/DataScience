@@ -1,100 +1,245 @@
 # core_g2p_cz.py
+import re
 import pynini as pn
 from pynini.lib import rewrite
 
-# ----- Alphabet & helpers -----
-# We work in NFC unicode, lowercase input.
-V = pn.union("a","á","e","é","i","í","o","ó","u","ú","ů","y","ý")
-CONS = pn.union(*list("bcčdďfghjklmnpqrsštťuvwxyzžxwřXČŘC"))  # includes PAC symbols & digraph outputs
-SPACE = pn.union(" ", "\t", "\n")
-BOUND = pn.accep("#")                  # explicit word boundary marker
-SIGMA = pn.union(V, CONS, SPACE, BOUND, ".", ",", "!", "?", ":", ";").closure().optimize()
+# a list of supported phones for the output
+phones = {
+    "a", "á",
+    "b",
+    "c", "č", "C", "Č", # C = dz; Č = dž
+    "d", "ď",
+    "e", "é",
+    "f",
+    "g",
+    "h", "X",          # X = ch
+    "i", "í",
+    "j",
+    "k",
+    "l",
+    "m", "M",
+    "n", "N", "ň",
+    "o", "ó",
+    "p",
+    "r", "ř", "Ř",          # Ř = voiced ř
+    "s", "š",
+    "t", "ť",
+    "u", "ú",
+    "v",
+    "z", "ž",
+    "E",               # neutrální samohláska
+    "-"                # ticho
+}
 
-def mark_boundaries(text: str) -> str:
-    # Surround tokens with # … # so we can implement word-final contexts cleanly.
-    import re
-    # Split on whitespace/punct and re-insert as boundaries.
-    text = re.sub(r"\s+", " ", text.strip())
-    text = re.sub(r"([.,!?;:])", r" \1 ", text)
-    tokens = [t for t in text.split(" ") if t != ""]
-    return " ".join([BOUND + t + BOUND if t not in ".,!?;:" else t for t in tokens])
+# basic czech alphabet ---------------------------------------------------------
+lowercase = set("abcdefghijklmnopqrstuvwxyz")
+czech_lower = {"á","é","ě","í","ó","ú","ů","ý","č","ř","ď","ť","ň","š","ž"}
 
-def unmark_boundaries(text: str) -> str:
-    return text.replace(BOUND, "")
+uppercase    = {c.upper() for c in lowercase}
+czech_upper  = {c.upper() for c in czech_lower}
 
-# ----- Base grapheme→phoneme rules -----
-# Pravidla fonetického přepisu (2): ch→X, ů→ú, w→v, q→kv, x→ks, y/ý→i/í.  :contentReference[oaicite:2]{index=2}
-r_base = pn.union(
-    pn.cdrewrite(pn.cross("ch","X"), "", "", SIGMA),
-    pn.cdrewrite(pn.cross("ů","ú"),  "", "", SIGMA),
-    pn.cdrewrite(pn.cross("w","v"),  "", "", SIGMA),
-    pn.cdrewrite(pn.cross("q","kv"), "", "", SIGMA),
-    pn.cdrewrite(pn.cross("x","ks"), "", "", SIGMA),
-    pn.cdrewrite(pn.cross("y","i"),  "", "", SIGMA),
-    pn.cdrewrite(pn.cross("ý","í"),  "", "", SIGMA),
-).optimize()
+graphs = (
+        lowercase | czech_lower |
+        uppercase | czech_upper |
+        {" ", ".",",","!","?",";",":"}
+)
+# -----------------------------------------------------------------------------
 
-# Pravidla (3): "slabikotvorné j" — i→ij before a vowel.  :contentReference[oaicite:3]{index=3}
-r_j_insertion = pn.cdrewrite(pn.cross("i","ij"), "", V, SIGMA)
 
-# Pravidla (4): ě after b,p,f,v → je; dě→ďe, tě→ťe, ně→ňe; mě→mňe; d/t/n→ď/ť/ň before i,í.  :contentReference[oaicite:4]{index=4}
-BPFV = pn.union("b","p","f","v")
-r_e_after_bpfv = pn.cdrewrite(pn.cross("ě","je"), BPFV, "", SIGMA)
+# rules -----------------------------------------------------------------------
 
-r_dte_bigram = pn.union(
-    pn.cdrewrite(pn.cross("dě","ďe"), "", "", SIGMA),
-    pn.cdrewrite(pn.cross("tě","ťe"), "", "", SIGMA),
-    pn.cdrewrite(pn.cross("ně","ňe"), "", "", SIGMA),
-    pn.cdrewrite(pn.cross("mě","mňe"), "", "", SIGMA),
-).optimize()
+# helper sets for rules
+vowel_set = pn.union("a","á","e","é","i","í","o","ó","u","ú","ů","y","ý")
+bpfv = pn.union("b","p","f","v")
+i_or_long_i = pn.union("i", "í")
 
-r_pal_before_i = pn.union(
-    pn.cdrewrite(pn.cross("d","ď"), "", pn.union("i","í"), SIGMA),
-    pn.cdrewrite(pn.cross("t","ť"), "", pn.union("i","í"), SIGMA),
-    pn.cdrewrite(pn.cross("n","ň"), "", pn.union("i","í"), SIGMA),
-).optimize()
+# Voiced obstruents (ZPS). Use Ř (voiced ř) here.
+ZPS = {"b","d","ď","g","z","ž","h","C","Č","Ř"}  # v handled separately, see r_v_final
+# Voiceless obstruents (NPS).
+NPS = {"p","t","ť","k","s","š","X","c","č","ř"}
 
-# Pravidla (6) – spodoba artikulace (place/manner):
-# n→N before k,g ; m→M before f,v ; clusters s/z + t/d etc.  :contentReference[oaicite:5]{index=5}
-r_place = pn.union(
-    pn.cdrewrite(pn.cross("n","N"), "", pn.union("k","g"), SIGMA),
-    pn.cdrewrite(pn.cross("m","M"), "", pn.union("f","v"), SIGMA),
-    # s,z with t,d (written in the slides via ts→c, ds→c, tš→č, dš→č, dz→C, dž→Č)
-    pn.cdrewrite(pn.cross("ts","c"), "", "", SIGMA),
-    pn.cdrewrite(pn.cross("ds","c"), "", "", SIGMA),
-    pn.cdrewrite(pn.cross("tš","č"), "", "", SIGMA),
-    pn.cdrewrite(pn.cross("dš","č"), "", "", SIGMA),
-    pn.cdrewrite(pn.cross("dz","C"), "", "", SIGMA),
-    pn.cdrewrite(pn.cross("dž","Č"), "", "", SIGMA),
-).optimize()
-
-# Pravidla (5) – spodoba znělosti (voicing/devoicing, incl. ř).  :contentReference[oaicite:6]{index=6}
-# Define voiced/voiceless obstruent pairs per the slide:
+# --- maps (voiced <-> voiceless) ---
 devoice_pairs = {
-    "b":"p","d":"t","ď":"ť","g":"k","v":"f","z":"s","ž":"š","h":"X","C":"c","Č":"č","Ř":"ř"
+    "b":"p","d":"t","ď":"ť","g":"k",
+    "z":"s","ž":"š","h":"X","C":"c","Č":"č","Ř":"ř"
 }
 voice_pairs = {v:k for k,v in devoice_pairs.items()}
-VOICED = pn.union(*voice_pairs.values())       # set of voiced obstruents (targets for devoicing rule)
-VOICELESS = pn.union(*voice_pairs.keys())      # set of voiceless obstruents (context for devoicing)
-DEVOICE = pn.string_map(devoice_pairs.items())
-VOICE   = pn.string_map(voice_pairs.items())
 
-# Treat plain input 'ř' as underlyingly voiced; let devoicing fix it in voiceless context.
-r_raise_R = pn.cdrewrite(pn.cross("ř","Ř"), "", "", SIGMA)
+DEVOICE = pn.string_map(list(devoice_pairs.items()))
+VOICE   = pn.string_map(list(voice_pairs.items()))
 
-# (a) Devoice a voiced obstruent word-finally or before a voiceless obstruent: ZPS → ¬ZPS / _ <#, NPS>.  :contentReference[oaicite:7]{index=7}
-r_devoice = pn.cdrewrite(DEVOICE, "", pn.union(BOUND, VOICELESS), SIGMA)
+VOICE_MAP = pn.string_map([
+    ("p","b"), ("t","d"), ("ť","ď"), ("k","g"),
+    ("s","z"), ("š","ž"), ("X","h"), ("c","C"), ("č","Č"), ("ř","Ř"),
+])
 
-# (b) Voice a voiceless obstruent before a voiced obstruent: NPS → ¬NPS / _ VOICED.  :contentReference[oaicite:8]{index=8}
-r_voice = pn.cdrewrite(VOICE, "", VOICED, SIGMA)
+def main():
+    # full alphabet (Σ)
+    # hashtag pro tokenizaci, pro zjisteni word end and word start
+    sigma  = pn.union(*(graphs | phones | {"#"})).closure().optimize()
+    bound  = pn.accep("#")
 
-# ----- Compose the pipeline with clear precedence -----
-# 1) base grapheme rules; 2) j-insertion; 3) ě/bpfv + palatalizations; 4) place/manner; 5) raise Ř; 6) voicing assimilations.
-RULE = (r_base @ r_j_insertion @ r_e_after_bpfv @ r_dte_bigram @ r_pal_before_i
-        @ r_place @ r_raise_R @ r_voice @ r_devoice).optimize()
+    def mark_boundaries(s: str) -> str:
+        s = re.sub(r"\s+", " ", s.strip())
+        s = re.sub(r"([.,!?;:])", r" \1 ", s)
+        toks = [t for t in s.split(" ") if t]
+        return " ".join([f"#{t}#" if t not in ".,!?;:" else t for t in toks])
 
-def g2p(text: str) -> str:
-    s = mark_boundaries(text.lower())
-    out = rewrite.one_top_rewrite(s, RULE)
-    return unmark_boundaries(out)
+    def unmark_boundaries(s: str) -> str:
+        return s.replace("#", "")
 
+
+    # basic context free rewrite rules
+    r_ch   = pn.cdrewrite(pn.cross("ch", "X"), "", "", sigma)  # ch → X
+    r_uoh  = pn.cdrewrite(pn.cross("ů",  "ú"), "", "", sigma)  # ů → ú
+    r_w    = pn.cdrewrite(pn.cross("w",  "v"), "", "", sigma)  # w → v
+    r_q    = pn.cdrewrite(pn.cross("q",  "kv"),"", "", sigma)  # q → kv
+    r_x    = pn.cdrewrite(pn.cross("x",  "ks"),"", "", sigma)  # x → ks
+    r_y    = pn.cdrewrite(pn.cross("y",  "i"), "", "", sigma)  # y → i
+    r_yacu = pn.cdrewrite(pn.cross("ý",  "í"), "", "", sigma)  # ý → í
+
+    # Slabikotvorné j: Jestliže za i následuje jiná samohláska, vloží se mezi i a následující
+    # samohlásku j
+    # i → ij / _ <SA> “marije”, “mariji”, “bijologije”
+    r_slabi_j = pn.cdrewrite(pn.cross("i", "ij"), "", vowel_set, sigma)
+
+    # Následuje-li ě po b, p, f, v, přepisuje se na [je]
+    # ě → je / <b, p, f, v> _
+    r_je_after_bpfv = pn.cdrewrite(pn.cross("ě","je"), bpfv, "", sigma)
+
+    # Spojení dě, tě, ně, mě přepisujeme na [ďe], [ťe], [ňe], [mňe]
+    # dě → ďe / _
+    # tě → ťe / _
+    # ně → ňe / _
+    # ě → ňe / m_
+    r_de = pn.cdrewrite(pn.cross("dě","ďe"), "", "", sigma)
+    r_te = pn.cdrewrite(pn.cross("tě","ťe"), "", "", sigma)
+    r_ne = pn.cdrewrite(pn.cross("ně","ňe"), "", "", sigma)
+    r_me = pn.cdrewrite(pn.cross("mě","mňe"), "", "", sigma)
+
+    # Spojení di, ti, ni přepisujeme na [ďi], [ťi], [ňi]
+    # d → ď / _<i, í>
+    # t → ť / _<i, í>
+    # n → ň / _<i, í>
+    r_di = pn.cdrewrite(pn.cross("d", "ď"), "", i_or_long_i, sigma)
+    r_ti = pn.cdrewrite(pn.cross("t", "ť"), "", i_or_long_i, sigma)
+    r_ni = pn.cdrewrite(pn.cross("n", "ň"), "", i_or_long_i, sigma)
+
+    # Pravidla spodoby znělosti
+    # Označíme ¬ ZPS jako neznělý protějšek ke znělé souhlásce ZPS,
+    # tj ¬ b = p, ¬ d = t, ¬ ď = ť, ¬ g = k, ¬ v = f, ¬ z = s,
+    # ¬ ž = š, ¬ h = ch, ¬ C = c, ¬ Č = č, ¬ Ř = ř.
+    # podobně ¬ NPS je znělý protějšek k neznělé souhlásce NPS
+
+    voiced_obst    = pn.union(*ZPS)     # triggers for voicing on the right
+    voiceless_obst = pn.union(*NPS)     # triggers for devoicing on the right
+
+    # ZPS1 → ¬ ZPS1 / _ < - , NPS, ZPS2 - > „hrad“ → „hrat“, „vůz“ → „vús“,
+    # „Radka“ → „ratka“, „drozd“, → „drost“,
+
+    # --- ř baseline: treat plain ř as voiced Ř; devoicing may change it back ---
+    r_raise_R = pn.cdrewrite(pn.cross("ř","Ř"), "", "", sigma)
+
+    # Devoice Ř when immediately before a voiceless obstruent (adjacent) …
+    r_R_devoice_adj = pn.cdrewrite(pn.cross("Ř","ř"), "", voiced_obst, sigma)
+
+    # …and also when 'i' or 'í' intervenes before a voiceless obstruent (Ř i|í VOICELESS)
+    r_R_devoice_iX = pn.cdrewrite(
+        pn.cross("Ř","ř"),
+        "",
+        pn.concat(pn.union("i","í"), voiced_obst),
+        sigma
+    )
+
+    # --- voicing (NPS -> ZPS) before a voiced obstruent on the right ---
+    r_voice   = pn.cdrewrite(VOICE,   "", voiced_obst, sigma)
+
+    # --- devoicing (ZPS -> NPS) before a voiceless obstruent OR word-final (#) ---
+    r_devoice = pn.cdrewrite(DEVOICE, "", pn.union(voiceless_obst, "#"), sigma)
+
+    # --- special-case: v -> f only word-final (common Czech, avoids cycles) ---
+    r_v_final = pn.cdrewrite(pn.cross("v","f"), "", "#", sigma)
+
+    # Compose these in your pipeline AFTER place/manner assimilation:
+    assim_voicing = (r_raise_R @ r_voice @ r_devoice @ r_v_final).optimize()
+
+    # NPS1 → ¬ NPS1 / _ ZPS „kresba → „krezba“, „kdo“ → „gdo“,
+    # „leckde“ → „leCgde“,
+    # The rule itself: NPS -> voiced / _ ZPS
+    r_voice = pn.cdrewrite(VOICE_MAP, "", voiced_obst, sigma)
+
+    # definice pravidel
+    base_rules = ((r_ch @ r_uoh @ r_w @ r_q @ r_x @ r_y @ r_yacu @ r_slabi_j
+                  @ r_je_after_bpfv @ r_de @ r_te @ r_ne @ r_me @ r_di @ r_ti @ r_ni @ assim_voicing @ r_voice
+                   @ r_R_devoice_adj @ r_R_devoice_iX )
+                  .optimize())
+
+    def apply_base(text: str, rules) -> str:
+        return unmark_boundaries(rewrite.one_top_rewrite(mark_boundaries(text), rules))
+
+    # --- quick demo for context free rules ---
+    examples = [
+        "chata",    # ch → X
+        "kůň",      # ů → ú
+        "wow",      # w → v
+        "quark",    # q → kv
+        "xenon",    # x → ks
+        "byl dým",  # y→i, ý→í
+
+        # i -> ij
+        "marie",
+        "biologie",
+        "radnice"
+
+        # Rule: ě → je / <b,p,f,v> _
+        "běh",
+        "pěna",
+        "věc",
+        "fě"
+
+        # dě, tě, ně, mě → ďe, ťe, ňe, mňe
+        "dě",
+        "těžký",
+        "nějak",
+        "město"
+        
+        # d, t, n → ď, ť, ň / _ <i, í>
+        "dik",
+        "dívka",
+        "ticho",
+        "tíž",
+        "nikdy",
+        "nízko",
+        
+        # ZPS/NPS fun
+        "hrad", # hrat
+        "vůz", # vús
+        "Radka", # ratka
+        "drozd",  # drost
+        "kdo", # gdo
+        "keř", # keŘ (voiced ř)
+        "břicho", # břiXo (ř devoiced by X)
+
+        # another rule for nps
+        "kresba",
+        "kdo",
+        "leckde",
+
+        # sekvence slov
+        "sex kokot hradský hrad buzna buznitá, teplovitost"
+    ]
+    for s in examples:
+        print(f"{s} -> {apply_base(s, base_rules)}")
+
+if __name__ == "__main__":
+    main()
+
+
+# fix Řř
+# fix wow -> vof ???????????????????
+# fix nikdy -> ňigďi; the rules have to be applied from left to right to prevent this exact scenario
+# udelat kod vice modularni a prehledny!!!!!!!!!!!
+# napsat vlastni testy dle nouza pravidel, zadny chat gpt!!!!!!
+
+# problemy mohou nastat v poradim v jakem jsou pravidla aplikovana?
+# udelat modularni aplikaci pravidel?
