@@ -1,9 +1,8 @@
 # tests/test_g2p_pdf_examples.py
 # Run with: pytest -q
 import re
-import unicodedata as ud
 
-from ING.PMR.core_g2p_cz import g2p  # <-- change if your module is named differently
+from ING.PMR.g2p.core_g2p_cz import g2p  # <-- change if your module is named differently
 
 # ---- small helpers ----------------------------------------------------------
 def norm_spaces(s: str) -> str:
