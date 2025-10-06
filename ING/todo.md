@@ -1,7 +1,9 @@
 # todo
 
-- a taky i zkusit dim(
-- ziskat diplomku tema napsat email kynychovi do konce vikendu, ale nejprve prijit lehce zajimava temata
+- napsat na diplomku henysovi
+- podivat se na ANV, udelat v cpp nebo c#
+- dodelat pzr2.0 druhe cviceni, 100 vet
+- mt3.0 -- 3. cviko dodelat
 
 salim status:
 
@@ -20,3 +22,6 @@ PZS: nema
 RDB: nejspis nema, za 4 dle stagu
 DAI: ukecal na 3 -- 5 kreditu
 MZOD: ma 1-, rozky mel asi velmi dobry den -- 5 kreditu
+
+skoncil yaaaaaay
+

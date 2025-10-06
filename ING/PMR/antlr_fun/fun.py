@@ -318,3 +318,7 @@ if __name__ == "__main__":
 # vyvarovat se cizich slov obecne
 
 # vygenerovat pravidla dle chat gpt udelat maly skypt pro analyzu cetnosti phonemu aby byly spravne reprezentovane
+
+# to run:
+# python fun.py "chata kůň wow quark"
+# @  ~/Programming/Datascience/ING/PMR/antlr_fun
