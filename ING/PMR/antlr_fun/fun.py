@@ -112,34 +112,50 @@ def apply_voicing_parallel(words: list[str]) -> list[str]:
 
         def add_char(pos, rep, pr, tag): edits.append((pos, rep, pr, tag))
 
-        # baseline: ř -> Ř
+        # baseline: prefer voiced variant (low priority) so isolated ř stays voiced
         for i, ch in enumerate(s):
             if ch == "ř":
-                add_char(i, "Ř", 10, "raiseŘ")
+                add_char(i, "Ř", 10, "baselineŘ")
 
         # within-word assimilation
         for i in range(len(s) - 1):
             a, b = s[i], s[i+1]
 
-            # Ř devoicing only if followed by a truly voiceless trigger
-            if a == "Ř" and b in VOICELESS_TRIG:
-                add_char(i, "ř", 60, "Ř→ř/_NPS")
+            # ----- R E G R E S S I V E   A S S I M I L A T I O N  (to the right) -----
+            # If ř is followed by a voiceless trigger -> devoice ř (strong)
+            if a == "ř" and b in VOICELESS_TRIG:
+                add_char(i, "ř", 80, "ř→ř/_NPS (regressive devoicing)")
+            # If ř is followed by a voiced trigger -> ensure voiced Ř (strong)
+            if a == "ř" and b in VOICED_TRIG:
+                add_char(i, "Ř", 70, "ř→Ř/_ZPS (regressive voicing)")
 
-            # voicing: NPS -> ZPS before voiced trigger
+            # ----- N O R M A L   V O I C I N G / D E V O I C I N G  R U L E S -----
+            # voicing: NPS -> ZPS before voiced trigger (e.g., p->b before voiced)
             if a in VOICE_MAP and b in VOICED_TRIG:
                 add_char(i, VOICE_MAP[a], 40, "voice")
-
             # devoicing: ZPS -> NPS before voiceless trigger
             if a in DEVOICE_MAP and b in VOICELESS_TRIG:
                 add_char(i, DEVOICE_MAP[a], 45, "devoice")
+
+        # ----- P R O G R E S S I V E   A S S I M I L A T I O N  (to the left) -----
+        # Apply assimilation driven by the preceding segment (weaker than regressive)
+        for i in range(1, len(s)):
+            prev, cur = s[i-1], s[i]
+            if cur == "ř":
+                # after voiced obstruent -> rule (36): ř -> ř / ZPS _
+                if prev in VOICED_TRIG:
+                    add_char(i, "ř", 50, "ř→ř / ZPS _ (progressive)")
+                # after voiceless obstruent -> rule (37): ř -> Ř / NPS _
+                if prev in VOICELESS_TRIG:
+                    add_char(i, "Ř", 50, "ř→Ř / NPS _ (progressive)")
 
         # cross-word assimilation
         if idx+1 < len(base) and base[idx+1]:
             first_next = base[idx+1][0]
 
-            # Ř devoicing across word boundary
+            # Ř devoicing across word boundary (regressive across boundary)
             if s and s[-1] == "Ř" and first_next in VOICELESS_TRIG:
-                add_char(len(s)-1, "ř", 60, "Ř→ř / _#NPS")
+                add_char(len(s)-1, "ř", 80, "Ř→ř / _#NPS (cross-word regressive)")
 
             # normal NPS/ZPS assimilation across word boundary
             if s:
