@@ -124,7 +124,16 @@ def verify_sentence_integrity(sentences):
     print("Missing / underrepresented:", {k:v for k,v in counts.items() if v < 3})
 
 if __name__ == "__main__":
+
+    save_folder = "recordings"
+
     # for phone parsing: remove spaces and dashes, punctuations etc.
     verify_sentence_integrity(sentences)
     print("sentence count:", len(sentences))
+
+    from recorder import record_sentence
+
+    for i, s in enumerate(sentences):
+        print(f"\n--- Sentence {i+1}/{len(sentences)} ---")
+        record_sentence(s, output_dir=save_folder)
 

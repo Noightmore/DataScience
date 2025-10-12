@@ -4,8 +4,9 @@ import unicodedata as ud
 import regex as re
 from antlr4 import InputStream, CommonTokenStream
 from antlr4.TokenStreamRewriter import TokenStreamRewriter
-from CzechLexer import CzechLexer
-from CzechParser import CzechParser  # generated but not used directly
+from ING.PMR.antlr_fun.CzechLexer import CzechLexer
+#from CzechLexer import CzechLexer
+from ING.PMR.antlr_fun.CzechParser import CzechParser  # generated but not used directly
 
 # ---------- helpers ----------
 def nfc(s: str) -> str:
@@ -112,52 +113,60 @@ def apply_voicing_parallel(words: list[str]) -> list[str]:
 
         def add_char(pos, rep, pr, tag): edits.append((pos, rep, pr, tag))
 
-        # baseline: prefer voiced variant (low priority) so isolated ř stays voiced
-        for i, ch in enumerate(s):
-            if ch == "ř":
-                add_char(i, "Ř", 10, "baselineŘ")
+        # NOTE: removed the old "baseline prefer voiced Ř" — per your rules,
+        # ř changes ONLY when one of (34)–(37) matches; otherwise it stays ř.
 
         # within-word assimilation
         for i in range(len(s) - 1):
             a, b = s[i], s[i+1]
 
-            # ----- R E G R E S S I V E   A S S I M I L A T I O N  (to the right) -----
-            # If ř is followed by a voiceless trigger -> devoice ř (strong)
-            if a == "ř" and b in VOICELESS_TRIG:
-                add_char(i, "ř", 80, "ř→ř/_NPS (regressive devoicing)")
-            # If ř is followed by a voiced trigger -> ensure voiced Ř (strong)
+            # ----- R E G R E S S I V E   A S S I M I L A C E  -----
+            # (34) ř → ř / _ ZPS   (before a voiced obstruent, keep ř)
             if a == "ř" and b in VOICED_TRIG:
-                add_char(i, "Ř", 70, "ř→Ř/_ZPS (regressive voicing)")
+                add_char(i, "ř", 80, "ř→ř / _ ZPS (34)")
+            # (35) ř → Ř / _ NPS   (before a voiceless obstruent, make Ř)
+            if a == "ř" and b in VOICELESS_TRIG:
+                add_char(i, "Ř", 80, "ř→Ř / _ NPS (35)")
 
-            # ----- N O R M A L   V O I C I N G / D E V O I C I N G  R U L E S -----
-            # voicing: NPS -> ZPS before voiced trigger (e.g., p->b before voiced)
+            # ----- N O R M Á L N Í   Z N Ě L O S T N Í   S P O D O B A  -----
+            # Keep your general voicing/devoicing rules for OTHER consonants
             if a in VOICE_MAP and b in VOICED_TRIG:
                 add_char(i, VOICE_MAP[a], 40, "voice")
-            # devoicing: ZPS -> NPS before voiceless trigger
             if a in DEVOICE_MAP and b in VOICELESS_TRIG:
                 add_char(i, DEVOICE_MAP[a], 45, "devoice")
 
-        # ----- P R O G R E S S I V E   A S S I M I L A T I O N  (to the left) -----
-        # Apply assimilation driven by the preceding segment (weaker than regressive)
+        # ----- P R O G R E S S I V N Í   A S S I M I L A C E  -----
+        # (36) ř → ř / ZPS _    (after a voiced obstruent, keep ř)
+        # (37) ř → Ř / NPS _    (after a voiceless obstruent, make Ř)
         for i in range(1, len(s)):
             prev, cur = s[i-1], s[i]
             if cur == "ř":
-                # after voiced obstruent -> rule (36): ř -> ř / ZPS _
                 if prev in VOICED_TRIG:
-                    add_char(i, "ř", 50, "ř→ř / ZPS _ (progressive)")
-                # after voiceless obstruent -> rule (37): ř -> Ř / NPS _
+                    add_char(i, "ř", 50, "ř→ř / ZPS _ (36)")
                 if prev in VOICELESS_TRIG:
-                    add_char(i, "Ř", 50, "ř→Ř / NPS _ (progressive)")
+                    add_char(i, "Ř", 50, "ř→Ř / NPS _ (37)")
 
-        # cross-word assimilation
-        if idx+1 < len(base) and base[idx+1]:
-            first_next = base[idx+1][0]
+        # ----- N E W : ř at start or end → Ř -----
+        if s:
+            if s[0] == "ř":
+                add_char(0, "Ř", 90, "ř→Ř (word-initial)")
+            if s[-1] == "ř":
+                add_char(len(s) - 1, "Ř", 90, "ř→Ř (word-final)")
 
-            # Ř devoicing across word boundary (regressive across boundary)
-            if s and s[-1] == "Ř" and first_next in VOICELESS_TRIG:
-                add_char(len(s)-1, "ř", 80, "Ř→ř / _#NPS (cross-word regressive)")
+        # ----- P Ř E S   H R A N I C I   S L O V  (regressive across boundary) -----
+        if idx + 1 < len(base) and base[idx + 1]:
+            first_next = base[idx + 1][0]
 
-            # normal NPS/ZPS assimilation across word boundary
+            # Apply ONLY when last char is ř, per rules (34)/(35)
+            if s and s[-1] == "ř":
+                # (34) ř → ř / _ ZPS
+                if first_next in VOICED_TRIG:
+                    add_char(len(s) - 1, "ř", 80, "ř→ř / _ ZPS (34, cross-word)")
+                # (35) ř → Ř / _ NPS
+                if first_next in VOICELESS_TRIG:
+                    add_char(len(s) - 1, "Ř", 80, "ř→Ř / _ NPS (35, cross-word)")
+
+            # keep your normal cross-word assimilation for other consonants
             if s:
                 last = s[-1]
                 if last in VOICE_MAP and first_next in VOICED_TRIG:
@@ -177,11 +186,10 @@ def apply_voicing_parallel(words: list[str]) -> list[str]:
             chars[pos] = rep
         word_after_pos = "".join(chars)
 
-        # propagate cluster devoicing (Ř excluded)
+        # propagate cluster devoicing (Ř excluded as before)
         out.append(_devoice_tail_cluster(word_after_pos))
 
     return out
-
 
 
 # ---------- main API ----------
@@ -308,15 +316,20 @@ if __name__ == "__main__":
         "Dnes bude oblačno až polojasno, místy možno očekávat přeháňky."
     ]
 
-    if len(sys.argv) > 1:
-        print(rewrite_text(" ".join(sys.argv[1:])))
-    elif not sys.stdin.isatty():
-        print(rewrite_text(sys.stdin.read()))
-    else:
-        for s in samples:
-            print(f"{s} -> {rewrite_text(s)}")
-        for s in samples2:
-            print(f"{s} -> {rewrite_text(s)}")
+    # if len(sys.argv) > 1:
+    #     print(rewrite_text(" ".join(sys.argv[1:])))
+    # elif not sys.stdin.isatty():
+    #     print(rewrite_text(sys.stdin.read()))
+    # else:
+    #     for s in samples:
+    #         print(f"{s} -> {rewrite_text(s)}")
+    #     for s in samples2:
+    #         print(f"{s} -> {rewrite_text(s)}")
+
+    for s in samples:
+         print(f"{s} -> {rewrite_text(s)}")
+    for s in samples2:
+         print(f"{s} -> {rewrite_text(s)}")
 
 # problemy:
 #  kriťizoval, univerzita, komunikovat, diskutovat -> viktoriia fenomen; nutno udelat seznam vyjimek
