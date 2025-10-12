@@ -6,7 +6,7 @@ from antlr4 import InputStream, CommonTokenStream
 from antlr4.TokenStreamRewriter import TokenStreamRewriter
 from ING.PMR.antlr_fun.CzechLexer import CzechLexer
 #from CzechLexer import CzechLexer
-from ING.PMR.antlr_fun.CzechParser import CzechParser  # generated but not used directly
+#from ING.PMR.antlr_fun.CzechParser import CzechParser  # generated but not used directly
 
 # ---------- helpers ----------
 def nfc(s: str) -> str:
@@ -348,6 +348,3 @@ if __name__ == "__main__":
 
 # vygenerovat pravidla dle chat gpt udelat maly skypt pro analyzu cetnosti phonemu aby byly spravne reprezentovane
 
-# to run:
-# python fun.py "chata kůň wow quark"
-# @  ~/Programming/Datascience/ING/PMR/antlr_fun

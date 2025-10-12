@@ -8,7 +8,7 @@ import os
 
 import numpy as np
 import sounddevice as sd
-
+import unicodedata as ud
 
 SR = 16000          # 16 kHz sample rate
 CHANNELS = 1        # mono
@@ -19,12 +19,20 @@ NOISE_RMS = 0.0002       # very low-level noise for padding (~ inaudible hiss)
 
 
 def _sanitize_filename(text: str) -> str:
+    # Normalize Unicode and strip diacritics (e.g. ř -> r, č -> c, ě -> e)
+    def remove_diacritics(s: str) -> str:
+        return ''.join(
+            c for c in ud.normalize('NFD', s)
+            if ud.category(c) != 'Mn'
+        )
+
     base = text.strip().lower()
+    base = remove_diacritics(base)
     base = re.sub(r'\s+', '_', base)
-    base = re.sub(r'[^a-z0-9_]+', '', base)
+    # remove . ,!?;:„“"\'()\-–— and other punctuation at the end
+    base = re.sub(r'[.,!?;:„“"\'()\-–—]+$', '', base)
     base = base[:60] if base else "recording"
-    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    return f"{base}_{stamp}.wav"
+    return f"{base}.wav"
 
 
 def _edge_silence_samples(x: np.ndarray, thresh: float, required: int) -> tuple[int, int]:

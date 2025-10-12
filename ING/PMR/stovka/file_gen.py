@@ -2,15 +2,23 @@ import os
 import re
 from datetime import datetime
 from typing import Callable, Dict
+import unicodedata as ud
 
-# --- keep your sanitizer unchanged ---
 def _sanitize_filename(text: str) -> str:
+    # Normalize Unicode and strip diacritics (e.g. ř -> r, č -> c, ě -> e)
+    def remove_diacritics(s: str) -> str:
+        return ''.join(
+            c for c in ud.normalize('NFD', s)
+            if ud.category(c) != 'Mn'
+        )
+
     base = text.strip().lower()
+    base = remove_diacritics(base)
     base = re.sub(r'\s+', '_', base)
-    base = re.sub(r'[^a-z0-9_]+', '', base)
+    # remove . ,!?;:„“"\'()\-–— and other punctuation at the end
+    base = re.sub(r'[.,!?;:„“"\'()\-–—]+$', '', base)
     base = base[:60] if base else "recording"
-    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    return f"{base}_{stamp}.wav"
+    return f"{base}.wav"
 
 # --- mapping: (second column) -> (third column) ---
 PHONEME_MAP: Dict[str, str] = {
