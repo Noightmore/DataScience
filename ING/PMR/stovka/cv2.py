@@ -132,8 +132,11 @@ if __name__ == "__main__":
     print("sentence count:", len(sentences))
 
     from recorder import record_sentence
+    from file_gen import generate_files
+    from ING.PMR.antlr_fun.fun import rewrite_text
 
     for i, s in enumerate(sentences):
         print(f"\n--- Sentence {i+1}/{len(sentences)} ---")
         record_sentence(s, output_dir=save_folder)
-
+        generate_files(s, output_dir=save_folder, rewrite_text=rewrite_text)
+    print("\nAll done.")
