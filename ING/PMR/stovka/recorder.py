@@ -29,8 +29,8 @@ def _sanitize_filename(text: str) -> str:
     base = text.strip().lower()
     base = remove_diacritics(base)
     base = re.sub(r'\s+', '_', base)
-    # remove . ,!?;:„“"\'()\-–— and other punctuation at the end
-    base = re.sub(r'[.,!?;:„“"\'()\-–—]+$', '', base)
+    # remove . ,!?;:„“"\'()\-–— and other punctuation anywhere
+    base = re.sub(r'[.,!?;:„“"\'()\-–—]+', '', base)
     base = base[:60] if base else "recording"
     return f"{base}.wav"
 
@@ -190,9 +190,9 @@ def record_sentence(sentence: str, output_dir: str = ".") -> None:
     else:
         print("Recording already has ≥0.5 s near-silence at both ends.")
 
-    print("Final check (with padded edges)…")
-    sd.play(audio, SR)
-    sd.wait()
+    #print("Final check (with padded edges)…")
+    #sd.play(audio, SR)
+    #sd.wait()
 
     y16 = _float_to_int16(audio)
     filename = _sanitize_filename(sentence)
