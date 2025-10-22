@@ -1,0 +1,1979 @@
+#!MLF!#
+"data/Test/MFC/001.lab"
+0 0 si
+0 0 a
+0 0 d
+0 0 a
+0 0 m
+0 0 si
+.
+"data/Test/MFC/002.lab"
+0 0 si
+0 0 b
+0 0 o
+0 0 z
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MFC/003.lab"
+0 0 si
+0 0 ts
+0 0 i
+0 0 r
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/MFC/004.lab"
+0 0 si
+0 0 d
+0 0 a
+0 0 v
+0 0 i
+0 0 t
+0 0 si
+.
+"data/Test/MFC/005.lab"
+0 0 si
+0 0 e
+0 0 m
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/MFC/006.lab"
+0 0 si
+0 0 f
+0 0 r
+0 0 a
+0 0 n
+0 0 tj
+0 0 i
+0 0 s
+0 0 e
+0 0 k
+0 0 si
+.
+"data/Test/MFC/007.lab"
+0 0 si
+0 0 g
+0 0 u
+0 0 s
+0 0 t
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/MFC/008.lab"
+0 0 si
+0 0 h
+0 0 e
+0 0 l
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MFC/009.lab"
+0 0 si
+0 0 i
+0 0 v
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/MFC/010.lab"
+0 0 si
+0 0 y
+0 0 o
+0 0 s
+0 0 e
+0 0 f
+0 0 si
+.
+"data/Test/MFC/011.lab"
+0 0 si
+0 0 k
+0 0 a
+0 0 r
+0 0 e
+0 0 l
+0 0 si
+.
+"data/Test/MFC/012.lab"
+0 0 si
+0 0 l
+0 0 u
+0 0 d
+0 0 v
+0 0 i
+0 0 k
+0 0 si
+.
+"data/Test/MFC/013.lab"
+0 0 si
+0 0 m
+0 0 a
+0 0 r
+0 0 i
+0 0 y
+0 0 e
+0 0 si
+.
+"data/Test/MFC/014.lab"
+0 0 si
+0 0 n
+0 0 o
+0 0 r
+0 0 b
+0 0 e
+0 0 r
+0 0 t
+0 0 si
+.
+"data/Test/MFC/015.lab"
+0 0 si
+0 0 o
+0 0 t
+0 0 o
+0 0 si
+.
+"data/Test/MFC/016.lab"
+0 0 si
+0 0 p
+0 0 e
+0 0 t
+0 0 r
+0 0 si
+.
+"data/Test/MFC/017.lab"
+0 0 si
+0 0 k
+0 0 v
+0 0 u
+0 0 i
+0 0 d
+0 0 o
+0 0 si
+.
+"data/Test/MFC/018.lab"
+0 0 si
+0 0 r
+0 0 u
+0 0 d
+0 0 o
+0 0 l
+0 0 f
+0 0 si
+.
+"data/Test/MFC/019.lab"
+0 0 si
+0 0 s
+0 0 v
+0 0 a
+0 0 t
+0 0 o
+0 0 p
+0 0 l
+0 0 u
+0 0 k
+0 0 si
+.
+"data/Test/MFC/020.lab"
+0 0 si
+0 0 t
+0 0 o
+0 0 m
+0 0 a
+0 0 s
+0 0 si
+.
+"data/Test/MFC/021.lab"
+0 0 si
+0 0 u
+0 0 r
+0 0 b
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/MFC/022.lab"
+0 0 si
+0 0 v
+0 0 a
+0 0 ts
+0 0 l
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/MFC/023.lab"
+0 0 si
+0 0 k
+0 0 s
+0 0 a
+0 0 v
+0 0 e
+0 0 r
+0 0 si
+.
+"data/Test/MFC/024.lab"
+0 0 si
+0 0 z
+0 0 u
+0 0 z
+0 0 a
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MFR/001.lab"
+0 0 si
+0 0 a
+0 0 d
+0 0 a
+0 0 m
+0 0 si
+.
+"data/Test/MFR/002.lab"
+0 0 si
+0 0 b
+0 0 o
+0 0 z
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MFR/003.lab"
+0 0 si
+0 0 ts
+0 0 i
+0 0 r
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/MFR/004.lab"
+0 0 si
+0 0 d
+0 0 a
+0 0 v
+0 0 i
+0 0 t
+0 0 si
+.
+"data/Test/MFR/005.lab"
+0 0 si
+0 0 e
+0 0 m
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/MFR/006.lab"
+0 0 si
+0 0 f
+0 0 r
+0 0 a
+0 0 n
+0 0 tj
+0 0 i
+0 0 s
+0 0 e
+0 0 k
+0 0 si
+.
+"data/Test/MFR/007.lab"
+0 0 si
+0 0 g
+0 0 u
+0 0 s
+0 0 t
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/MFR/008.lab"
+0 0 si
+0 0 h
+0 0 e
+0 0 l
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MFR/009.lab"
+0 0 si
+0 0 i
+0 0 v
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/MFR/010.lab"
+0 0 si
+0 0 y
+0 0 o
+0 0 s
+0 0 e
+0 0 f
+0 0 si
+.
+"data/Test/MFR/011.lab"
+0 0 si
+0 0 k
+0 0 a
+0 0 r
+0 0 e
+0 0 l
+0 0 si
+.
+"data/Test/MFR/012.lab"
+0 0 si
+0 0 l
+0 0 u
+0 0 d
+0 0 v
+0 0 i
+0 0 k
+0 0 si
+.
+"data/Test/MFR/013.lab"
+0 0 si
+0 0 m
+0 0 a
+0 0 r
+0 0 i
+0 0 y
+0 0 e
+0 0 si
+.
+"data/Test/MFR/014.lab"
+0 0 si
+0 0 n
+0 0 o
+0 0 r
+0 0 b
+0 0 e
+0 0 r
+0 0 t
+0 0 si
+.
+"data/Test/MFR/015.lab"
+0 0 si
+0 0 o
+0 0 t
+0 0 o
+0 0 si
+.
+"data/Test/MFR/016.lab"
+0 0 si
+0 0 p
+0 0 e
+0 0 t
+0 0 r
+0 0 si
+.
+"data/Test/MFR/017.lab"
+0 0 si
+0 0 k
+0 0 v
+0 0 u
+0 0 i
+0 0 d
+0 0 o
+0 0 si
+.
+"data/Test/MFR/018.lab"
+0 0 si
+0 0 r
+0 0 u
+0 0 d
+0 0 o
+0 0 l
+0 0 f
+0 0 si
+.
+"data/Test/MFR/019.lab"
+0 0 si
+0 0 s
+0 0 v
+0 0 a
+0 0 t
+0 0 o
+0 0 p
+0 0 l
+0 0 u
+0 0 k
+0 0 si
+.
+"data/Test/MFR/020.lab"
+0 0 si
+0 0 t
+0 0 o
+0 0 m
+0 0 a
+0 0 s
+0 0 si
+.
+"data/Test/MFR/021.lab"
+0 0 si
+0 0 u
+0 0 r
+0 0 b
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/MFR/022.lab"
+0 0 si
+0 0 v
+0 0 a
+0 0 ts
+0 0 l
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/MFR/023.lab"
+0 0 si
+0 0 k
+0 0 s
+0 0 a
+0 0 v
+0 0 e
+0 0 r
+0 0 si
+.
+"data/Test/MFR/024.lab"
+0 0 si
+0 0 z
+0 0 u
+0 0 z
+0 0 a
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MPS/001.lab"
+0 0 si
+0 0 a
+0 0 d
+0 0 a
+0 0 m
+0 0 si
+.
+"data/Test/MPS/002.lab"
+0 0 si
+0 0 b
+0 0 o
+0 0 z
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MPS/003.lab"
+0 0 si
+0 0 ts
+0 0 i
+0 0 r
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/MPS/004.lab"
+0 0 si
+0 0 d
+0 0 a
+0 0 v
+0 0 i
+0 0 t
+0 0 si
+.
+"data/Test/MPS/005.lab"
+0 0 si
+0 0 e
+0 0 m
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/MPS/006.lab"
+0 0 si
+0 0 f
+0 0 r
+0 0 a
+0 0 n
+0 0 tj
+0 0 i
+0 0 s
+0 0 e
+0 0 k
+0 0 si
+.
+"data/Test/MPS/007.lab"
+0 0 si
+0 0 g
+0 0 u
+0 0 s
+0 0 t
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/MPS/008.lab"
+0 0 si
+0 0 h
+0 0 e
+0 0 l
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MPS/009.lab"
+0 0 si
+0 0 i
+0 0 v
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/MPS/010.lab"
+0 0 si
+0 0 y
+0 0 o
+0 0 s
+0 0 e
+0 0 f
+0 0 si
+.
+"data/Test/MPS/011.lab"
+0 0 si
+0 0 k
+0 0 a
+0 0 r
+0 0 e
+0 0 l
+0 0 si
+.
+"data/Test/MPS/012.lab"
+0 0 si
+0 0 l
+0 0 u
+0 0 d
+0 0 v
+0 0 i
+0 0 k
+0 0 si
+.
+"data/Test/MPS/013.lab"
+0 0 si
+0 0 m
+0 0 a
+0 0 r
+0 0 i
+0 0 y
+0 0 e
+0 0 si
+.
+"data/Test/MPS/014.lab"
+0 0 si
+0 0 n
+0 0 o
+0 0 r
+0 0 b
+0 0 e
+0 0 r
+0 0 t
+0 0 si
+.
+"data/Test/MPS/015.lab"
+0 0 si
+0 0 o
+0 0 t
+0 0 o
+0 0 si
+.
+"data/Test/MPS/016.lab"
+0 0 si
+0 0 p
+0 0 e
+0 0 t
+0 0 r
+0 0 si
+.
+"data/Test/MPS/017.lab"
+0 0 si
+0 0 k
+0 0 v
+0 0 u
+0 0 i
+0 0 d
+0 0 o
+0 0 si
+.
+"data/Test/MPS/018.lab"
+0 0 si
+0 0 r
+0 0 u
+0 0 d
+0 0 o
+0 0 l
+0 0 f
+0 0 si
+.
+"data/Test/MPS/019.lab"
+0 0 si
+0 0 s
+0 0 v
+0 0 a
+0 0 t
+0 0 o
+0 0 p
+0 0 l
+0 0 u
+0 0 k
+0 0 si
+.
+"data/Test/MPS/020.lab"
+0 0 si
+0 0 t
+0 0 o
+0 0 m
+0 0 a
+0 0 s
+0 0 si
+.
+"data/Test/MPS/021.lab"
+0 0 si
+0 0 u
+0 0 r
+0 0 b
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/MPS/022.lab"
+0 0 si
+0 0 v
+0 0 a
+0 0 ts
+0 0 l
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/MPS/023.lab"
+0 0 si
+0 0 k
+0 0 s
+0 0 a
+0 0 v
+0 0 e
+0 0 r
+0 0 si
+.
+"data/Test/MPS/024.lab"
+0 0 si
+0 0 z
+0 0 u
+0 0 z
+0 0 a
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MVS/001.lab"
+0 0 si
+0 0 a
+0 0 d
+0 0 a
+0 0 m
+0 0 si
+.
+"data/Test/MVS/002.lab"
+0 0 si
+0 0 b
+0 0 o
+0 0 z
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MVS/003.lab"
+0 0 si
+0 0 ts
+0 0 i
+0 0 r
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/MVS/004.lab"
+0 0 si
+0 0 d
+0 0 a
+0 0 v
+0 0 i
+0 0 t
+0 0 si
+.
+"data/Test/MVS/005.lab"
+0 0 si
+0 0 e
+0 0 m
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/MVS/006.lab"
+0 0 si
+0 0 f
+0 0 r
+0 0 a
+0 0 n
+0 0 tj
+0 0 i
+0 0 s
+0 0 e
+0 0 k
+0 0 si
+.
+"data/Test/MVS/007.lab"
+0 0 si
+0 0 g
+0 0 u
+0 0 s
+0 0 t
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/MVS/008.lab"
+0 0 si
+0 0 h
+0 0 e
+0 0 l
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MVS/009.lab"
+0 0 si
+0 0 i
+0 0 v
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/MVS/010.lab"
+0 0 si
+0 0 y
+0 0 o
+0 0 s
+0 0 e
+0 0 f
+0 0 si
+.
+"data/Test/MVS/011.lab"
+0 0 si
+0 0 k
+0 0 a
+0 0 r
+0 0 e
+0 0 l
+0 0 si
+.
+"data/Test/MVS/012.lab"
+0 0 si
+0 0 l
+0 0 u
+0 0 d
+0 0 v
+0 0 i
+0 0 k
+0 0 si
+.
+"data/Test/MVS/013.lab"
+0 0 si
+0 0 m
+0 0 a
+0 0 r
+0 0 i
+0 0 y
+0 0 e
+0 0 si
+.
+"data/Test/MVS/014.lab"
+0 0 si
+0 0 n
+0 0 o
+0 0 r
+0 0 b
+0 0 e
+0 0 r
+0 0 t
+0 0 si
+.
+"data/Test/MVS/015.lab"
+0 0 si
+0 0 o
+0 0 t
+0 0 o
+0 0 si
+.
+"data/Test/MVS/016.lab"
+0 0 si
+0 0 p
+0 0 e
+0 0 t
+0 0 r
+0 0 si
+.
+"data/Test/MVS/017.lab"
+0 0 si
+0 0 k
+0 0 v
+0 0 u
+0 0 i
+0 0 d
+0 0 o
+0 0 si
+.
+"data/Test/MVS/018.lab"
+0 0 si
+0 0 r
+0 0 u
+0 0 d
+0 0 o
+0 0 l
+0 0 f
+0 0 si
+.
+"data/Test/MVS/019.lab"
+0 0 si
+0 0 s
+0 0 v
+0 0 a
+0 0 t
+0 0 o
+0 0 p
+0 0 l
+0 0 u
+0 0 k
+0 0 si
+.
+"data/Test/MVS/020.lab"
+0 0 si
+0 0 t
+0 0 o
+0 0 m
+0 0 a
+0 0 s
+0 0 si
+.
+"data/Test/MVS/021.lab"
+0 0 si
+0 0 u
+0 0 r
+0 0 b
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/MVS/022.lab"
+0 0 si
+0 0 v
+0 0 a
+0 0 ts
+0 0 l
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/MVS/023.lab"
+0 0 si
+0 0 k
+0 0 s
+0 0 a
+0 0 v
+0 0 e
+0 0 r
+0 0 si
+.
+"data/Test/MVS/024.lab"
+0 0 si
+0 0 z
+0 0 u
+0 0 z
+0 0 a
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MWW/001.lab"
+0 0 si
+0 0 a
+0 0 d
+0 0 a
+0 0 m
+0 0 si
+.
+"data/Test/MWW/002.lab"
+0 0 si
+0 0 b
+0 0 o
+0 0 z
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MWW/003.lab"
+0 0 si
+0 0 ts
+0 0 i
+0 0 r
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/MWW/004.lab"
+0 0 si
+0 0 d
+0 0 a
+0 0 v
+0 0 i
+0 0 t
+0 0 si
+.
+"data/Test/MWW/005.lab"
+0 0 si
+0 0 e
+0 0 m
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/MWW/006.lab"
+0 0 si
+0 0 f
+0 0 r
+0 0 a
+0 0 n
+0 0 tj
+0 0 i
+0 0 s
+0 0 e
+0 0 k
+0 0 si
+.
+"data/Test/MWW/007.lab"
+0 0 si
+0 0 g
+0 0 u
+0 0 s
+0 0 t
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/MWW/008.lab"
+0 0 si
+0 0 h
+0 0 e
+0 0 l
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/MWW/009.lab"
+0 0 si
+0 0 i
+0 0 v
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/MWW/010.lab"
+0 0 si
+0 0 y
+0 0 o
+0 0 s
+0 0 e
+0 0 f
+0 0 si
+.
+"data/Test/MWW/011.lab"
+0 0 si
+0 0 k
+0 0 a
+0 0 r
+0 0 e
+0 0 l
+0 0 si
+.
+"data/Test/MWW/012.lab"
+0 0 si
+0 0 l
+0 0 u
+0 0 d
+0 0 v
+0 0 i
+0 0 k
+0 0 si
+.
+"data/Test/MWW/013.lab"
+0 0 si
+0 0 m
+0 0 a
+0 0 r
+0 0 i
+0 0 y
+0 0 e
+0 0 si
+.
+"data/Test/MWW/014.lab"
+0 0 si
+0 0 n
+0 0 o
+0 0 r
+0 0 b
+0 0 e
+0 0 r
+0 0 t
+0 0 si
+.
+"data/Test/MWW/015.lab"
+0 0 si
+0 0 o
+0 0 t
+0 0 o
+0 0 si
+.
+"data/Test/MWW/016.lab"
+0 0 si
+0 0 p
+0 0 e
+0 0 t
+0 0 r
+0 0 si
+.
+"data/Test/MWW/017.lab"
+0 0 si
+0 0 k
+0 0 v
+0 0 u
+0 0 i
+0 0 d
+0 0 o
+0 0 si
+.
+"data/Test/MWW/018.lab"
+0 0 si
+0 0 r
+0 0 u
+0 0 d
+0 0 o
+0 0 l
+0 0 f
+0 0 si
+.
+"data/Test/MWW/019.lab"
+0 0 si
+0 0 s
+0 0 v
+0 0 a
+0 0 t
+0 0 o
+0 0 p
+0 0 l
+0 0 u
+0 0 k
+0 0 si
+.
+"data/Test/MWW/020.lab"
+0 0 si
+0 0 t
+0 0 o
+0 0 m
+0 0 a
+0 0 s
+0 0 si
+.
+"data/Test/MWW/021.lab"
+0 0 si
+0 0 u
+0 0 r
+0 0 b
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/MWW/022.lab"
+0 0 si
+0 0 v
+0 0 a
+0 0 ts
+0 0 l
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/MWW/023.lab"
+0 0 si
+0 0 k
+0 0 s
+0 0 a
+0 0 v
+0 0 e
+0 0 r
+0 0 si
+.
+"data/Test/MWW/024.lab"
+0 0 si
+0 0 z
+0 0 u
+0 0 z
+0 0 a
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/SeznamJmen.lab"
+0 0 si
+0 0 a
+0 0 d
+0 0 a
+0 0 m
+0 0 b
+0 0 o
+0 0 zh
+0 0 e
+0 0 n
+0 0 a
+0 0 ts
+0 0 i
+0 0 r
+0 0 i
+0 0 l
+0 0 d
+0 0 a
+0 0 v
+0 0 i
+0 0 d
+0 0 e
+0 0 m
+0 0 i
+0 0 l
+0 0 f
+0 0 r
+0 0 a
+0 0 n
+0 0 tj
+0 0 i
+0 0 sh
+0 0 e
+0 0 g
+0 0 g
+0 0 u
+0 0 s
+0 0 t
+0 0 a
+0 0 v
+0 0 h
+0 0 e
+0 0 l
+0 0 e
+0 0 n
+0 0 a
+0 0 i
+0 0 v
+0 0 a
+0 0 n
+0 0 y
+0 0 o
+0 0 s
+0 0 e
+0 0 f
+0 0 k
+0 0 a
+0 0 r
+0 0 e
+0 0 l
+0 0 l
+0 0 u
+0 0 d
+0 0 v
+0 0 ii
+0 0 k
+0 0 m
+0 0 a
+0 0 r
+0 0 i
+0 0 y
+0 0 e
+0 0 n
+0 0 o
+0 0 r
+0 0 b
+0 0 e
+0 0 r
+0 0 t
+0 0 o
+0 0 t
+0 0 o
+0 0 p
+0 0 e
+0 0 t
+0 0 r
+0 0 k
+0 0 v
+0 0 u
+0 0 i
+0 0 d
+0 0 o
+0 0 r
+0 0 u
+0 0 d
+0 0 o
+0 0 l
+0 0 f
+0 0 s
+0 0 v
+0 0 a
+0 0 t
+0 0 o
+0 0 p
+0 0 l
+0 0 u
+0 0 k
+0 0 t
+0 0 o
+0 0 m
+0 0 aa
+0 0 sh
+0 0 u
+0 0 r
+0 0 b
+0 0 a
+0 0 n
+0 0 v
+0 0 aa
+0 0 ts
+0 0 l
+0 0 a
+0 0 f
+0 0 k
+0 0 s
+0 0 a
+0 0 v
+0 0 e
+0 0 r
+0 0 z
+0 0 u
+0 0 z
+0 0 a
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/ZJS/001.lab"
+0 0 si
+0 0 a
+0 0 d
+0 0 a
+0 0 m
+0 0 si
+.
+"data/Test/ZJS/002.lab"
+0 0 si
+0 0 b
+0 0 o
+0 0 z
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/ZJS/003.lab"
+0 0 si
+0 0 ts
+0 0 i
+0 0 r
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/ZJS/004.lab"
+0 0 si
+0 0 d
+0 0 a
+0 0 v
+0 0 i
+0 0 t
+0 0 si
+.
+"data/Test/ZJS/005.lab"
+0 0 si
+0 0 e
+0 0 m
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/ZJS/006.lab"
+0 0 si
+0 0 f
+0 0 r
+0 0 a
+0 0 n
+0 0 tj
+0 0 i
+0 0 s
+0 0 e
+0 0 k
+0 0 si
+.
+"data/Test/ZJS/007.lab"
+0 0 si
+0 0 g
+0 0 u
+0 0 s
+0 0 t
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/ZJS/008.lab"
+0 0 si
+0 0 h
+0 0 e
+0 0 l
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/ZJS/009.lab"
+0 0 si
+0 0 i
+0 0 v
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/ZJS/010.lab"
+0 0 si
+0 0 y
+0 0 o
+0 0 s
+0 0 e
+0 0 f
+0 0 si
+.
+"data/Test/ZJS/011.lab"
+0 0 si
+0 0 k
+0 0 a
+0 0 r
+0 0 e
+0 0 l
+0 0 si
+.
+"data/Test/ZJS/012.lab"
+0 0 si
+0 0 l
+0 0 u
+0 0 d
+0 0 v
+0 0 i
+0 0 k
+0 0 si
+.
+"data/Test/ZJS/013.lab"
+0 0 si
+0 0 m
+0 0 a
+0 0 r
+0 0 i
+0 0 y
+0 0 e
+0 0 si
+.
+"data/Test/ZJS/014.lab"
+0 0 si
+0 0 n
+0 0 o
+0 0 r
+0 0 b
+0 0 e
+0 0 r
+0 0 t
+0 0 si
+.
+"data/Test/ZJS/015.lab"
+0 0 si
+0 0 o
+0 0 t
+0 0 o
+0 0 si
+.
+"data/Test/ZJS/016.lab"
+0 0 si
+0 0 p
+0 0 e
+0 0 t
+0 0 r
+0 0 si
+.
+"data/Test/ZJS/017.lab"
+0 0 si
+0 0 k
+0 0 v
+0 0 u
+0 0 i
+0 0 d
+0 0 o
+0 0 si
+.
+"data/Test/ZJS/018.lab"
+0 0 si
+0 0 r
+0 0 u
+0 0 d
+0 0 o
+0 0 l
+0 0 f
+0 0 si
+.
+"data/Test/ZJS/019.lab"
+0 0 si
+0 0 s
+0 0 v
+0 0 a
+0 0 t
+0 0 o
+0 0 p
+0 0 l
+0 0 u
+0 0 k
+0 0 si
+.
+"data/Test/ZJS/020.lab"
+0 0 si
+0 0 t
+0 0 o
+0 0 m
+0 0 a
+0 0 s
+0 0 si
+.
+"data/Test/ZJS/021.lab"
+0 0 si
+0 0 u
+0 0 r
+0 0 b
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/ZJS/022.lab"
+0 0 si
+0 0 v
+0 0 a
+0 0 ts
+0 0 l
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/ZJS/023.lab"
+0 0 si
+0 0 k
+0 0 s
+0 0 a
+0 0 v
+0 0 e
+0 0 r
+0 0 si
+.
+"data/Test/ZJS/024.lab"
+0 0 si
+0 0 z
+0 0 u
+0 0 z
+0 0 a
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/ZKF/001.lab"
+0 0 si
+0 0 a
+0 0 d
+0 0 a
+0 0 m
+0 0 si
+.
+"data/Test/ZKF/002.lab"
+0 0 si
+0 0 b
+0 0 o
+0 0 z
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/ZKF/003.lab"
+0 0 si
+0 0 ts
+0 0 i
+0 0 r
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/ZKF/004.lab"
+0 0 si
+0 0 d
+0 0 a
+0 0 v
+0 0 i
+0 0 t
+0 0 si
+.
+"data/Test/ZKF/005.lab"
+0 0 si
+0 0 e
+0 0 m
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/ZKF/006.lab"
+0 0 si
+0 0 f
+0 0 r
+0 0 a
+0 0 n
+0 0 tj
+0 0 i
+0 0 s
+0 0 e
+0 0 k
+0 0 si
+.
+"data/Test/ZKF/007.lab"
+0 0 si
+0 0 g
+0 0 u
+0 0 s
+0 0 t
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/ZKF/008.lab"
+0 0 si
+0 0 h
+0 0 e
+0 0 l
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/ZKF/009.lab"
+0 0 si
+0 0 i
+0 0 v
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/ZKF/010.lab"
+0 0 si
+0 0 y
+0 0 o
+0 0 s
+0 0 e
+0 0 f
+0 0 si
+.
+"data/Test/ZKF/011.lab"
+0 0 si
+0 0 k
+0 0 a
+0 0 r
+0 0 e
+0 0 l
+0 0 si
+.
+"data/Test/ZKF/012.lab"
+0 0 si
+0 0 l
+0 0 u
+0 0 d
+0 0 v
+0 0 i
+0 0 k
+0 0 si
+.
+"data/Test/ZKF/013.lab"
+0 0 si
+0 0 m
+0 0 a
+0 0 r
+0 0 i
+0 0 y
+0 0 e
+0 0 si
+.
+"data/Test/ZKF/014.lab"
+0 0 si
+0 0 n
+0 0 o
+0 0 r
+0 0 b
+0 0 e
+0 0 r
+0 0 t
+0 0 si
+.
+"data/Test/ZKF/015.lab"
+0 0 si
+0 0 o
+0 0 t
+0 0 o
+0 0 si
+.
+"data/Test/ZKF/016.lab"
+0 0 si
+0 0 p
+0 0 e
+0 0 t
+0 0 r
+0 0 si
+.
+"data/Test/ZKF/017.lab"
+0 0 si
+0 0 k
+0 0 v
+0 0 u
+0 0 i
+0 0 d
+0 0 o
+0 0 si
+.
+"data/Test/ZKF/018.lab"
+0 0 si
+0 0 r
+0 0 u
+0 0 d
+0 0 o
+0 0 l
+0 0 f
+0 0 si
+.
+"data/Test/ZKF/019.lab"
+0 0 si
+0 0 s
+0 0 v
+0 0 a
+0 0 t
+0 0 o
+0 0 p
+0 0 l
+0 0 u
+0 0 k
+0 0 si
+.
+"data/Test/ZKF/020.lab"
+0 0 si
+0 0 t
+0 0 o
+0 0 m
+0 0 a
+0 0 s
+0 0 si
+.
+"data/Test/ZKF/021.lab"
+0 0 si
+0 0 u
+0 0 r
+0 0 b
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/ZKF/022.lab"
+0 0 si
+0 0 v
+0 0 a
+0 0 ts
+0 0 l
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/ZKF/023.lab"
+0 0 si
+0 0 k
+0 0 s
+0 0 a
+0 0 v
+0 0 e
+0 0 r
+0 0 si
+.
+"data/Test/ZKF/024.lab"
+0 0 si
+0 0 z
+0 0 u
+0 0 z
+0 0 a
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/ZVR/001.lab"
+0 0 si
+0 0 a
+0 0 d
+0 0 a
+0 0 m
+0 0 si
+.
+"data/Test/ZVR/002.lab"
+0 0 si
+0 0 b
+0 0 o
+0 0 z
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/ZVR/003.lab"
+0 0 si
+0 0 ts
+0 0 i
+0 0 r
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/ZVR/004.lab"
+0 0 si
+0 0 d
+0 0 a
+0 0 v
+0 0 i
+0 0 t
+0 0 si
+.
+"data/Test/ZVR/005.lab"
+0 0 si
+0 0 e
+0 0 m
+0 0 i
+0 0 l
+0 0 si
+.
+"data/Test/ZVR/006.lab"
+0 0 si
+0 0 f
+0 0 r
+0 0 a
+0 0 n
+0 0 tj
+0 0 i
+0 0 s
+0 0 e
+0 0 k
+0 0 si
+.
+"data/Test/ZVR/007.lab"
+0 0 si
+0 0 g
+0 0 u
+0 0 s
+0 0 t
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/ZVR/008.lab"
+0 0 si
+0 0 h
+0 0 e
+0 0 l
+0 0 e
+0 0 n
+0 0 a
+0 0 si
+.
+"data/Test/ZVR/009.lab"
+0 0 si
+0 0 i
+0 0 v
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/ZVR/010.lab"
+0 0 si
+0 0 y
+0 0 o
+0 0 s
+0 0 e
+0 0 f
+0 0 si
+.
+"data/Test/ZVR/011.lab"
+0 0 si
+0 0 k
+0 0 a
+0 0 r
+0 0 e
+0 0 l
+0 0 si
+.
+"data/Test/ZVR/012.lab"
+0 0 si
+0 0 l
+0 0 u
+0 0 d
+0 0 v
+0 0 i
+0 0 k
+0 0 si
+.
+"data/Test/ZVR/013.lab"
+0 0 si
+0 0 m
+0 0 a
+0 0 r
+0 0 i
+0 0 y
+0 0 e
+0 0 si
+.
+"data/Test/ZVR/014.lab"
+0 0 si
+0 0 n
+0 0 o
+0 0 r
+0 0 b
+0 0 e
+0 0 r
+0 0 t
+0 0 si
+.
+"data/Test/ZVR/015.lab"
+0 0 si
+0 0 o
+0 0 t
+0 0 o
+0 0 si
+.
+"data/Test/ZVR/016.lab"
+0 0 si
+0 0 p
+0 0 e
+0 0 t
+0 0 r
+0 0 si
+.
+"data/Test/ZVR/017.lab"
+0 0 si
+0 0 k
+0 0 v
+0 0 u
+0 0 i
+0 0 d
+0 0 o
+0 0 si
+.
+"data/Test/ZVR/018.lab"
+0 0 si
+0 0 r
+0 0 u
+0 0 d
+0 0 o
+0 0 l
+0 0 f
+0 0 si
+.
+"data/Test/ZVR/019.lab"
+0 0 si
+0 0 s
+0 0 v
+0 0 a
+0 0 t
+0 0 o
+0 0 p
+0 0 l
+0 0 u
+0 0 k
+0 0 si
+.
+"data/Test/ZVR/020.lab"
+0 0 si
+0 0 t
+0 0 o
+0 0 m
+0 0 a
+0 0 s
+0 0 si
+.
+"data/Test/ZVR/021.lab"
+0 0 si
+0 0 u
+0 0 r
+0 0 b
+0 0 a
+0 0 n
+0 0 si
+.
+"data/Test/ZVR/022.lab"
+0 0 si
+0 0 v
+0 0 a
+0 0 ts
+0 0 l
+0 0 a
+0 0 f
+0 0 si
+.
+"data/Test/ZVR/023.lab"
+0 0 si
+0 0 k
+0 0 s
+0 0 a
+0 0 v
+0 0 e
+0 0 r
+0 0 si
+.
+"data/Test/ZVR/024.lab"
+0 0 si
+0 0 z
+0 0 u
+0 0 z
+0 0 a
+0 0 n
+0 0 a
+0 0 si
+.
