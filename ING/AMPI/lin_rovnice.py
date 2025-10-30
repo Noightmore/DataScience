@@ -169,6 +169,49 @@ def priklad266():
 
     # na dotaz rank(A) vraci 3 a ignoruje symbolickou promennou lambda; to dela jak python, tak matlab
 
+def exam_1():
+    """
+    234. Nechť hodnost matice homogenní soustavy lineárních rovnic je o jednotku menší než počet neznámých.
+    Pak libovolná dvě řešení této soustavy mají tu vlastnost, že jedno z nich je násobkem druhého. Dokažte.
+    """
+
+    # prove:
+    # nechť máme soustavu Ax = 0, kde A je matice koeficientů a x je vektor neznámých
+    # nechť rank(A) = n - 1, kde n je počet neznámých
+    # pak dim(Null(A)) = n - rank(A) = n - (n - 1) = 1
+    # tedy jádro zobrazení má dimenzi 1, což znamená, že všechna řešení jsou lineárně závislá
+    # vsechny vektory reseni lze zapsat jako nasobky jednoho nenuloveho vektoru
+
+
+def exam_2():
+    """
+    236. Budiž dána nehomogenní soustava lineárních rovnic (řešitelná) a lineární kombinace jejích řešení.
+    Kdy je tato kombinace řešením této soustavy?
+    """
+
+    # prove:
+    # nechť máme nehomogenní soustavu Ax = b, kde A je matice koeficientů, x je vektor neznámých a b je vektor pravých stran
+    # nechť x1 a x2 jsou dvě řešení této soustavy, tedy Ax1 = b a Ax2 = b
+    # nechť c1 a c2 jsou libovolné skaláry
+    # pak lineární kombinace x = c1*x1 + c2*x2 je řešením soustavy, pokud c1 + c2 = 1
+
+def exam_3():
+    """
+    237. Nalezněte nutnou a postačující podmínku pro to, aby řešením dané soustavy lineárních rovnic (řešitelné) byl:
+    a) součet jejích libovolných dvou řešení;
+    b) násobek libovolného jejího řešení pevně zvoleným číslem α ∈ T, α ≠ 1.
+    """
+
+    # prove:
+    # a)
+    # nechť máme nehomogenní soustavu Ax = b, kde A je matice koeficientů, x je vektor neznámých a b je vektor pravých stran
+    # nechť x1 a x2 jsou dvě řešení této soustavy, tedy Ax1 = b a Ax2 = b
+    # pak součet x = x1 + x2 je řešením soustavy, pokud b = 0 (tedy soustava je homogenní)
+    # b)
+    # nechť máme nehomogenní soustavu Ax = b, kde A je matice koeficientů, x je vektor neznámých a b je vektor pravých stran
+    # nechť x1 je řešení této soustavy, tedy Ax1 = b
+
+
 
 if __name__ == "__main__":
     #priklad241()
