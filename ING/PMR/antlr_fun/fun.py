@@ -4,7 +4,7 @@ import unicodedata as ud
 import regex as re
 from antlr4 import InputStream, CommonTokenStream
 from antlr4.TokenStreamRewriter import TokenStreamRewriter
-from ING.PMR.antlr_fun.CzechLexer import CzechLexer
+from antlr_fun.CzechLexer import CzechLexer
 #from CzechLexer import CzechLexer
 #from ING.PMR.antlr_fun.CzechParser import CzechParser  # generated but not used directly
 

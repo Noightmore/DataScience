@@ -138,7 +138,7 @@ if __name__ == "__main__":
     # Example dummy rewrite_text function
     # In your real setup, this should convert Czech text into phoneme symbols
 
-    from ING.PMR.antlr_fun.fun import rewrite_text
+    from antlr_fun.fun import rewrite_text
 
     sentence = "Společnost, dělá řád."
 
