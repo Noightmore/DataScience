@@ -3,7 +3,7 @@ from pathlib import Path
 # ---- tweak these if needed ----
 root = Path(".")             # project root (where data/ lives)
 data_dir = root / "data"     # input WAV tree
-out_scp  = root / "mfcc.lst" # where to write the HCopy pairs
+out_scp  = root / "speaker_recognition/mfcc.lst" # where to write the HCopy pairs
 wav_exts = {".wav"}          # add more if needed
 mfcc_ext = ".mfcc"           # or ".mfc"
 # -------------------------------
