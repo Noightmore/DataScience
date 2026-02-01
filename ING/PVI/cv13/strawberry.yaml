@@ -1,0 +1,9 @@
+# strawberry.yaml
+# Put this file next to your strawberries/ folder (or inside it and adjust path)
+
+path: /home/rob/Programming/Datascience/ING/PVI/cv13/
+train: images               # uses strawberries/images
+val: images                 # same folder for validation (as your assignment allows)
+
+names:
+  0: strawberry
